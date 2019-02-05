@@ -5,6 +5,9 @@
   "sources": [
     "images/**/*"
   ],
+  "fragments": [
+    "env.js"
+  ],
   "extraDependencies": [
     "env.js",
     "manifest.json",
