@@ -19,7 +19,25 @@ class WbiHome extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
       <wbi-header></wbi-header>
-      <div class="card">Home</div>
+      <div class="card">
+      
+        <a href="/settings/profile/">
+          <div><img src=""></div>
+          <div>My profile</div>
+          <div><img src=""></div>
+        </a>
+        <a href="/settings/identity/">
+          <div><img src=""></div>
+          <div>Identity</div>
+          <div><img src=""></div>
+        </a>
+        <a href="/settings/network/">
+          <div><img src=""></div>
+          <div>Network account</div>
+          <div><img src=""></div>
+        </a>
+
+      </div>
       <wbi-footer></wbi-footer>
     `;
   }

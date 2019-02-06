@@ -2,8 +2,14 @@ import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-location.js';
 import '../../css/shared-styles.js';
+
 import '../../components/wbi-header.js';
 import '../../components/wbi-footer.js';
+import '../../components/wbi-loading.js';
+
+import '../../components/network/wbi-noaccess.js';
+import '../../components/network/wbi-application.js';
+import '../../components/network/wbi-created.js';
 
 import store from '../../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -19,7 +25,14 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
       <wbi-header></wbi-header>
-      <div class="card">Network</div>
+      <div class="card">
+        Network Account
+        <hr>
+        <wbi-loading></wbi-loading>
+        <wbi-noaccess></wbi-noaccess>
+        <wbi-application></wbi-application>
+        <wbi-created></wbi-created>
+      </div>
       <wbi-footer></wbi-footer>
     `;
   }
