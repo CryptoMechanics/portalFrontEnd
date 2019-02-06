@@ -6,6 +6,8 @@
 npm install polymer-cli -g --unsafe-perm
 npm install pm2 -g
 ```
+## Edit env.js 
+Set api apiUrl 
 
 ## Installation Server
 Set port and host in package.json
