@@ -17,6 +17,11 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
 
       </style>
       <div>Application</div>
+      <form action="[[env.apiUrl]]/kyc/image/" method="post" enctype="multipart/form-data">
+        <label for="file">Filename:</label>
+        <input type="file" name="file" id="file" />
+        <input type="submit" name="submit" value="Submit" />
+      </form>
     `;
   }
 

@@ -13,7 +13,7 @@
     "test": "polymer test",
     "docker": "npm run build && npm run dockerBuild && npm run dockerRun",
     "dockerBuild": "docker build -t worbli .",
-    "dockerRun": "docker run --name worbli -p 80:8080 -d worbli",
+    "dockerRun": "docker run --name worbli -p 9010:8080 -d worbli",
     "test:integration": "polymer build"
   },
   "dependencies": {
