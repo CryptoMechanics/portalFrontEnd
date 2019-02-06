@@ -1,12 +1,10 @@
 import {createMixin} from '../../node_modules/polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import '../css/shared-styles.js';
-import './wbi-social';
-
 import store from '../global/store.js';
-const ReduxMixin = createMixin(store);
+import '../css/shared-styles.js';
 
-class WbiFooter extends ReduxMixin(PolymerElement) {
+const ReduxMixin = createMixin(store);
+class WbiSocial extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -18,9 +16,18 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
         }
       </style>
       <div>
-        <div>Ⓒ 2018 Worbli Pty Ltd. All rights reserved.</br> View our Terms and Privacy Policy</div>
-        <div>491B River Valley Road #15-01 Valley Point</br>Singapore 248373</div>
-        <div><wbi-social></wbi-social></div>
+        <div>
+          <ul>
+            <li><a href="[[env.social.facebook]]" id="Facebook">Facebook</a></li>
+            <li><a href="[[env.social.Instagram]]" id="Instagram">Instagram</a></li>
+            <li><a href="[[env.social.Twitter]]" id="Twitter">Twitter</a></li>
+            <li><a href="[[env.social.Linkedin]]" id="Linkedin">Linkedin</a></li>
+            <li><a href="[[env.social.Telegram]]" id="Telegram">Telegram</a></li>
+            <li><a href="[[env.social.Medium]]" id="Medium">Medium</a></li>
+            <li><a href="[[env.social.Steemit]]" id="Steemit">Steemit</a></li>
+            <li><a href="[[env.social.YouTube]]" id="YouTube">YouTube</a></li>
+          </ul>
+        </div>
       </div>
     `;
   }
@@ -54,4 +61,4 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-} window.customElements.define('wbi-footer', WbiFooter);
+} window.customElements.define('wbi-social', WbiSocial);

@@ -16,7 +16,22 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         }
 
       </style>
-      <div>Header</div>
+      <div>
+        <h1>Worbli Portal</h1>
+        <div>
+          <ul>
+            <li><a href="/settings/profile/">My profile</a></li>
+            <li><a href="/settings/identity/">Identity</a></li>
+            <li><a href="/settings/network/">Network Account</a></li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li><a on-click="_logout">Logout</a></li>
+            <li><a on-click="_language">English</a></li>
+          </ul>
+        </div>
+      </div>
     `;
   }
 
@@ -48,5 +63,12 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+
+  _logout() {
+    console.log('logout');
+  }
+  _language() {
+    console.log('language');
   }
 } window.customElements.define('wbi-header', WbiHeader);

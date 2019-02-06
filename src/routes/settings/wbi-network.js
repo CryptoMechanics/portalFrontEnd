@@ -8,7 +8,7 @@ import '../../components/wbi-footer.js';
 import '../../components/wbi-loading.js';
 
 import '../../components/network/wbi-noaccess.js';
-import '../../components/network/wbi-application.js';
+import '../../components/network/wbi-access.js';
 import '../../components/network/wbi-created.js';
 
 import store from '../../global/store.js';
@@ -30,7 +30,7 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
         <hr>
         <wbi-loading></wbi-loading>
         <wbi-noaccess></wbi-noaccess>
-        <wbi-application></wbi-application>
+        <wbi-access></wbi-access>
         <wbi-created></wbi-created>
       </div>
       <wbi-footer></wbi-footer>
