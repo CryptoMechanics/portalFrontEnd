@@ -2,6 +2,14 @@ import {createMixin} from '../../node_modules/polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
+import '../components/social/icon-facebook.js';
+import '../components/social/icon-instagram.js';
+import '../components/social/icon-twitter.js';
+import '../components/social/icon-linkedin.js';
+import '../components/social/icon-telegram.js';
+import '../components/social/icon-medium.js';
+import '../components/social/icon-steemit.js';
+import '../components/social/icon-youtube.js';
 
 const ReduxMixin = createMixin(store);
 class WbiSocial extends ReduxMixin(PolymerElement) {
@@ -18,19 +26,21 @@ class WbiSocial extends ReduxMixin(PolymerElement) {
       <div>
         <div>
           <ul>
-            <li><a href="[[env.social.facebook]]" id="Facebook">Facebook</a></li>
-            <li><a href="[[env.social.Instagram]]" id="Instagram">Instagram</a></li>
-            <li><a href="[[env.social.Twitter]]" id="Twitter">Twitter</a></li>
-            <li><a href="[[env.social.Linkedin]]" id="Linkedin">Linkedin</a></li>
-            <li><a href="[[env.social.Telegram]]" id="Telegram">Telegram</a></li>
-            <li><a href="[[env.social.Medium]]" id="Medium">Medium</a></li>
-            <li><a href="[[env.social.Steemit]]" id="Steemit">Steemit</a></li>
-            <li><a href="[[env.social.YouTube]]" id="YouTube">YouTube</a></li>
+            <li><a href="[[env.social.facebook]]" id="Facebook"><icon-facebook></icon-facebook></a></li>
+            <li><a href="[[env.social.Instagram]]" id="Instagram"><icon-instagram></icon-instagram></a></li>
+            <li><a href="[[env.social.Twitter]]" id="Twitter"><icon-twitter></icon-twitter></a></li>
+            <li><a href="[[env.social.Linkedin]]" id="Linkedin"><icon-linkedin></icon-linkedin></a></li>
+            <li><a href="[[env.social.Telegram]]" id="Telegram"><icon-telegram></icon-telegram></a></li>
+            <li><a href="[[env.social.Medium]]" id="Medium"><icon-medium></icon-medium></a></li>
+            <li><a href="[[env.social.Steemit]]" id="Steemit"><icon-steemit></icon-steemit></a></li>
+            <li><a href="[[env.social.YouTube]]" id="YouTube"><icon-youtube></icon-youtube></a></li>
           </ul>
         </div>
       </div>
     `;
   }
+
+  // https://github.com/simple-icons/simple-icons/tree/develop/icons
 
   static get properties() {
     return {

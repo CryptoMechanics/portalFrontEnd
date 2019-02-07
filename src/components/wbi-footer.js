@@ -1,7 +1,7 @@
 import {createMixin} from '../../node_modules/polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '../css/shared-styles.js';
-import './wbi-social';
+import './wbi-social.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
