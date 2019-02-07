@@ -37,24 +37,44 @@ class WbiSocial extends ReduxMixin(PolymerElement) {
  
         <div>
           <ul>
-            <template is="dom-if" if="[[env.social.facebook]]"><li><a href="[[env.social.facebook]]" id="Facebook"><icon-facebook></icon-facebook></a></li></template>
-            <template is="dom-if" if="[[env.social.instagram]]"><li><a href="[[env.social.instagram]]" id="Instagram"><icon-instagram></icon-instagram></a></li></template>
-            <template is="dom-if" if="[[env.social.linkedin]]"><li><a href="[[env.social.linkedin]]" id="Linkedin"><icon-linkedin></icon-linkedin></a></li></template>
-            <template is="dom-if" if="[[env.social.medium]]"><li><a href="[[env.social.medium]]" id="Medium"><icon-medium></icon-medium></a></li></template>
-            <template is="dom-if" if="[[env.social.pinterest]]"><li><a href="[[env.social.pinterest]]" id="Pinterest"><icon-pinterest></icon-pinterest></a></li></template>
-            <template is="dom-if" if="[[env.social.steemit]]"><li><a href="[[env.social.steemit]]" id="Steemit"><icon-steemit></icon-steemit></a></li></template>
-            <template is="dom-if" if="[[env.social.telegram]]"><li><a href="[[env.social.telegram]]" id="Telegram"><icon-telegram></icon-telegram></a></li></template>
-            <template is="dom-if" if="[[env.social.tumblr]]"><li><a href="[[env.social.tumblr]]" id="Tumblr"><icon-tumblr></icon-tumblr></a></li></template>
-            <template is="dom-if" if="[[env.social.twitch]]"><li><a href="[[env.social.twitch]]" id="Twitch"><icon-twitch></icon-twitch></a></li></template>
-            <template is="dom-if" if="[[env.social.twitter]]"><li><a href="[[env.social.twitter]]" id="Twitter"><icon-twitter></icon-twitter></a></li></template>
-            <template is="dom-if" if="[[env.social.youtube]]"><li><a href="[[env.social.youtube]]" id="YouTube"><icon-youtube></icon-youtube></a></li></template>
+            <template is="dom-if" if="[[env.social.facebook]]">
+              <li><a href="[[env.social.facebook]]" target="_blank" id="Facebook"><icon-facebook></icon-facebook></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.instagram]]">
+              <li><a href="[[env.social.instagram]]" target="_blank" id="Instagram"><icon-instagram></icon-instagram></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.linkedin]]">
+              <li><a href="[[env.social.linkedin]]" target="_blank" id="Linkedin"><icon-linkedin></icon-linkedin></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.medium]]">
+              <li><a href="[[env.social.medium]]" target="_blank" id="Medium"><icon-medium></icon-medium></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.pinterest]]">
+              <li><a href="[[env.social.pinterest]]" target="_blank" id="Pinterest"><icon-pinterest></icon-pinterest></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.steemit]]">
+              <li><a href="[[env.social.steemit]]" target="_blank" id="Steemit"><icon-steemit></icon-steemit></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.telegram]]">
+              <li><a href="[[env.social.telegram]]" target="_blank" id="Telegram"><icon-telegram></icon-telegram></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.tumblr]]">
+              <li><a href="[[env.social.tumblr]]" target="_blank" id="Tumblr"><icon-tumblr></icon-tumblr></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.twitch]]">
+              <li><a href="[[env.social.twitch]]" target="_blank" id="Twitch"><icon-twitch></icon-twitch></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.twitter]]">
+              <li><a href="[[env.social.twitter]]" target="_blank" id="Twitter"><icon-twitter></icon-twitter></a></li>
+            </template>
+            <template is="dom-if" if="[[env.social.youtube]]">
+              <li><a href="[[env.social.youtube]]" target="_blank" id="YouTube"><icon-youtube></icon-youtube></a></li>
+            </template>
           </ul>
         </div>
 
     `;
   }
-
-  // https://github.com/simple-icons/simple-icons/tree/develop/icons
 
   static get properties() {
     return {
