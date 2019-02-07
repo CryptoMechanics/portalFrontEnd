@@ -49,7 +49,7 @@ class IconInstagram extends PolymerElement {
       },
       hoverColor: {
         type: String,
-        value: '#3c5b9b',
+        value: '#B1369D',
       },
       size: {
         type: String,

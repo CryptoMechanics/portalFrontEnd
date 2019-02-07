@@ -27,15 +27,18 @@ class IconTwitch extends PolymerElement {
 
       <div class="icon">
 
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="default-color">
-          <title>Facebook</title>
-          <path fill$="[[color]]" d="M18.896,0H1.104C0.494,0,0,0.494,0,1.104v17.792C0,19.506,0.494,20,1.104,20h9.579v-7.745H8.076V9.237h2.606 V7.011c0-2.583,1.578-3.99,3.882-3.99c1.104,0,2.053,0.082,2.329,0.119v2.7L15.296,5.84c-1.253,0-1.496,0.596-1.496,1.469v1.927 h2.989l-0.389,3.018h-2.6V20h5.097C19.506,20,20,19.506,20,18.896V1.104C20,0.494,19.506,0,18.896,0z"></path>
+        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="default-color">
+            <title>Twitch icon</title>
+            <path fill$="[[color]]" d="M2.089 0L.525 4.175v16.694h5.736V24h3.132l3.127-3.132h4.695l6.26-6.258V0H2.089zm2.086 2.085H21.39v11.479l-3.652 3.652H12l-3.127 3.127v-3.127H4.175V2.085z"/>
+            <path fill$="[[color]]" d="M9.915 12.522H12v-6.26H9.915v6.26zm5.735 0h2.086v-6.26H15.65v6.26z"/>
         </svg>
 
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="hover-color">
-          <title>Facebook</title>
-          <path fill$="[[hoverColor]]" d="M18.896,0H1.104C0.494,0,0,0.494,0,1.104v17.792C0,19.506,0.494,20,1.104,20h9.579v-7.745H8.076V9.237h2.606 V7.011c0-2.583,1.578-3.99,3.882-3.99c1.104,0,2.053,0.082,2.329,0.119v2.7L15.296,5.84c-1.253,0-1.496,0.596-1.496,1.469v1.927 h2.989l-0.389,3.018h-2.6V20h5.097C19.506,20,20,19.506,20,18.896V1.104C20,0.494,19.506,0,18.896,0z"></path>
+        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="hover-color">
+            <title>Twitch icon</title>
+            <path fill$="[[hoverColor]]" d="M2.089 0L.525 4.175v16.694h5.736V24h3.132l3.127-3.132h4.695l6.26-6.258V0H2.089zm2.086 2.085H21.39v11.479l-3.652 3.652H12l-3.127 3.127v-3.127H4.175V2.085z"/>
+            <path fill$="[[hoverColor]]" d="M9.915 12.522H12v-6.26H9.915v6.26zm5.735 0h2.086v-6.26H15.65v6.26z"/>
         </svg>
+
       </div>
     `;
   }
@@ -48,7 +51,7 @@ class IconTwitch extends PolymerElement {
       },
       hoverColor: {
         type: String,
-        value: '#3c5b9b',
+        value: '#6142A0',
       },
       size: {
         type: String,
