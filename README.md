@@ -32,3 +32,5 @@ npm run docker
 ```
 open [localhost:9010](http://localhost:9010)
 
+## To view the Identity application form 
+[http://127.0.0.1:9010/settings/identity/](http://127.0.0.1:9010/settings/identity/)
