@@ -25,7 +25,7 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
 
       <wbi-header></wbi-header>
       <div class="card">
-        Identity
+        <h1>Identity</h1>
         <hr>
         <wbi-application></wbi-application>
         <wbi-reviewing></wbi-reviewing>
