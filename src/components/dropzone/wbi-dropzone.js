@@ -1,12 +1,11 @@
-import {createMixin} from '../../node_modules/polymer-redux';
+import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import '../css/shared-styles.js';
-import './wbi-social.js';
+import store from '../../global/store.js';
+import '../../css/shared-styles.js';
+import '../../components/camsnap/wbi-camsnap.js';
 
-import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
-
-class WbiFooter extends ReduxMixin(PolymerElement) {
+class WbiApplication extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -16,23 +15,11 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
           box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
         }
-        .footer {
-          display: flex;
-          max-width: 1200px;
-          margin: 0 auto;
-
-        }
-        div {
-          margin-top: 24px;
-          flex: 1;
-          
-        }
       </style>
-      <div class="footer">
-        <div>Ⓒ 2018 Worbli Pty Ltd. All rights reserved.</br> View our Terms and Privacy Policy</div>
-        <div>491B River Valley Road #15-01 Valley Point</br>Singapore 248373</div>
-        <div><wbi-social></wbi-social></div>
-      </div>
+      <script>
+
+      </script>
+
     `;
   }
 
@@ -65,4 +52,4 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-} window.customElements.define('wbi-footer', WbiFooter);
+} window.customElements.define('wbi-application', WbiApplication);

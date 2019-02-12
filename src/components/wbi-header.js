@@ -9,14 +9,27 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
     return html`
       <style include="shared-styles">
         :host {
-          display: box;
+          display: block;
           background-color: var(--header-background-color);
           box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
+          background-color: white;
+          margin-bottom: 24px;
+        }
+        ul li {
+          display: inline-block
+        }
+        div {
+          flex: 1;
+        }
+        .header {
+          display: flex;
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
       </style>
-      <div>
+      <div class="header">
         <h1>Worbli Portal</h1>
         <div>
           <ul>
