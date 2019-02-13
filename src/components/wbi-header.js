@@ -27,6 +27,12 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
           max-width: 1200px;
           margin: 0 auto;
         }
+        .logout{
+          flex: none;
+        }
+        a {
+          text-decoration: none;
+        }
 
       </style>
       <div class="header">
@@ -38,7 +44,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
             <li><a href="/settings/network/">Network Account</a></li>
           </ul>
         </div>
-        <div>
+        <div class="logout">
           <ul>
             <li><a on-click="_logout">Logout</a></li>
             <li><a on-click="_language">English</a></li>

@@ -20,18 +20,19 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
           display: flex;
           max-width: 1200px;
           margin: 0 auto;
-
         }
         div {
           margin-top: 24px;
           flex: 1;
-          
+        }
+        .social{
+          flex: none;
         }
       </style>
       <div class="footer">
         <div>Ⓒ 2018 Worbli Pty Ltd. All rights reserved.</br> View our Terms and Privacy Policy</div>
         <div>491B River Valley Road #15-01 Valley Point</br>Singapore 248373</div>
-        <div><wbi-social></wbi-social></div>
+        <div class="social"><wbi-social></wbi-social></div>
       </div>
     `;
   }
