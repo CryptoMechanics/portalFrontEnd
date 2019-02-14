@@ -19,13 +19,30 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
       <style include="shared-styles">
         :host {
           display: block;
-        }        
+        }
+        .card {
+          max-width: 700px;
+        } 
+        h1 {
+          line-height: 28px;
+        }
+        .header {
+          display: flex;
+        }  
+        .header img{
+          margin-right: 12px;
+        }    
+        hr {
+          margin: 24px 0;
+        }   
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
       <wbi-header></wbi-header>
       <div class="card">
-        <h1>Identity</h1>
+        <div class="header">
+          <img src="./images/identity-header-icon.svg"><h1>Identity</h1>
+        </div>
         <hr>
         <wbi-application></wbi-application>
         <wbi-reviewing></wbi-reviewing>

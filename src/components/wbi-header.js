@@ -10,14 +10,22 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
       <style include="shared-styles">
         :host {
           display: block;
-          background-color: var(--header-background-color);
-          box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
+          box-shadow: inset 0 1px 0 black, 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
           background-color: white;
           margin-bottom: 24px;
+          width: 100%;
+          height: 55px;
         }
         ul li {
           display: inline-block
+        }
+        ul li a {
+          font-size: 14px;
+          color: #7A7D85;
+          line-height: 55px;
+          line-height: 30px;
+          margin-right: 24px;
         }
         div {
           flex: 1;
@@ -33,21 +41,30 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         a {
           text-decoration: none;
         }
+        .logo {
+          margin-top: 16px;
+          height: 25px;
+          margin-right: 36px;
+        }
+        .main-nav img, .logout img {
+          width: 17px;
+          margin-right: 8px;
+        }
 
       </style>
       <div class="header">
-        <h1>Worbli Portal</h1>
-        <div>
+        <img src="./images/worbli.svg" class="logo">
+        <div class="main-nav">
           <ul>
-            <li><a href="/settings/profile/">My profile</a></li>
-            <li><a href="/settings/identity/">Identity</a></li>
-            <li><a href="/settings/network/">Network Account</a></li>
+            <li><a href="/settings/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">My profile</a></li>
+            <li><a href="/settings/identity/"><img src="./images/identity-icon.svg" style="position: relative; top: 2px;">Identity</a></li>
+            <li><a href="/settings/network/"><img src="./images/network-icon.svg" style="position: relative; top: 5px;">Network Account</a></li>
           </ul>
         </div>
         <div class="logout">
           <ul>
-            <li><a on-click="_logout">Logout</a></li>
-            <li><a on-click="_language">English</a></li>
+            <li><a on-click="_logout"><img src="./images/logout-icon.svg" style="position: relative; top: 3px;">Logout</a></li>
+            <li><a on-click="_language"><img src="./images/language-icon.svg" style="position: relative; top: 4px;">English</a></li>
           </ul>
         </div>
       </div>
