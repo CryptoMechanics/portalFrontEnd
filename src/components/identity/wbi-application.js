@@ -8,7 +8,7 @@ const ReduxMixin = createMixin(store);
 class WbiApplication extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
-      <style include="shared-styles">
+      <style include='shared-styles'>
         :host {
           display: box;
           background-color: var(--header-background-color);
@@ -28,333 +28,90 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         }
 
       </style>
-      <form action="[[env.apiUrl]]/kyc/image/" method="post" enctype="multipart/form-data">
-        <label for="Country">Select Country</label>
-        <select name="Country" id="Country">
-        <option value="AFG">Afghanistan</option>
-        <option value="ALA">Åland Islands</option>
-        <option value="ALB">Albania</option>
-        <option value="DZA">Algeria</option>
-        <option value="ASM">American Samoa</option>
-        <option value="AND">Andorra</option>
-        <option value="AGO">Angola</option>
-        <option value="AIA">Anguilla</option>
-        <option value="ATA">Antarctica</option>
-        <option value="ATG">Antigua and Barbuda</option>
-        <option value="ARG">Argentina</option>
-        <option value="ARM">Armenia</option>
-        <option value="ABW">Aruba</option>
-        <option value="AUS">Australia</option>
-        <option value="AUT">Austria</option>
-        <option value="AZE">Azerbaijan</option>
-        <option value="BHS">Bahamas</option>
-        <option value="BHR">Bahrain</option>
-        <option value="BGD">Bangladesh</option>
-        <option value="BRB">Barbados</option>
-        <option value="BLR">Belarus</option>
-        <option value="BEL">Belgium</option>
-        <option value="BLZ">Belize</option>
-        <option value="BEN">Benin</option>
-        <option value="BMU">Bermuda</option>
-        <option value="BTN">Bhutan</option>
-        <option value="BOL">Bolivia, Plurinational State of</option>
-        <option value="BES">Bonaire, Sint Eustatius and Saba</option>
-        <option value="BIH">Bosnia and Herzegovina</option>
-        <option value="BWA">Botswana</option>
-        <option value="BVT">Bouvet Island</option>
-        <option value="BRA">Brazil</option>
-        <option value="IOT">British Indian Ocean Territory</option>
-        <option value="BRN">Brunei Darussalam</option>
-        <option value="BGR">Bulgaria</option>
-        <option value="BFA">Burkina Faso</option>
-        <option value="BDI">Burundi</option>
-        <option value="KHM">Cambodia</option>
-        <option value="CMR">Cameroon</option>
-        <option value="CAN">Canada</option>
-        <option value="CPV">Cape Verde</option>
-        <option value="CYM">Cayman Islands</option>
-        <option value="CAF">Central African Republic</option>
-        <option value="TCD">Chad</option>
-        <option value="CHL">Chile</option>
-        <option value="CHN">China</option>
-        <option value="CXR">Christmas Island</option>
-        <option value="CCK">Cocos (Keeling) Islands</option>
-        <option value="COL">Colombia</option>
-        <option value="COM">Comoros</option>
-        <option value="COG">Congo</option>
-        <option value="COD">Congo, the Democratic Republic of the</option>
-        <option value="COK">Cook Islands</option>
-        <option value="CRI">Costa Rica</option>
-        <option value="CIV">Côte d'Ivoire</option>
-        <option value="HRV">Croatia</option>
-        <option value="CUB">Cuba</option>
-        <option value="CUW">Curaçao</option>
-        <option value="CYP">Cyprus</option>
-        <option value="CZE">Czech Republic</option>
-        <option value="DNK">Denmark</option>
-        <option value="DJI">Djibouti</option>
-        <option value="DMA">Dominica</option>
-        <option value="DOM">Dominican Republic</option>
-        <option value="ECU">Ecuador</option>
-        <option value="EGY">Egypt</option>
-        <option value="SLV">El Salvador</option>
-        <option value="GNQ">Equatorial Guinea</option>
-        <option value="ERI">Eritrea</option>
-        <option value="EST">Estonia</option>
-        <option value="ETH">Ethiopia</option>
-        <option value="FLK">Falkland Islands (Malvinas)</option>
-        <option value="FRO">Faroe Islands</option>
-        <option value="FJI">Fiji</option>
-        <option value="FIN">Finland</option>
-        <option value="FRA">France</option>
-        <option value="GUF">French Guiana</option>
-        <option value="PYF">French Polynesia</option>
-        <option value="ATF">French Southern Territories</option>
-        <option value="GAB">Gabon</option>
-        <option value="GMB">Gambia</option>
-        <option value="GEO">Georgia</option>
-        <option value="DEU">Germany</option>
-        <option value="GHA">Ghana</option>
-        <option value="GIB">Gibraltar</option>
-        <option value="GRC">Greece</option>
-        <option value="GRL">Greenland</option>
-        <option value="GRD">Grenada</option>
-        <option value="GLP">Guadeloupe</option>
-        <option value="GUM">Guam</option>
-        <option value="GTM">Guatemala</option>
-        <option value="GGY">Guernsey</option>
-        <option value="GIN">Guinea</option>
-        <option value="GNB">Guinea-Bissau</option>
-        <option value="GUY">Guyana</option>
-        <option value="HTI">Haiti</option>
-        <option value="HMD">Heard Island and McDonald Islands</option>
-        <option value="VAT">Holy See (Vatican City State)</option>
-        <option value="HND">Honduras</option>
-        <option value="HKG">Hong Kong</option>
-        <option value="HUN">Hungary</option>
-        <option value="ISL">Iceland</option>
-        <option value="IND">India</option>
-        <option value="IDN">Indonesia</option>
-        <option value="IRN">Iran, Islamic Republic of</option>
-        <option value="IRQ">Iraq</option>
-        <option value="IRL">Ireland</option>
-        <option value="IMN">Isle of Man</option>
-        <option value="ISR">Israel</option>
-        <option value="ITA">Italy</option>
-        <option value="JAM">Jamaica</option>
-        <option value="JPN">Japan</option>
-        <option value="JEY">Jersey</option>
-        <option value="JOR">Jordan</option>
-        <option value="KAZ">Kazakhstan</option>
-        <option value="KEN">Kenya</option>
-        <option value="KIR">Kiribati</option>
-        <option value="PRK">Korea, Democratic People's Republic of</option>
-        <option value="KOR">Korea, Republic of</option>
-        <option value="KWT">Kuwait</option>
-        <option value="KGZ">Kyrgyzstan</option>
-        <option value="LAO">Lao People's Democratic Republic</option>
-        <option value="LVA">Latvia</option>
-        <option value="LBN">Lebanon</option>
-        <option value="LSO">Lesotho</option>
-        <option value="LBR">Liberia</option>
-        <option value="LBY">Libya</option>
-        <option value="LIE">Liechtenstein</option>
-        <option value="LTU">Lithuania</option>
-        <option value="LUX">Luxembourg</option>
-        <option value="MAC">Macao</option>
-        <option value="MKD">Macedonia, the former Yugoslav Republic of</option>
-        <option value="MDG">Madagascar</option>
-        <option value="MWI">Malawi</option>
-        <option value="MYS">Malaysia</option>
-        <option value="MDV">Maldives</option>
-        <option value="MLI">Mali</option>
-        <option value="MLT">Malta</option>
-        <option value="MHL">Marshall Islands</option>
-        <option value="MTQ">Martinique</option>
-        <option value="MRT">Mauritania</option>
-        <option value="MUS">Mauritius</option>
-        <option value="MYT">Mayotte</option>
-        <option value="MEX">Mexico</option>
-        <option value="FSM">Micronesia, Federated States of</option>
-        <option value="MDA">Moldova, Republic of</option>
-        <option value="MCO">Monaco</option>
-        <option value="MNG">Mongolia</option>
-        <option value="MNE">Montenegro</option>
-        <option value="MSR">Montserrat</option>
-        <option value="MAR">Morocco</option>
-        <option value="MOZ">Mozambique</option>
-        <option value="MMR">Myanmar</option>
-        <option value="NAM">Namibia</option>
-        <option value="NRU">Nauru</option>
-        <option value="NPL">Nepal</option>
-        <option value="NLD">Netherlands</option>
-        <option value="NCL">New Caledonia</option>
-        <option value="NZL">New Zealand</option>
-        <option value="NIC">Nicaragua</option>
-        <option value="NER">Niger</option>
-        <option value="NGA">Nigeria</option>
-        <option value="NIU">Niue</option>
-        <option value="NFK">Norfolk Island</option>
-        <option value="MNP">Northern Mariana Islands</option>
-        <option value="NOR">Norway</option>
-        <option value="OMN">Oman</option>
-        <option value="PAK">Pakistan</option>
-        <option value="PLW">Palau</option>
-        <option value="PSE">Palestinian Territory, Occupied</option>
-        <option value="PAN">Panama</option>
-        <option value="PNG">Papua New Guinea</option>
-        <option value="PRY">Paraguay</option>
-        <option value="PER">Peru</option>
-        <option value="PHL">Philippines</option>
-        <option value="PCN">Pitcairn</option>
-        <option value="POL">Poland</option>
-        <option value="PRT">Portugal</option>
-        <option value="PRI">Puerto Rico</option>
-        <option value="QAT">Qatar</option>
-        <option value="REU">Réunion</option>
-        <option value="ROU">Romania</option>
-        <option value="RUS">Russian Federation</option>
-        <option value="RWA">Rwanda</option>
-        <option value="BLM">Saint Barthélemy</option>
-        <option value="SHN">Saint Helena, Ascension and Tristan da Cunha</option>
-        <option value="KNA">Saint Kitts and Nevis</option>
-        <option value="LCA">Saint Lucia</option>
-        <option value="MAF">Saint Martin (French part)</option>
-        <option value="SPM">Saint Pierre and Miquelon</option>
-        <option value="VCT">Saint Vincent and the Grenadines</option>
-        <option value="WSM">Samoa</option>
-        <option value="SMR">San Marino</option>
-        <option value="STP">Sao Tome and Principe</option>
-        <option value="SAU">Saudi Arabia</option>
-        <option value="SEN">Senegal</option>
-        <option value="SRB">Serbia</option>
-        <option value="SYC">Seychelles</option>
-        <option value="SLE">Sierra Leone</option>
-        <option value="SGP">Singapore</option>
-        <option value="SXM">Sint Maarten (Dutch part)</option>
-        <option value="SVK">Slovakia</option>
-        <option value="SVN">Slovenia</option>
-        <option value="SLB">Solomon Islands</option>
-        <option value="SOM">Somalia</option>
-        <option value="ZAF">South Africa</option>
-        <option value="SGS">South Georgia and the South Sandwich Islands</option>
-        <option value="SSD">South Sudan</option>
-        <option value="ESP">Spain</option>
-        <option value="LKA">Sri Lanka</option>
-        <option value="SDN">Sudan</option>
-        <option value="SUR">Suriname</option>
-        <option value="SJM">Svalbard and Jan Mayen</option>
-        <option value="SWZ">Swaziland</option>
-        <option value="SWE">Sweden</option>
-        <option value="CHE">Switzerland</option>
-        <option value="SYR">Syrian Arab Republic</option>
-        <option value="TWN">Taiwan, Province of China</option>
-        <option value="TJK">Tajikistan</option>
-        <option value="TZA">Tanzania, United Republic of</option>
-        <option value="THA">Thailand</option>
-        <option value="TLS">Timor-Leste</option>
-        <option value="TGO">Togo</option>
-        <option value="TKL">Tokelau</option>
-        <option value="TON">Tonga</option>
-        <option value="TTO">Trinidad and Tobago</option>
-        <option value="TUN">Tunisia</option>
-        <option value="TUR">Turkey</option>
-        <option value="TKM">Turkmenistan</option>
-        <option value="TCA">Turks and Caicos Islands</option>
-        <option value="TUV">Tuvalu</option>
-        <option value="UGA">Uganda</option>
-        <option value="UKR">Ukraine</option>
-        <option value="ARE">United Arab Emirates</option>
-        <option value="GBR">United Kingdom</option>
-        <option value="USA">United States</option>
-        <option value="UMI">United States Minor Outlying Islands</option>
-        <option value="URY">Uruguay</option>
-        <option value="UZB">Uzbekistan</option>
-        <option value="VUT">Vanuatu</option>
-        <option value="VEN">Venezuela, Bolivarian Republic of</option>
-        <option value="VNM">Viet Nam</option>
-        <option value="VGB">Virgin Islands, British</option>
-        <option value="VIR">Virgin Islands, U.S.</option>
-        <option value="WLF">Wallis and Futuna</option>
-        <option value="ESH">Western Sahara</option>
-        <option value="YEM">Yemen</option>
-        <option value="ZMB">Zambia</option>
-        <option value="ZWE">Zimbabwe</option>
-        </select> 
-        
+      <div>
+        <label for='Country'>Select Country</label>
+        <select value='{{country::input}}' on-change="_makeRadioButtons">
+          <option value='' id=''>Select...</option>
+          <template is='dom-repeat' items='[[countrydocs]]'>
+            <option value='{{item.code}}' id='{{item.code}}'>{{item.name}}</option>
+          </template>
+        </select>        
         </hr>
         <h2>Personal information</h2>
 
-        <label for="firstName">First Name</label>
-        <input type="text" name="firstName" id="firstName"><br>
+        <label for='firstName'>First Name</label>
+        <input type='text' name='firstName' id='firstName' value='{{firstName::input}}'><br>
 
-        <label for="lastName">Last Name</label>
-        <input type="text" name="lastName" id="lastName"><br>
+        <label for='lastName'>Last Name</label>
+        <input type='text' name='lastName' id='lastName' value='{{lastName::input}}'><br>
 
-        <label for="dob">Date of birth</label>
-        <select name="day" id="day">
-          <option value="Day">Day</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+        <label for='dob'>Date of birth</label>
+        <select name='day' id='day' value='{{day::input}}'>
+          <option value='Day'>Day</option>
+          <option value='1'>1</option>
+          <option value='2'>2</option>
+          <option value='3'>3</option>
         </select>
-        <select name="month" id="month">
-          <option value="Month">Month</option>
-          <option value="1">1 January</option>
-          <option value="2">2 Febuary</option>
-          <option value="3">3 March</option>
+        <select name='month' id='month' value='{{month::input}}'>
+          <option value='Month'>Month</option>
+          <option value='1'>January</option>
+          <option value='2'>Febuary</option>
+          <option value='3'>March</option>
         </select>
-        <select name="year" id="year">
-          <option value="Year">Year</option>
-          <option value="2000">2000</option>
-          <option value="1999">1999</option>
-          <option value="1998">1998</option>
+        <select name='year' id='year' value='{{year::input}}'>
+          <option value='Year'>Year</option>
+          <option value='2000'>2000</option>
+          <option value='1999'>1999</option>
+          <option value='1998'>1998</option>
         </select><br>
 
 
-        <label for="lastName">Gender</label>
-        <input type="text" name="lastName" id="lastName"><br>
-
-        <div class="inner-fraame">
+        <label for='gender'>Gender</label>
+        <input type='text' name='gender' id='gender' value='{{gender::input}}'><br>
+        
+        <template is="dom-if" if="{{radioArray}}">
+        <div class='inner-fraame'>
+        
           <h1>Upload documents</h1>
           <p>Information for ensuring only you</p>
 
-          <button type="button">Use your mobile</button>
+          <!-- <button type='button'>Use your mobile</button> -->
+          
+            <p class='radio_group'>
+              <label>ID Type</label><br>
+              <template is='dom-repeat' items='[[radioArray]]'>         
+                <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
+                <label for='sizeSmall'>[[item.label]]</label>
+              </template>
+              {{radio}}
+            </p> 
+            
 
-          <p class="radio_group">
-            <label>ID Type</label>            
-            <input type="radio" name="idType" id="idCard" value="idCard"/>
-            <label for="sizeSmall">ID Card</label>
-            <input type = "radio" name="idType" id="passport" value="passport"/>
-            <label for="sizeMed">Passport</label>
-            <input type = "radio" name="idType" id="drivingLicence" value="drivingLicence"/>
-            <label for="sizeLarge">Driving Licence</label>
-          </p>    
+          <!-- <button type='button'>Enable camera and take a picture</button>
+          <p>or just upload file from your device</p> -->
+          <template is="dom-if" if="{{fileArray}}">
+            <template is='dom-repeat' items='[[fileArray]]'>
+              <label for='[[item.value]]'>Upload [[item.label]]</label>
+              <input type='file' name='file' id='[[item.value]]' on-change="_saveLocally"/></br>
+            </template>
+          </template>
 
-          <button type="button">Enable camera and take a picture</button>
-          <p>or just upload file from your device</p>
-
-          <label for="file">Upload ID card (front)</label>
-          <input type="file" name="file" id="file" /></br>
-
-          <label for="file">Upload ID card (back)</label>
-          <input type="file" name="file" id="file" /></br>
-
-          <p>Please make sure your ID</p>
+  
+          <!-- <p>Please make sure your ID</p> -->
           </hr>
 
-          <h2>Selfie</h2>
+          <!-- <h2>Selfie</h2> -->
           
-          <wbi-camsnap></wbi-camsnap>
-          <p>or just upload from your device</p>
+          <!-- <wbi-camsnap></wbi-camsnap>
+          <p>or just upload from your device</p> -->
 
-          <label for="file">Upload selfie</label>
-          <input type="file" name="file" id="file" /></br>
-          <p>Make sure your selfie is clearly shows your face</p>
+          <label for='file'>Upload selfie</label>
+          <input type='file' name='file' id='selfie' on-change="_saveLocally"/></br>
+          <!-- <p>Make sure your selfie is clearly shows your face</p> -->
         </div>
-
-        <input type="submit" name="submit" value="Submit" />
-      </form>
+        </template>
+        <input type='submit' name='submit' value='Submit' on-click="_submit"/>
+      </div>
     `;
   }
 
@@ -376,6 +133,25 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      countrydocs: {
+        type: Array,
+      },
+      selectDocs: {
+        type: Object,
+        value: '',
+      },
+      selectedDoc: {
+        type: Object,
+      },
+      radioArray: {
+        type: Array,
+      },
+      fileArray: {
+        type: Array,
+      },
+      env: {
+        type: Object,
+      },
     };
   }
 
@@ -386,5 +162,280 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+  _submit() {
+    console.log('Sending to API');
+    console.log(`Country: ${this.country}`);
+    console.log(`First Name: ${this.firstName}`);
+    console.log(`Last Name: ${this.lastName}`);
+    console.log(`Date of birth: ${this.day}/${this.month}/${this.year}`);
+    console.log(`Gender: ${this.gender}`);
+    console.log(`Document Type: ${this.selectedDoc}`);
+    const selfieFile = this.shadowRoot.querySelector('#selfie').files;
+    console.log(`Selfie: ${selfieFile}`);
+    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) {
+      this._postToApi();
+    }
+  }
+
+  _postToApi() {
+    const selectedFiles = this.fileArray; // the names of inputs that the user selected as a result of selecting a county are in this array, loop over and get files same as selfie
+    const selfieFile = this.shadowRoot.querySelector('#selfie').files;
+    const formData = new FormData();
+    formData.append('blob', new Blob([]), 'test'); // TODO: append images as blob, maybe need to set content type header
+    fetch(this.env.apiUrl, {
+      method: 'POST',
+      body: formData,
+    })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+        });
+  }
+
+  _saveLocally(e) {
+    if (e && e.model && e.model.__data && e.model.__data.item && e.model.__data.item.value) {
+      const fileName = e.model.__data.item.value;
+      console.log(fileName);
+    } else {
+      const fileName = this.shadowRoot.querySelector('#selfie').files;
+      console.log(fileName);
+    }
+  }
+
+  _makeFileUpload(e) {
+    this.fileArray = [];
+    this.selectedDoc = e.model.__data.item.value;
+    const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
+    needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
+    : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
+  }
+
+  _makeRadioButtons() {
+    const docsAvailable = this.countrydocs.find((x) => x.code === this.country).accepted[0];
+    this.radioArray = [];
+    for (let i = 0; i < Object.keys(docsAvailable).length; i++) {
+      this.radioArray.push({
+        label: Object.keys(docsAvailable).map((data) => data.replace(/[_-]/g, ' '))[i],
+        value: Object.keys(docsAvailable)[i],
+      });
+    }
+  }
+
+  ready() {
+    super.ready();
+    this.countrydocs = [
+      {'code': 'AFG', 'name': 'Afghanistan', 'accepted': [{'passport': false}]},
+      {'code': 'AGO', 'name': 'Angola', 'accepted': [{'passport': false}]},
+      {'code': 'ALB', 'name': 'Albania', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'AND', 'name': 'Andorra', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'ARE', 'name': 'United Arab Emirates', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'ARG', 'name': 'Argentina', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'ARM', 'name': 'Armenia', 'accepted': [{'passport': false}]},
+      {'code': 'ATG', 'name': 'Antarctica', 'accepted': [{'passport': false}]},
+      {'code': 'AUS', 'name': 'Australia', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'AUT', 'name': 'Austria', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'AZE', 'name': 'Azerbaijan', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'BDI', 'name': 'Burundi', 'accepted': [{'passport': false}]},
+      {'code': 'BEL', 'name': 'Belgium', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'BEN', 'name': 'Benin', 'accepted': [{'passport': false}]},
+      {'code': 'BFA', 'name': 'Burkina Faso', 'accepted': [{'passport': false}]},
+      {'code': 'BGD', 'name': 'Bangladesh', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'BGR', 'name': 'Bulgaria', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'BHR', 'name': 'Bahrain', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'BHS', 'name': 'Bahamas', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'BIH', 'name': 'Bosnia and Herzegovina', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'BLR', 'name': 'Belarus', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'BLZ', 'name': 'Belize', 'accepted': [{'passport': false}]},
+      {'code': 'BMU', 'name': 'Bermuda', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'BOL', 'name': 'Bolivia, Plurinational State of', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'BRA', 'name': 'Brazil', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'BRB', 'name': 'Barbados', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'BRN', 'name': 'Brunei Darussalam', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'BTN', 'name': 'Bhutan', 'accepted': [{'passport': false}]},
+      {'code': 'BWA', 'name': 'Botswana', 'accepted': [{'passport': false}]},
+      {'code': 'CAF', 'name': 'Central African Republic', 'accepted': [{'passport': false}]},
+      {'code': 'CAN', 'name': 'Canada', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'CHE', 'name': 'Switzerland', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'CHL', 'name': 'Chile', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'CHN', 'name': 'China', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'CIV', 'name': 'Côte d\'Ivoire', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'CMR', 'name': 'Cameroon', 'accepted': [{'passport': false}]},
+      {'code': 'COD', 'name': 'Congo, the Democratic Republic of the', 'accepted': [{'passport': false}]},
+      {'code': 'COG', 'name': 'Congo', 'accepted': [{'passport': false}]},
+      {'code': 'COL', 'name': 'Colombia', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'COM', 'name': 'Comoros', 'accepted': [{'passport': false}]},
+      {'code': 'CPV', 'name': 'Cape Verde', 'accepted': [{'passport': false}]},
+      {'code': 'CRI', 'name': 'Costa Rica', 'accepted': [{'passport': false, 'driving_license': true, 'national_identity_card': true}]},
+      {'code': 'CUB', 'name': 'Cuba', 'accepted': [{'passport': false}]},
+      {'code': 'CYM', 'name': 'Cayman Islands', 'accepted': [{'passport': false}]},
+      {'code': 'CYP', 'name': 'Cyprus', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'CZE', 'name': 'Czech Republic', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'DEU', 'name': 'Germany', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'DJI', 'name': 'Djibouti', 'accepted': [{'passport': false}]},
+      {'code': 'DMA', 'name': 'Dominica', 'accepted': [{'passport': false}]},
+      {'code': 'DNK', 'name': 'Denmark', 'accepted': [{'passport': false, 'driving_license': false, 'residency_permit': true}]},
+      {'code': 'DOM', 'name': 'Dominican Republic', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'DZA', 'name': 'Algeria', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'ECU', 'name': 'Ecuador', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'EGY', 'name': 'Egypt', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'ERI', 'name': 'Eritrea', 'accepted': [{'passport': false}]},
+      {'code': 'ESP', 'name': 'Spain', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'EST', 'name': 'Estonia', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'ETH', 'name': 'Ethiopia', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'FIN', 'name': 'Finland', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'FJI', 'name': 'Fiji', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'FRA', 'name': 'France', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'FRO', 'name': 'Faroe Islands', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'FSM', 'name': 'Micronesia, Federated States of', 'accepted': [{'passport': false}]},
+      {'code': 'GAB', 'name': 'Gabon', 'accepted': [{'passport': false}]},
+      {'code': 'GBR', 'name': 'United Kingdom', 'accepted': [{'passport': false, 'driving_license': false, 'residency_permit': false, 'naturalisation_certificate': false, 'home_office_letter': false, 'immigration_status_document': false, 'birth_certificate': false}]},
+      {'code': 'GEO', 'name': 'Georgia', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'GGY', 'name': 'Guernsey', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'GHA', 'name': 'Ghana', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'GIB', 'name': 'Gibraltar', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'GIN', 'name': 'Guinea', 'accepted': [{'passport': false}]},
+      {'code': 'GMB', 'name': 'Gambia', 'accepted': [{'passport': false}]},
+      {'code': 'GNB', 'name': 'Guinea-Bissau', 'accepted': [{'passport': false}]},
+      {'code': 'GNQ', 'name': 'Equatorial Guinea', 'accepted': [{'passport': false}]},
+      {'code': 'GRC', 'name': 'Greece', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'GRD', 'name': 'Grenada', 'accepted': [{'passport': false}]},
+      {'code': 'GTM', 'name': 'Guatemala', 'accepted': [{'passport': false, 'driving_license': true, 'national_identity_card': true}]},
+      {'code': 'GUY', 'name': 'Guyana', 'accepted': [{'passport': false}]},
+      {'code': 'HKG', 'name': 'Hong Kong', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'HND', 'name': 'Honduras', 'accepted': [{'passport': false}]},
+      {'code': 'HRV', 'name': 'Croatia', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'HTI', 'name': 'Haiti', 'accepted': [{'passport': false}]},
+      {'code': 'HUN', 'name': 'Hungary', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'IDN', 'name': 'Indonesia', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'IMN', 'name': 'Isle of Man', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'IND', 'name': 'India', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'IRL', 'name': 'Ireland', 'accepted': [{'passport': false, 'passport_card': true, 'driving_license': false, 'residency_permit': true}]},
+      {'code': 'IRN', 'name': 'Iran, Islamic Republic of', 'accepted': [{'passport': false}]},
+      {'code': 'IRQ', 'name': 'Iraq', 'accepted': [{'passport': false}]},
+      {'code': 'ISL', 'name': 'Iceland', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'ISR', 'name': 'Israel', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'ITA', 'name': 'Italy', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'JAM', 'name': 'Jamaica', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'JEY', 'name': 'Jersey', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'JOR', 'name': 'Jordan', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'JPN', 'name': 'Japan', 'accepted': [{'passport': false, 'driving_license': false, 'residency_permit': false}]},
+      {'code': 'KAZ', 'name': 'Kazakhstan', 'accepted': [{'passport': false}]},
+      {'code': 'KEN', 'name': 'Kenya', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'KGZ', 'name': 'Kyrgyzstan', 'accepted': [{'passport': false}]},
+      {'code': 'KHM', 'name': 'Cambodia', 'accepted': [{'passport': false}]},
+      {'code': 'KIR', 'name': 'Kiribati', 'accepted': [{'passport': false}]},
+      {'code': 'KNA', 'name': 'Saint Kitts and Nevis', 'accepted': [{'passport': false}]},
+      {'code': 'KOR', 'name': 'Korea, Republic of', 'accepted': [{'passport': false}]},
+      {'code': 'KWT', 'name': 'Kuwait', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'LAO', 'name': 'Lao People\'s Democratic Republic', 'accepted': [{'passport': false}]},
+      {'code': 'LBN', 'name': 'Lebanon', 'accepted': [{'passport': false}]},
+      {'code': 'LBR', 'name': 'Liberia', 'accepted': [{'passport': false}]},
+      {'code': 'LBY', 'name': 'Libya', 'accepted': [{'passport': false}]},
+      {'code': 'LCA', 'name': 'Saint Lucia', 'accepted': [{'passport': false}]},
+      {'code': 'LIE', 'name': 'Liechtenstein', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'LKA', 'name': 'Sri Lanka', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'LSO', 'name': 'Lesotho', 'accepted': [{'passport': false}]},
+      {'code': 'LTU', 'name': 'Lithuania', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'LUX', 'name': 'Luxembourg', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'LVA', 'name': 'Latvia', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'MAC', 'name': 'Macao', 'accepted': [{'residency_permit': false}]},
+      {'code': 'MAF', 'name': 'Saint Martin (French part)', 'accepted': [{'driving_license': false}]},
+      {'code': 'MAR', 'name': 'Morocco', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'MCO', 'name': 'Monaco', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'MDA', 'name': 'Moldova, Republic of', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'MDG', 'name': 'Madagascar', 'accepted': [{'passport': false}]},
+      {'code': 'MDV', 'name': 'Maldives', 'accepted': [{'passport': false}]},
+      {'code': 'MEX', 'name': 'Mexico', 'accepted': [{'passport': false, 'driving_license': false, 'voter_id': false, 'work_permit': false}]},
+      {'code': 'MHL', 'name': 'Marshall Islands', 'accepted': [{'passport': false}]},
+      {'code': 'MKD', 'name': 'Macedonia, the former Yugoslav Republic of', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'MLI', 'name': 'Mali', 'accepted': [{'passport': false}]},
+      {'code': 'MLT', 'name': 'Malta', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'MMR', 'name': 'Myanmar', 'accepted': [{'passport': false}]},
+      {'code': 'MNE', 'name': 'Montenegro', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'MNG', 'name': 'Mongolia', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'MOZ', 'name': 'Mozambique', 'accepted': [{'passport': false}]},
+      {'code': 'MRT', 'name': 'Mauritania', 'accepted': [{'passport': false}]},
+      {'code': 'MSR', 'name': 'Montserrat', 'accepted': [{'passport': false}]},
+      {'code': 'MUS', 'name': 'Mauritius', 'accepted': [{'passport': false}]},
+      {'code': 'MWI', 'name': 'Malawi', 'accepted': [{'passport': false}]},
+      {'code': 'MYS', 'name': 'Malaysia', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'NAM', 'name': 'Namibia', 'accepted': [{'passport': false}]},
+      {'code': 'NER', 'name': 'Niger', 'accepted': [{'passport': false}]},
+      {'code': 'NGA', 'name': 'Nigeria', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'NIC', 'name': 'Nicaragua', 'accepted': [{'passport': false}]},
+      {'code': 'NLD', 'name': 'Netherlands', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'NOR', 'name': 'Norway', 'accepted': [{'passport': false, 'driving_license': false, 'residency_permit': true}]},
+      {'code': 'NPL', 'name': 'Nepal', 'accepted': [{'passport': false}]},
+      {'code': 'NRU', 'name': 'Nauru', 'accepted': [{'passport': false}]},
+      {'code': 'NZL', 'name': 'New Zealand', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'OMN', 'name': 'Oman', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'PAK', 'name': 'Pakistan', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'PAN', 'name': 'Panama', 'accepted': [{'passport': false}]},
+      {'code': 'PER', 'name': 'Peru', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'PHL', 'name': 'Philippines', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'PLW', 'name': 'Palau', 'accepted': [{'passport': false}]},
+      {'code': 'PNG', 'name': 'Papua New Guinea', 'accepted': [{'passport': false}]},
+      {'code': 'POL', 'name': 'Poland', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'PRI', 'name': 'Puerto Rico', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'PRK', 'name': 'Korea, Democratic People\'s Republic of', 'accepted': [{'passport': false}]},
+      {'code': 'PRT', 'name': 'Portugal', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'PRY', 'name': 'Paraguay', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'PSE', 'name': 'Palestinian Territory, Occupied', 'accepted': [{'passport': false}]},
+      {'code': 'QAT', 'name': 'Qatar', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'ROU', 'name': 'Romania', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'RUS', 'name': 'Russian Federation', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'RWA', 'name': 'Rwanda', 'accepted': [{'passport': false}]},
+      {'code': 'SAU', 'name': 'Saudi Arabia', 'accepted': [{'passport': false, 'driving_license': false, 'residency_permit': false}]},
+      {'code': 'SDN', 'name': 'Sudan', 'accepted': [{'passport': false}]},
+      {'code': 'SEN', 'name': 'Senegal', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'SGP', 'name': 'Singapore', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'SLB', 'name': 'Solomon Islands', 'accepted': [{'passport': false}]},
+      {'code': 'SLE', 'name': 'Sierra Leone', 'accepted': [{'passport': false}]},
+      {'code': 'SLV', 'name': 'El Salvador', 'accepted': [{'passport': false}]},
+      {'code': 'SMR', 'name': 'San Marino', 'accepted': [{'passport': false}]},
+      {'code': 'SOM', 'name': 'Somalia', 'accepted': [{'passport': false}]},
+      {'code': 'SRB', 'name': 'Serbia', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'SSD', 'name': 'South Sudan', 'accepted': [{'passport': false}]},
+      {'code': 'STP', 'name': 'Sao Tome and Principe', 'accepted': [{'passport': false}]},
+      {'code': 'SUR', 'name': 'Suriname', 'accepted': [{'passport': false}]},
+      {'code': 'SVK', 'name': 'Slovakia', 'driving_license': false, 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'SVN', 'name': 'Slovenia', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'SWE', 'name': 'Sweden', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'SWZ', 'name': 'Swaziland', 'accepted': [{'passport': false}]},
+      {'code': 'SYC', 'name': 'Seychelles', 'accepted': [{'passport': false}]},
+      {'code': 'SYR', 'name': 'Syrian Arab Republic', 'accepted': [{'passport': false}]},
+      {'code': 'TCA', 'name': 'Turks and Caicos Islands', 'accepted': [{'passport': false}]},
+      {'code': 'TCD', 'name': 'Chad', 'accepted': [{'passport': false}]},
+      {'code': 'TGO', 'name': 'Togo', 'accepted': [{'passport': false}]},
+      {'code': 'THA', 'name': 'Thailand', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'TJK', 'name': 'Tajikistan', 'accepted': [{'passport': false}]},
+      {'code': 'TKM', 'name': 'Turkmenistan', 'accepted': [{'passport': false}]},
+      {'code': 'TLS', 'name': 'Timor-Leste', 'accepted': [{'passport': false}]},
+      {'code': 'TON', 'name': 'Tonga', 'accepted': [{'passport': false}]},
+      {'code': 'TTO', 'name': 'Trinidad and Tobago', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'TUN', 'name': 'Tunisia', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'TUR', 'name': 'Turkey', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'TUV', 'name': 'Tuvalu', 'accepted': [{'passport': false}]},
+      {'code': 'TWN', 'name': 'Taiwan, Province of China', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'TZA', 'name': 'Tanzania, United Republic of', 'accepted': [{'passport': false, 'driving_license': false, 'voter_id': false}]},
+      {'code': 'UGA', 'name': 'Uganda', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'UKR', 'name': 'Ukraine', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'URY', 'name': 'Uruguay', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'USA', 'name': 'United States', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'UZB', 'name': 'Uzbekistan', 'accepted': [{'passport': false}]},
+      {'code': 'VEN', 'name': 'Venezuela, Bolivarian Republic of', 'accepted': [{'passport': false, 'national_identity_card': true}]},
+      {'code': 'VNM', 'name': 'Viet Nam', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'VUT', 'name': 'Vanuatu', 'accepted': [{'passport': false}]},
+      {'code': 'WSM', 'name': 'Samoa', 'accepted': [{'passport': false}]},
+      {'code': 'YEM', 'name': 'Yemen', 'accepted': [{'passport': false, 'driving_license': false}]},
+      {'code': 'ZAF', 'name': 'South Africa', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
+      {'code': 'ZMB', 'name': 'Zambia', 'accepted': [{'passport': false}]},
+      {'code': 'ZWE', 'name': 'Zimbabwe', 'accepted': [{'passport': false}]},
+    ];
+
+    this.countrydocs.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
   }
 } window.customElements.define('wbi-application', WbiApplication);
