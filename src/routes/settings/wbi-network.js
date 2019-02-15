@@ -20,13 +20,24 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       <style include="shared-styles">
         :host {
           display: block;
-        }        
+        }   
+        .header {
+          display: flex;
+        }  
+        .header img{
+          margin-right: 12px;
+        } 
+        hr {
+          margin: 24px 0;
+        }         
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
       <wbi-header></wbi-header>
       <div class="card">
-        Network Account
+      <div class="header">
+          <img src="./images/network-header-icon.svg"><h1>Network Account</h1>
+        </div>
         <hr>
         <wbi-loading></wbi-loading>
         <wbi-noaccess></wbi-noaccess>
