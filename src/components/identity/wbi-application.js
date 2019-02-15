@@ -173,16 +173,19 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     console.log(`Document Type: ${this.selectedDoc}`);
     const selfieFile = this.shadowRoot.querySelector('#selfie').files;
     console.log(`Selfie: ${selfieFile}`);
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) {
+    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) { // NOTE: only post to api if we have the data
       this._postToApi();
+    } else {
+      // TODO: Indicate to the user whats missing
     }
   }
 
   _postToApi() {
-    const selectedFiles = this.fileArray; // the names of inputs that the user selected as a result of selecting a county are in this array, loop over and get files same as selfie
-    const selfieFile = this.shadowRoot.querySelector('#selfie').files;
+    // NOTE: this function is called rom _submit above ^^
+    const selectedFiles = this.fileArray; // NOTE: the id's of file inputs are in this array, loop over and get files same as selfie below
+    const selfieFile = this.shadowRoot.querySelector('#selfie').files; // check file type may need converting to blob??
     const formData = new FormData();
-    formData.append('blob', new Blob([]), 'test'); // TODO: append images as blob, maybe need to set content type header
+    formData.append('blob', new Blob([]), 'test'); // TODO: append images as blob, maybe need to set content type header along with the jwt token
     fetch(this.env.apiUrl, {
       method: 'POST',
       body: formData,
