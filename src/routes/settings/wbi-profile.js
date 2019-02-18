@@ -26,7 +26,10 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         } 
         hr {
           margin: 24px 0;
-        }           
+        }
+        .card {
+          max-width: 700px;
+        }          
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 

@@ -183,7 +183,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   _postToApi() {
     // NOTE: this function is called rom _submit above ^^
     const selectedFiles = this.fileArray; // NOTE: the id's of file inputs are in this array, loop over and get files same as selfie below
-    const selfieFile = this.shadowRoot.querySelector('#selfie').files; // check file type may need converting to blob??
+    const selfieFile = this.shadowRoot.querySelector('#selfie').files; // check file type may need converting to blob?? Unsure
     const formData = new FormData();
     formData.append('blob', new Blob([]), 'test'); // TODO: append images as blob, maybe need to set content type header along with the jwt token
     fetch(this.env.apiUrl, {
@@ -199,10 +199,10 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   _saveLocally(e) {
     if (e && e.model && e.model.__data && e.model.__data.item && e.model.__data.item.value) {
       const fileName = e.model.__data.item.value;
-      console.log(fileName);
+      console.log(fileName); // loop over this.fileArray, conver to base64 string and Save to local storage
     } else {
-      const fileName = this.shadowRoot.querySelector('#selfie').files;
-      console.log(fileName);
+      const fileName = this.shadowRoot.querySelector('#selfie').files; // TODO: convert to base64 string
+      console.log(fileName); // Save to local storage
     }
   }
 

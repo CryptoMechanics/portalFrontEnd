@@ -14,9 +14,22 @@ class WbiNoaccess extends ReduxMixin(PolymerElement) {
           box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
         }
+        div {
+          display: block;
+          background-color: #FDB8BA;
+          height: 80px;
+          line-height: 80px;
+          text-align: center;
+          border: 1px solid #AE464A;
+          border-radius: 4px;
+          color: #AE464A;
+          font-size: 18px;
+          font-weight: 500;
+        }
 
       </style>
-      <div>No Access</div>
+      <div>Please confirm your identity first</div>
+      <button class="green-bg">Go to identity</button>
     `;
   }
 

@@ -16,7 +16,12 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
 
       </style>
-      <div>Created</div>
+      <p>
+        Your WORBLI blockchain account has been created. Account name <b>lipovanski12</b></br>
+        Check it out at worbli.bloks.io</br>
+        If you had an EOS account on September 7th, you can Claim your Sharedrop</br>
+        <button class="green-bg">Claim Your Sharedrop</button>
+      </p>
     `;
   }
 
