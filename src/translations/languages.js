@@ -1,95 +1,53 @@
 export const translations = {
-  Català: {
-    language: 'catalan',
-  },
-  Česky: {
-    language: 'czech',
-  },
-  Dansk: {
-    language: 'danish',
-  },
-  Deutsch: {
-    language: 'german',
-  },
-  Ελληνικά: {
-    language: 'greek',
-  },
   English: {
     language: 'english',
-  },
-  Español: {
-    language: 'spanish',
-  },
-  Eesti: {
-    language: 'estonian',
-  },
-  Basque: {
-    language: 'basque',
-  },
-  Filipino: {
-    language: 'filipino',
-  },
-  Français: {
-    language: 'french',
-  },
-  Indonesian: {
-    language: 'indonesian',
-  },
-  Íslenska: {
-    language: 'icelandic',
-  },
-  Italiano: {
-    language: 'italian',
-  },
-  Lietuviškai: {
-    language: 'lithuanian',
-  },
-  Nederlands: {
-    language: 'dutch',
-  },
-  Norsk: {
-    language: 'norwegian',
-  },
-  Polski: {
-    language: 'polish',
-  },
-  Português: {
-    language: 'portuguese',
-  },
-  Română: {
-    language: 'romanian',
-  },
-  Русский: {
-    language: 'russian',
-  },
-  Slovenský: {
-    language: 'slovak',
-  },
-  Suomi: {
-    language: 'finnish',
-  },
-  Svenska: {
-    language: 'swedish',
-  },
-  ภาษาไทย: {
-    language: 'thai',
-  },
-  Türkçe: {
-    language: 'turkish',
+    emailAddress: 'Email address',
+    password: 'Password',
+    signIn: 'Sign In',
+    joinWorbli: 'Join Worbli',
+    forgotPassword: 'Forgot password',
+    backToWorbli: 'back to worbli.io',
+    forgotPasswordIntro: 'Enter your email address and we\'ll send you a password reset link.',
+    sendResetLink: 'Send Reset Link',
+    backToSignIn: 'Back To Sign In',
+    join: 'Join',
+    repeatPassword: 'Repeat Password',
+    agreeTheTerms: 'I agree to the Terms and Privacy Policy',
+    optInMarketing: 'I would like to opt in to marketing communications',
+    alreadyOnWorbli: 'Already on WORBLI?',
+    sentEmail: 'Sent email',
+    checkYourEmail: 'Please check your email, we have sent you a confirmation email to:',
   },
   日本語: {
     language: 'japanese',
+    emailAddress: 'メールアドレス',
+    password: 'パスワード',
+    signIn: 'サインイン',
+    joinWorbli: 'Worbliに参加する',
+    forgotPassword: 'パスワードを忘れた方',
   },
   繁體中文: {
     language: 'chinese traditional',
+    emailAddress: '电子邮件地址',
+    password: '密码',
+    signIn: '登入',
+    joinWorbli: '加入Worbli',
+    forgotPassword: '忘记密码？',
   },
   简体中文: {
     language: 'chinese simplified',
+    emailAddress: 'Email address',
+    password: 'Password',
+    signIn: 'Sign In',
+    joinWorbli: 'Join Worbli',
+    forgotPassword: 'Forgot password?',
   },
   한국어: {
     language: 'korean',
-  },
-  Српски: {
-    language: 'serbian',
+    emailAddress: 'Email address',
+    password: 'Password',
+    signIn: 'Sign In',
+    joinWorbli: 'Join Worbli',
+    forgotPassword: 'Forgot password?',
   },
 };

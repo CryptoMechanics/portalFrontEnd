@@ -1,27 +1,46 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
+import '../components/layouts/wbi-center.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
-class WbiSignin extends ReduxMixin(PolymerElement) {
+class WbiSent extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
         :host {
           display: block;
-        }        
+        }  
+        img {
+          display: block;
+          width: 150px;
+          margin: 0 auto;
+          padding-bottom: 24px;
+        }
+        h2 {
+          display: block;
+          text-align: center;
+          color: #2B2C54;
+          font-weight: 400;
+          font-size: 24px;
+        }
+        p {
+          margin-bottom: 32px;
+        }      
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-      <div class="card">
-        <div>Logo</div>
-        <hr>
-        <div>Sent email</div>
-        
-        <p>Please check your email, we have sent you a confirmation email to: Johndoe@worbli.com</p>
-      </div>
+      <wbi-center>
+        <div class="card">
+          <img src="./images/worbli.svg">
+          <hr>
+          <h2>[[txt.sentEmail]]</h2>
+          <p>[[txt.checkYourEmail]] Johndoe@worbli.com</p>
+        </div>
+      </wbi-center>
     `;
   }
 
@@ -34,6 +53,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -54,4 +74,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-} window.customElements.define('wbi-signin', WbiSignin);
+  _language(e) {
+    this.txt = translations[this.language];
+  }
+} window.customElements.define('wbi-sent', WbiSent);

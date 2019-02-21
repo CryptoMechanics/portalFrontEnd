@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/layouts/wbi-center.js';
@@ -36,12 +37,12 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         <div class="card">
           <img src="./images/worbli.svg">
           <hr>
-          <h2>Forgot password</h2>
-          <p>Enter your email address and we'll send you a password reset link.</p>
-          <label for="email">Email address</label>
+          <h2>[[txt.forgotPassword]]</h2>
+          <p>[[txt.forgotPasswordIntro]]</p>
+          <label for="email">[[txt.emailAddress]]</label>
           <input type="text" name="email" id="email" value="{{email::input}}">
-          <button type="button" class="green-bg" on-click="_send">Send Reset Link</button>
-          <button type="button" class="white-bg" on-click="_signIn">Back To Sign In</button>
+          <button type="button" class="green-bg" on-click="_send">[[txt.sendResetLink]]</button>
+          <button type="button" class="white-bg" on-click="_signIn">[[txt.backToSignIn]]</button>
         </div>
       </wbi-center>
     `;
@@ -56,6 +57,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -76,7 +78,9 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-
+  _language(e) {
+    this.txt = translations[this.language];
+  }
   _signIn() {
     this.set('route.path', '/signin');
   }

@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 
@@ -58,30 +59,24 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-      
       <wbi-center>
         <div class="card">
           <img src="./images/worbli.svg">
           <hr>
-          <h2>Sign in</h2>
-          <label for="email">Email address</label>
+          <h2>[[txt.signIn]]</h2>
+          <label for="email">[[txt.emailAddress]]</label>
           <input type="text" name="email" id="email" value="{{email::input}}">
-          <label for="password">Password</label>
+          <label for="password">[[txt.password]]</label>
           <input type="password" name="password" id="password" value="{{password::input}}">
-          <button type="button" class="green-bg" on-click="_signIn">Sign In</button>
-          <button type="button" on-click="_join">Join Worbli</button>
-          <a on-click="_forgot" class="forgot">Forgot password?</a>
-          
+          <button type="button" class="green-bg" on-click="_signIn">[[txt.signIn]]</button>
+          <button type="button" on-click="_join">[[txt.joinWorbli]]</button>
+          <a on-click="_forgot" class="forgot">[[txt.forgotPassword]]</a>
           <div class="bottom">
             <ul><li>English</li></ul>
-            <span>back to <a href="http://www.worbli.io">worbli.io</a></span>
+            <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>
-
       </wbi-center>
-
-
-
     `;
   }
 
@@ -94,6 +89,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -114,7 +110,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-
+  _language(e) {
+    this.txt = translations[this.language];
+  }
   _signIn() {
     this.set('route.path', '/signin');
   }

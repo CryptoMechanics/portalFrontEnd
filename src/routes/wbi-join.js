@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/layouts/wbi-center.js';
@@ -57,37 +58,33 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         .bottom li {
           list-style: none;
         }
+        .green-bg{
+          background-color: var(--active-color, #BDC1C6);
+        }
+
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-center>
         <div class="card">
         <img src="./images/worbli.svg">
           <hr>
-          <h2>Join</h2>
-          
-          <label for="email">Email address</label>
-          <input type="text" name="email" id="email" value="{{email::input}}">
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" value="{{password::input}}">
-          <label for="repeat_password">Repeat Password</label>
-          <input type="password" name="repeat_password" id="repeat_password" value="{{repeat_password::input}}">
-
-          <label for="agree"><input type="checkbox" name="agree" id="agree" value="{{agree::input}}">
-          I agree to the Terms and Privacy Policy</label>
-          
+          <h2>[[txt.join]]</h2>
+          <label for="email">[[txt.emailAddress]]</label>
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
+          <label for="password">[[txt.password]]</label>
+          <input type="password" name="password" id="password" value="{{password::input}}" on-keydown="_password">
+          <label for="repeat_password">[[txt.repeatPassword]]</label>
+          <input type="password" name="repeat_password" id="repeat_password" value="{{repeat_password::input}}" on-keydown="_repeatPassword">
+          <label for="agree">
+          <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">[[txt.agreeTheTerms]]</label>
           <label for="optIn">
-          <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}">
-          I would like to opt in to marketing communications</label>
-          
-          
-          <button type="button" class="green-bg" on-click="_join">Join</button>
-          <p class="already">Already on WORBLI? <a on-click="_signIn">Sign In</a></p>
-
+          <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}">[[txt.optInMarketing]]</label>
+          <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
+          <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
           <div class="bottom">
             <ul><li>English</li></ul>
-            <span>back to <a href="http://www.worbli.io">worbli.io</a></span>
+            <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
-
         </div>
       </wbi-center>
     `;
@@ -102,6 +99,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -110,6 +108,11 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
       color: {
         type: Object,
         readOnly: true,
+      },
+      focus: {
+        type: Boolean,
+        value: true,
+        observer: '_focusEmail',
       },
     };
   }
@@ -122,11 +125,53 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-
+  _focusEmail() {
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#email').focus();
+    }, 0);
+  }
+  _email(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#password').focus();
+    }
+  }
+  _password(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#repeat_password').focus();
+    }
+  }
+  _repeatPassword(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#agree').focus();
+    }
+  }
+  _termsCheckbox() {
+    if (this.termsValue == undefined) {
+      this.termsValue = true;
+    } else {
+      this.termsValue = !this.termsValue;
+    };
+    this._isComplete();
+  }
+  _language(e) {
+    this.txt = translations[this.language];
+  }
+  _isComplete() {
+    if (this.email && this.password && this.repeat_password && this.termsValue) {
+      this.updateStyles({'--active-color': '#92CC7F'});
+    } else {
+      this.updateStyles({'--active-color': '#BDC1C6'});
+    }
+  }
   _signIn() {
     this.set('route.path', '/signin');
   }
   _join() {
-    this.set('route.path', '/sent');
+    if (this.email && this.password && this.repeat_password && this.termsValue) {
+      this.set('route.path', '/sent');
+    }
   }
 } window.customElements.define('wbi-join', WbiJoin);

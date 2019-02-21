@@ -30,11 +30,24 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         border: 1px solid #BEC1C5;
         display: block;
         width: 100%;
-        
         border-radius: 4px;
         padding: 12px;
         font-size: 14px;
       }
+      input[type=text]:focus, input[type=password]:focus {
+        background-color: #F8F8F8;
+        border: 1.5px solid #92CC85;
+        display: block;
+        width: 100%;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 14px;
+      }
+      input[type=checkbox] {
+        background-color: #F8F8F8;
+        border: 1.5px solid #92CC85;
+      }
+
       label {
         display: block;
         font-size: 14px;
@@ -62,7 +75,9 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         border: transparent;
         margin-top: 18px;
       }
-
+      .inactive-bg{
+        background-color: #BDC1C6;
+      }
       .green-bg{
         background-color: #92CC7F;
       }

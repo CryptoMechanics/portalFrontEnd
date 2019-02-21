@@ -9,7 +9,6 @@ import '../../components/wbi-loading.js';
 
 import '../../components/network/wbi-noaccess.js';
 import '../../components/network/wbi-access.js';
-import '../../components/network/wbi-created.js';
 
 import store from '../../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -45,7 +44,6 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
         <wbi-loading></wbi-loading>
         <wbi-noaccess></wbi-noaccess>
         <wbi-access></wbi-access>
-        <wbi-created></wbi-created>
       </div>
       <wbi-footer></wbi-footer>
     `;
