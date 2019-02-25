@@ -180,6 +180,41 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     }
   }
 
+  _resize(file) {
+    // const file = this.shadowRoot.querySelector('#image').files[0];
+    if (file.type.match(/image.*/)) {
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const image = new Image();
+        image.onload = (imageEvent) => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 200;
+          let width = image.width;
+          let height = image.height;
+          if (width > height) {
+            if (width > maxSize) {
+              height *= maxSize / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width *= maxSize / height;
+              height = maxSize;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg');
+          const resizedImage = this._dataURLToBlob(dataUrl);
+          this.$.api.uploadImage(resizedImage);
+        };
+        image.src = readerEvent.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   _postToApi() {
     // NOTE: this function is called rom _submit above ^^
     const selectedFiles = this.fileArray; // NOTE: the id's of file inputs are in this array, loop over and get files same as selfie below
