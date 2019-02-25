@@ -14,8 +14,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     };
   }
 
-
- /**
+  /**
  * Join Worbli
  * @param {string} email - guests email address
  * @param {string} password - guests password
@@ -83,7 +82,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
-/**
+  /**
  * Upload an image
  * @param {file} file - file blob
  * @param {string} fileType - tyoe of file 'passport-front'
@@ -107,7 +106,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
-/**
+  /**
  * Get an image
  * @param {string} fileType - tyoe of file 'passport-front'
  */
