@@ -3,6 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../../components/camsnap/wbi-camsnap.js';
+import '../../components/data/wbi-api.js';
 
 const ReduxMixin = createMixin(store);
 class WbiApplication extends ReduxMixin(PolymerElement) {
@@ -28,6 +29,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         }
 
       </style>
+      <wbi-api id='api'></wbi-api>
       <div>
         <label for='Country'>Select Country</label>
         <select value='{{country::input}}' on-change="_makeRadioButtons">
@@ -102,15 +104,15 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
 
           <!-- <h2>Selfie</h2> -->
           
-          <!-- <wbi-camsnap></wbi-camsnap>
-          <p>or just upload from your device</p> -->
+          <wbi-camsnap></wbi-camsnap>
+          <p>or just upload from your device</p>
 
           <label for='file'>Upload selfie</label>
-          <input type='file' name='file' id='selfie' on-change="_saveLocally"/></br>
+          <input type='file' name='file' id='selfie' on-change="_testUpload"/></br>
           <!-- <p>Make sure your selfie is clearly shows your face</p> -->
         </div>
         </template>
-        <input type='submit' name='submit' value='Submit' on-click="_submit"/>
+        <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
       </div>
     `;
   }
@@ -162,6 +164,12 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+
+  _testUpload() {
+    const selfieFile = this.shadowRoot.querySelector('#selfie').files[0];
+    console.log(selfieFile);
+    this.$.api.uploadImage(selfieFile, 'passport');
   }
   _submit() {
     console.log('Sending to API');

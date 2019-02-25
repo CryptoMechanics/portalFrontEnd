@@ -1,10 +1,16 @@
 import {createMixin} from 'polymer-redux';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
-
+import '@polymer/app-route/app-location.js';
 
 const ReduxMixin = createMixin(store);
 class WbiApi extends ReduxMixin(PolymerElement) {
+  static get template() {
+    return html`
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    `;
+  }
+
   static get properties() {
     return {
       env: {
@@ -56,7 +62,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+          const jwt = response.token;
+          localStorage.setItem('jwt', jwt);
+          this.set('route.path', '/settings/');
         })
         .catch((error) => console.log('Error:', error));
   }
@@ -88,10 +96,12 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} fileType - tyoe of file 'passport-front'
  */
   uploadImage(file, fileType) {
+    console.log(file);
+    console.log(fileType);
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
     formData.append(fileType, file);
-    const url = `${this.env.apiUrl}/kyc/image/`;
+    const url = `${this.env.apiUrl}/kyc/dossier/`;
     fetch(url, {
       method: 'POST',
       body: formData,
