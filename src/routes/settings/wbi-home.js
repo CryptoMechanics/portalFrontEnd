@@ -14,27 +14,51 @@ class WbiHome extends ReduxMixin(PolymerElement) {
       <style include="shared-styles">
         :host {
           display: block;
-        }        
+        } 
+        .block{
+          border: 1px solid #BDC1C6;
+          display: flex;
+          margin-bottom: 12px;
+          padding: 12px;
+          border-radius: 4px;
+          background-color: #F8F8F8;
+          text-decoration: none;
+        }
+        .block div {
+          display: inline-block;
+        } 
+        .title{
+          flex:1;
+          color: #636670;
+          font-size: 20px;
+          line-height: 66px;
+        } 
+        .disk{
+          width: 90px;
+        } 
+        .next{
+          padding-top:12px;
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
       <wbi-header></wbi-header>
       <div class="card">
       
-        <a href="/settings/profile/">
-          <div><img src=""></div>
-          <div>My profile</div>
-          <div><img src=""></div>
+        <a href="/settings/profile/" class="block">
+          <div class="disk"><img src="./images/profile-header-icon.svg"></div>
+          <div class="title">My profile</div>
+          <div class="next"><img src="/images/next.svg"></div>
         </a>
-        <a href="/settings/identity/">
-          <div><img src=""></div>
-          <div>Identity</div>
-          <div><img src=""></div>
+        <a href="/settings/identity/" class="block">
+          <div class="disk"><img src="/images/identity-header-icon.svg"></div>
+          <div class="title">Identity</div>
+          <div class="next"><img src="/images/next.svg"></div>
         </a>
-        <a href="/settings/network/">
-          <div><img src=""></div>
-          <div>Network account</div>
-          <div><img src=""></div>
+        <a href="/settings/network/" class="block">
+          <div class="disk"><img src="/images/network-header-icon.svg"></div>
+          <div class="title">Network account</div>
+          <div class="next"><img src="/images/next.svg"></div>
         </a>
 
       </div>
