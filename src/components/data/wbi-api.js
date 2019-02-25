@@ -14,10 +14,17 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     };
   }
 
+
+ /**
+ * Join Worbli
+ * @param {string} email - guests email address
+ * @param {string} password - guests password
+ * @param {boolean} agreedTerms - agreement of the terms and conditions
+ * @param {boolean} agreedMarketing - agreed to recieve marketing materials
+ */
   join(email, password, agreedTerms, agreedMarketing) {
     const url = `${this.env.apiUrl}/visitor/join/`;
     const data = {email, password, agreedTerms, agreedMarketing};
-    console.log(data);
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -32,10 +39,15 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
+
+  /**
+ * SignIn to Worbli
+ * @param {string} email - guests email address
+ * @param {string} password - guests password
+ */
   signIn(email, password) {
     const url = `${this.env.apiUrl}/user/login/`;
     const data = {email, password};
-    console.log(data);
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -50,10 +62,13 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
+  /**
+ * Guests has forgotten password
+ * @param {email} email - guests email address
+ */
   forgotPassword(email) {
     const url = `${this.env.apiUrl}/visitor/reset/`;
     const data = {email};
-    console.log(data);
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -68,12 +83,16 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
-  uploadImage(file) {
+/**
+ * Upload an image
+ * @param {file} file - file blob
+ * @param {string} fileType - tyoe of file 'passport-front'
+ */
+  uploadImage(file, fileType) {
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append(fileType, file);
     const url = `${this.env.apiUrl}/kyc/image/`;
-    console.log(data);
     fetch(url, {
       method: 'POST',
       body: formData,
@@ -88,15 +107,16 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
-  getImage(file) {
+/**
+ * Get an image
+ * @param {string} fileType - tyoe of file 'passport-front'
+ */
+  getImage(fileType) {
     const token = localStorage.getItem('jwt');
-    const formData = new FormData();
-    formData.append('image', file);
     const url = `${this.env.apiUrl}/kyc/img/`;
-    console.log(data);
     fetch(url, {
       method: 'GET',
-      body: formData,
+      body: fileType,
       headers: {'Authorization': `Bearer ${token}`},
     })
         .then((response) => {
@@ -108,6 +128,14 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
+  /**
+ * Get an image
+ * @param {string} country - guests country
+ * @param {string} nameFirst - guests first name
+ * @param {string} nameLast - guests last name
+ * @param {string} dob - guests date of birth
+ * @param {string} gender - guests gender
+ */
   kycApplication(country, nameFirst, nameLast, dob, gender) {
     const token = localStorage.getItem('jwt');
     const data = {country, nameFirst, nameLast, dob, gender};
