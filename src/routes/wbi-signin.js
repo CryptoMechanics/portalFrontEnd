@@ -3,7 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
-
+import '../components/data/wbi-api.js';
 import '../components/layouts/wbi-center.js';
 
 import store from '../global/store.js';
@@ -59,6 +59,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+      <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
           <img src="./images/worbli.svg">
@@ -114,7 +115,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _signIn() {
-    this.set('route.path', '/signin');
+    this.$.api.signIn(this.email, this.password);
   }
   _join() {
     this.set('route.path', '/join');

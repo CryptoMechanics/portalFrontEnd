@@ -4,7 +4,7 @@ import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/layouts/wbi-center.js';
-
+import '../components/data/wbi-api.js';
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
@@ -64,6 +64,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
 
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+      <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
         <img src="./images/worbli.svg">
@@ -78,7 +79,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <label for="agree">
           <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">[[txt.agreeTheTerms]]</label>
           <label for="optIn">
-          <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}">[[txt.optInMarketing]]</label>
+          <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}" on-change="_optInCheckbox">[[txt.optInMarketing]]</label>
           <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
           <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
           <div class="bottom">
@@ -156,6 +157,13 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     };
     this._isComplete();
   }
+  _optInCheckbox() {
+    if (this.optInValue == undefined) {
+      this.optInValue = true;
+    } else {
+      this.optInValue = !this.optInValue;
+    }
+  }
   _language(e) {
     this.txt = translations[this.language];
   }
@@ -171,7 +179,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
   }
   _join() {
     if (this.email && this.password && this.repeat_password && this.termsValue) {
-      this.set('route.path', '/sent');
+      this.$.api.join(this.email, this.password, this.termsValue, this.optInValue);
     }
   }
 } window.customElements.define('wbi-join', WbiJoin);
