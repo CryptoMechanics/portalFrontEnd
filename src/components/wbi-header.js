@@ -1,5 +1,6 @@
 import {createMixin} from '../../node_modules/polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import '@polymer/app-route/app-location.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
 
@@ -45,6 +46,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
           margin-top: 16px;
           height: 25px;
           margin-right: 36px;
+          cursor: pointer;
         }
         .main-nav img, .logout img {
           width: 17px;
@@ -52,8 +54,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         }
 
       </style>
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <div class="header">
-        <img src="./images/worbli.svg" class="logo">
+        <img src="./images/worbli.svg" class="logo" on-click="_settings">
         <div class="main-nav">
           <ul>
             <li><a href="/settings/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">My profile</a></li>
@@ -101,6 +104,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
     };
   }
 
+  _settings() {
+    this.set('route.path', '/settings/');
+  }
   _logout() {
     console.log('logout');
   }
