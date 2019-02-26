@@ -76,7 +76,7 @@ class WbiSettings extends PolymerElement {
         import('./wbi-network.js');
         break;
       case 'error':
-        import('../page-error.js');
+        import('../wbi-error.js');
         break;
     }
   }
