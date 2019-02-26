@@ -94,7 +94,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           <template is="dom-if" if="{{fileArray}}">
             <template is='dom-repeat' items='[[fileArray]]'>
               <label for='[[item.value]]'>Upload [[item.label]]</label>
-              <input type='file' name='file' id='[[item.value]]' on-change="_saveLocally"/></br>
+              <input type='file' name='file' id='[[item.value]]' on-change="_upload"/>[[item.value]]</br>
             </template>
           </template>
 
@@ -108,7 +108,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           <p>or just upload from your device</p>
 
           <label for='file'>Upload selfie</label>
-          <input type='file' name='file' id='selfie' on-change="_testUpload"/></br>
+          <input type='file' name='file' id='selfie' on-change="_upload"/></br>
           <!-- <p>Make sure your selfie is clearly shows your face</p> -->
         </div>
         </template>
@@ -166,11 +166,45 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     };
   }
 
-  _testUpload() {
-    const selfieFile = this.shadowRoot.querySelector('#selfie').files[0];
-    console.log(selfieFile);
-    this.$.api.uploadImage(selfieFile, 'passport');
+  _upload(e) {
+    if (e && e.target && e.target.id) {
+      const target = e.target.id;
+      const file = this.shadowRoot.querySelector(`#${target}`).files[0];
+      if (file.type.match(/image.*/)) {
+        const reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          const image = new Image();
+          image.onload = (imageEvent) => {
+            const canvas = document.createElement('canvas');
+            const maxSize = 800;
+            let width = image.width;
+            let height = image.height;
+            if (width > height) {
+              if (width > maxSize) {
+                height *= maxSize / width;
+                width = maxSize;
+              }
+            } else {
+              if (height > maxSize) {
+                width *= maxSize / height;
+                height = maxSize;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            localStorage.setItem(target, dataUrl); // save to local storage
+            const resizedImage = this._dataURLToBlob(dataUrl);
+            this.$.api.uploadImage(resizedImage, target); // send to upload
+          };
+          image.src = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
+
   _submit() {
     console.log('Sending to API');
     console.log(`Country: ${this.country}`);
@@ -185,67 +219,6 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       this._postToApi();
     } else {
       // TODO: Indicate to the user whats missing
-    }
-  }
-
-  _resize(file) {
-    // const file = this.shadowRoot.querySelector('#image').files[0];
-    if (file.type.match(/image.*/)) {
-      const reader = new FileReader();
-      reader.onload = (readerEvent) => {
-        const image = new Image();
-        image.onload = (imageEvent) => {
-          const canvas = document.createElement('canvas');
-          const maxSize = 200;
-          let width = image.width;
-          let height = image.height;
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height;
-              height = maxSize;
-            }
-          }
-          canvas.width = width;
-          canvas.height = height;
-          canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-          const dataUrl = canvas.toDataURL('image/jpeg');
-          const resizedImage = this._dataURLToBlob(dataUrl);
-          this.$.api.uploadImage(resizedImage);
-        };
-        image.src = readerEvent.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  _postToApi() {
-    // NOTE: this function is called rom _submit above ^^
-    const selectedFiles = this.fileArray; // NOTE: the id's of file inputs are in this array, loop over and get files same as selfie below
-    const selfieFile = this.shadowRoot.querySelector('#selfie').files; // check file type may need converting to blob?? Unsure
-    const formData = new FormData();
-    formData.append('blob', new Blob([]), 'test'); // TODO: append images as blob, maybe need to set content type header along with the jwt token
-    fetch(this.env.apiUrl, {
-      method: 'POST',
-      body: formData,
-    })
-        .then((r) => r.json())
-        .then((data) => {
-          console.log(data);
-        });
-  }
-
-  _saveLocally(e) {
-    if (e && e.model && e.model.__data && e.model.__data.item && e.model.__data.item.value) {
-      const fileName = e.model.__data.item.value;
-      console.log(fileName); // loop over this.fileArray, conver to base64 string and Save to local storage
-    } else {
-      const fileName = this.shadowRoot.querySelector('#selfie').files; // TODO: convert to base64 string
-      console.log(fileName); // Save to local storage
     }
   }
 
