@@ -17,26 +17,26 @@ script:
   - xvfb-run npm run test
   - xvfb-run npm run test:integration
 deploy:
-    # Testing Deploy
+    # UA Testing Deploy
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: $S3_TESTING_BUCKET_NAME
+    bucket: $S3_TEST_BUCKET_NAME
     skip_cleanup: true
     local_dir: build/es6-bundled
     on:
-      branch: testing
-  # DEV Deploy
+      branch: test
+  # Development Deploy
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: $S3_DEVELOPMENT_BUCKET_NAME
+    bucket: $S3_DEVELOP_BUCKET_NAME
     skip_cleanup: true
     local_dir: build/es6-bundled
     on:
-      branch: development
+      branch: develop
 after_deploy:
-  - test $TRAVIS_BRANCH = "testing" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_TESTING_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'testing'
-  - test $TRAVIS_BRANCH = "development" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_DEVELOPMENT_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'development'
+  - test $TRAVIS_BRANCH = "test" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_TEST_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'test'
+  - test $TRAVIS_BRANCH = "develop" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_DEVELOP_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'develop'
 notifications:
   email: false
