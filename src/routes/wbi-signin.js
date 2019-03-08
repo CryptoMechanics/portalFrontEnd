@@ -31,10 +31,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         }
         .forgot {
           font-size: 14px;
-          display: block;
-          text-align: center;
-          height: 48px;
-          line-height: 48px;
+          display: inline-block;
+          text-align: left;
+          height: 24px;
+          line-height: 24px;
           color: #92CC7F;
           margin-top: 12px;
         }
@@ -57,6 +57,22 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         .bottom li {
           list-style: none;
         }
+        .green-bg{
+          background-color: var(--active-color, #BDC1C6);
+          cursor: var(--cursor-type, default);
+        }
+        .white-bg{
+          cursor: pointer;
+        }
+        .language-icon{
+          position: absolute;
+          width: 20px;
+          left: -27px;
+          top: -2px;
+        }
+        .error {
+          color: #AB4949;
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
@@ -66,14 +82,17 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           <hr>
           <h2>[[txt.signIn]]</h2>
           <label for="email">[[txt.emailAddress]]</label>
-          <input type="text" name="email" id="email" value="{{email::input}}">
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
           <label for="password">[[txt.password]]</label>
-          <input type="password" name="password" id="password" value="{{password::input}}">
-          <button type="button" class="green-bg" on-click="_signIn">[[txt.signIn]]</button>
-          <button type="button" on-click="_join">[[txt.joinWorbli]]</button>
+          <input type="password" name="password" id="password" value="{{password::input}}" on-keydown="_password">
           <a on-click="_forgot" class="forgot">[[txt.forgotPassword]]</a>
+          <button type="button" class="green-bg" on-click="_signIn">[[txt.signIn]]</button>
+          <button type="button" class="white-bg" on-click="_join">[[txt.joinWorbli]]</button>
+          <div class="error">
+            <p>Invalid email address or password. Please try again. If you have recently created an account, please check your email for activation instructions.</p>
+          </div>
           <div class="bottom">
-            <ul><li>English</li></ul>
+            <ul><li><img src="./images/language-icon.svg" class="language-icon">English</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>
@@ -100,6 +119,15 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      focus: {
+        type: Boolean,
+        value: true,
+        observer: '_focusEmail',
+      },
+      error: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -111,11 +139,48 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
+  _validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  _validatePassword(password) {
+    const re = /^(?=.*[a-z])(?=.*\d|.*[!@#\$%\^&\*])(?=.*[A-Z])(?:.{8,})$/;
+    return re.test(password);
+  }
+  _focusEmail() {
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#email').focus();
+    }, 0);
+  }
+  _email(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#password').focus();
+    }
+  }
+  _password(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this._signIn();
+    }
+  }
+  _isComplete() {
+    if (this._validateEmail(this.email) && this._validatePassword(this.password)) {
+      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--cursor-type': 'pointer'});
+    } else {
+      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--cursor-type': 'default'});
+    }
+  }
   _language(e) {
     this.txt = translations[this.language];
   }
   _signIn() {
-    this.$.api.signIn(this.email, this.password);
+    this.$.api.signIn(this.email, this.password)
+        .then((result) => {
+          this.error = result;
+        });
   }
   _join() {
     this.set('route.path', '/join');

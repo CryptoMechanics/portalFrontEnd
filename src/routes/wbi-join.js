@@ -62,6 +62,8 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           background-color: var(--active-color, #BDC1C6);
         }
 
+
+
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>

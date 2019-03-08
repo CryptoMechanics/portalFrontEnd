@@ -49,24 +49,34 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * SignIn to Worbli
  * @param {string} email - guests email address
  * @param {string} password - guests password
+ * @return {boolean} password - guests password
  */
   signIn(email, password) {
-    const url = `${this.env.apiUrl}/user/login/`;
-    const data = {email, password};
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {'Content-Type': 'application/json'},
-    })
-        .then((response) => {
-          return response.json();
-        })
-        .then((response) => {
-          const jwt = response.token;
-          localStorage.setItem('jwt', jwt);
-          this.set('route.path', '/settings/');
-        })
-        .catch((error) => console.log('Error:', error));
+    return new Promise((resolve, reject) => {
+      const url = `${this.env.apiUrl}/user/login/`;
+      const data = {email, password};
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            if (response.data === false) {
+              resolve(false);
+            } else if (response.data === true) {
+              const jwt = response.token;
+              localStorage.setItem('jwt', jwt);
+              this.set('route.path', '/settings/');
+              resolve(true);
+            }
+          })
+          .catch((error) => {
+            resolve(false);
+          });
+    });
   }
 
   /**

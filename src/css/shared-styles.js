@@ -36,7 +36,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       }
       input[type=text]:focus, input[type=password]:focus {
         background-color: #F8F8F8;
-        border: 1.5px solid #92CC85;
+        border: 1px solid #92CC85;
         display: block;
         width: 100%;
         border-radius: 4px;
