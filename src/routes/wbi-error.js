@@ -10,7 +10,7 @@ class WbiError extends PolymerElement {
         }
       </style>
 
-      Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
+      Oops you hit a 404. <a href="[[rootPath]]" class="circle">Head back to home.</a>
     `;
   }
 }
