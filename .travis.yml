@@ -21,22 +21,22 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: $S3_TEST_BUCKET_NAME
+    bucket: $S3_UAT_BUCKET_NAME
     skip_cleanup: true
     local_dir: build/es6-bundled
     on:
-      branch: test
+      branch: uat
   # Development Deploy
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: $S3_DEVELOP_BUCKET_NAME
+    bucket: $S3_DEV_BUCKET_NAME
     skip_cleanup: true
     local_dir: build/es6-bundled
     on:
-      branch: develop
+      branch: dev
 after_deploy:
-  - test $TRAVIS_BRANCH = "test" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_TEST_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'test'
-  - test $TRAVIS_BRANCH = "develop" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_DEVELOP_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'develop'
+  - test $TRAVIS_BRANCH = "uat" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_UAT_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'test'
+  - test $TRAVIS_BRANCH = "dev" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_DEV_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'develop'
 notifications:
   email: false
