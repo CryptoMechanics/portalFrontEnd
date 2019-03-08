@@ -75,7 +75,6 @@ class AppShell extends ReduxMixin(PolymerElement) {
 
   _pageChanged(page) {
     window.scrollTo(0, 0);
-    window.dataLayer.push({'event': 'Pageview', 'url': `${page}`});
     switch (page) {
       case 'signin':
         import('./routes/wbi-signin.js');

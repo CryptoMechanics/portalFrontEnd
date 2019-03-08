@@ -61,7 +61,6 @@ class WbiSettings extends PolymerElement {
 
   _pageChanged(page) {
     window.scrollTo(0, 0);
-    window.dataLayer.push({'event': 'Pageview', 'url': `/settings/${page}`});
     switch (page) {
       case 'home':
         import('./wbi-home.js');

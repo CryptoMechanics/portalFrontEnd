@@ -2,7 +2,7 @@ export const env = {
   siteName: 'Worbli',
   webAddress: 'www.worbli.io',
   apiUrl: 'http://localhost:9020/api/v2',
-  googleTagManager: 'GTM-W9T3C9F',
+  googleTagManager: 'GTM-PM5T86M',
   social: {
     facebook: 'test.com',
     medium: 'test.com',
