@@ -1,5 +1,15 @@
 # Worbli V2 Front End
 
+Master
+[![Build Status](https://travis-ci.org/worbli/portalV2FrontEnd.svg?branch=master)](https://travis-ci.org/worbliportalV2FrontEnd)
+
+UAT
+[![Build Status](https://travis-ci.org/worbli/portalV2FrontEnd.svg?branch=uat)](https://travis-ci.org/worbli/portalV2FrontEnd)
+
+Dev
+[![Build Status](https://travis-ci.org/worbli/portalV2FrontEnd.svg?branch=dev)](https://travis-ci.org/worbli/portalV2FrontEnd)
+
+
 ## Install Dependancies
 * [Node & NPM](https://nodejs.org/en/download/)
 ```html
