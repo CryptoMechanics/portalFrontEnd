@@ -58,6 +58,9 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           padding-right: 12px;
           text-transform: capitalize;
         }
+        .green-bg{
+          background-color: var(--active-color, #BDC1C6);
+        }
 
       </style>
       <wbi-api id='api'></wbi-api>
