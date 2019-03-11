@@ -30,7 +30,12 @@ class WbiSent extends ReduxMixin(PolymerElement) {
         }
         p {
           margin-bottom: 32px;
-        }      
+        }
+        @media only screen and (max-width: 600px) {
+          .card {
+            border-radius: 0px;
+          }
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-center>

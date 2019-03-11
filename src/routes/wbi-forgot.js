@@ -35,6 +35,11 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           background-color: var(--active-color, #BDC1C6);
           cursor: var(--cursor-type, default);
         }
+        @media only screen and (max-width: 600px) {
+          .card {
+            border-radius: 0px;
+          }
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-center>

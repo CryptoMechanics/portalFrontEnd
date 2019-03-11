@@ -61,8 +61,17 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
         }
-
-
+        .language-icon{
+          position: absolute;
+          width: 20px;
+          left: -27px;
+          top: -2px;
+        }
+        @media only screen and (max-width: 600px) {
+          .card {
+            border-radius: 0px;
+          }
+        }
 
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
@@ -85,7 +94,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
           <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
           <div class="bottom">
-            <ul><li>English</li></ul>
+            <ul><li><img src="./images/language-icon.svg" class="language-icon">English</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>

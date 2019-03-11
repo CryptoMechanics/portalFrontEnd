@@ -73,6 +73,11 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         .error {
           color: #AB4949;
         }
+        @media only screen and (max-width: 600px) {
+          .card {
+            border-radius: 0px;
+          }
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
