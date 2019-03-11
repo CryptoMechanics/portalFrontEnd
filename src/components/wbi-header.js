@@ -52,6 +52,14 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
           width: 17px;
           margin-right: 8px;
         }
+        @media only screen and (max-width: 600px) {
+          .main-nav {
+            display: none;
+          }
+          .logo {
+            margin-left: 12px;
+          }
+        }
 
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>

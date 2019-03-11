@@ -28,6 +28,15 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
         .social{
           flex: none;
         }
+        @media only screen and (max-width: 600px) {
+          .footer {
+            flex-wrap: wrap;
+            margin: 12px;
+          }
+          .footer div{
+            min-width: 350px;
+          }
+        }
       </style>
       <div class="footer">
         <div>Ⓒ 2018 Worbli Pty Ltd. All rights reserved.</br> View our Terms and Privacy Policy</div>

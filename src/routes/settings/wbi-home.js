@@ -39,6 +39,25 @@ class WbiHome extends ReduxMixin(PolymerElement) {
         .next{
           padding-top:12px;
         }
+        @media only screen and (max-width: 600px) {
+          .card {
+            padding: 24px;
+            border-radius: 0px;
+          }
+          wbi-header {
+            position: relative;
+            top: -1px;
+          }
+          .disk img{
+            width: 45px;
+          }
+          .title {
+            line-height: 45px
+          }
+          .next img{
+            width: 25px;
+          }
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
