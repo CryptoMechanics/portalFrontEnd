@@ -31,6 +31,10 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         p {
           margin-bottom: 32px;
         }
+        .green-bg{
+          background-color: var(--active-color, #BDC1C6);
+          cursor: var(--cursor-type, default);
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-center>
@@ -40,7 +44,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           <h2>[[txt.forgotPassword]]</h2>
           <p>[[txt.forgotPasswordIntro]]</p>
           <label for="email">[[txt.emailAddress]]</label>
-          <input type="text" name="email" id="email" value="{{email::input}}">
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
           <button type="button" class="green-bg" on-click="_send">[[txt.sendResetLink]]</button>
           <button type="button" class="white-bg" on-click="_signIn">[[txt.backToSignIn]]</button>
         </div>
@@ -67,6 +71,11 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      focus: {
+        type: Boolean,
+        value: true,
+        observer: '_focusEmail',
+      },
     };
   }
 
@@ -77,6 +86,33 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+  _email() {
+    this._isComplete();
+    if (e.keyCode === 13 && this._validateEmail(this.email)) {
+      this.$.api.forgotPassword(this.email)
+          .then((result) => {
+            this.error = result;
+          });
+    }
+  }
+  _isComplete() {
+    if (this._validateEmail(this.email)) {
+      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--cursor-type': 'pointer'});
+    } else {
+      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--cursor-type': 'default'});
+    }
+  }
+  _focusEmail() {
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#email').focus();
+    }, 0);
+  }
+  _validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   }
   _language(e) {
     this.txt = translations[this.language];
