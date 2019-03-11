@@ -41,9 +41,9 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
           <img src="./images/network-header-icon.svg"><h1>Network Account</h1>
         </div>
         <hr>
-        <wbi-loading></wbi-loading>
+        <!-- <wbi-loading></wbi-loading> -->
         <wbi-noaccess></wbi-noaccess>
-        <wbi-access></wbi-access>
+        <!-- <wbi-access></wbi-access> -->
       </div>
       <wbi-footer></wbi-footer>
     `;

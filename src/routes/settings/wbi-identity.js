@@ -45,8 +45,8 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
         </div>
         <hr>
         <wbi-application></wbi-application>
-        <wbi-reviewing></wbi-reviewing>
-        <wbi-status></wbi-status>
+        <!-- <wbi-reviewing></wbi-reviewing>
+        <wbi-status></wbi-status> -->
       </div>
       <wbi-footer></wbi-footer>
     `;

@@ -22,23 +22,55 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         .radio_group label{
           display: inline;
         }
-        .inner-fraame{
-          background-color: #CCC;
-          padding: 48px;
+        .inner-frame{
+          background-color: #F8F8F8;
+          border: 1px solid #BDC1C6;
+          border-radius: 4px;
+          padding: 30px;
           margin: 24px 0;
+        }
+        select {
+          height: 40px;
+          background: #F8F8F8;
+          border: 1px solid #BDC1C6;
+          outline:0;
+          width: 90px;
+          margin-right: 6px;
+          line-height: 1;
+          font-size: 12px;
+          text-indent: 2px;
+          margin-bottom: 12px;
+        }
+        select:focus {
+          border: 1px solid #92CC85;
+        }
+        .country{
+          width: 100%;
+        }
+        .documents{
+          height: 60px;
+        }
+        h3 {
+          text-transform: uppercase;
+          color: #92CC85;
+        }
+        .bullets {
+          padding-right: 12px;
+          text-transform: capitalize;
         }
 
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
         <label for='Country'>Select Country</label>
-        <select value='{{country::input}}' on-change="_makeRadioButtons">
+        <select value='{{country::input}}' on-change="_makeRadioButtons" class="country">
           <option value='' id=''>Select...</option>
           <template is='dom-repeat' items='[[countrydocs]]'>
             <option value='{{item.code}}' id='{{item.code}}'>{{item.name}}</option>
           </template>
-        </select>        
-        </hr>
+        </select> 
+        <template is="dom-if" if="{{radioArray}}">       
+        <hr/>
         <h2>Personal information</h2>
 
         <label for='firstName'>First Name</label>
@@ -71,48 +103,53 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         <label for='gender'>Gender</label>
         <input type='text' name='gender' id='gender' value='{{gender::input}}'><br>
         
-        <template is="dom-if" if="{{radioArray}}">
-        <div class='inner-fraame'>
+        <hr/>
+
         
+        <div class='inner-frame'>
+          <img src="./images/documents.svg" class="documents">
           <h1>Upload documents</h1>
-          <p>Information for ensuring only you</p>
+          <p>Information for ensuring only you are capable of transacting on your account</p>
+          <h3>Use your mobile</h3>
+          <hr/>
 
           <!-- <button type='button'>Use your mobile</button> -->
-          
+          <h2>ID type</h2>
             <p class='radio_group'>
-              <label>ID Type</label><br>
+            
               <template is='dom-repeat' items='[[radioArray]]'>         
                 <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
-                <label for='sizeSmall'>[[item.label]]</label>
+                <label for='sizeSmall' class="bullets">[[item.label]]</label>
               </template>
               {{radio}}
             </p> 
             
-
+            <h3>Enable camera and take a picture</h3>
           <!-- <button type='button'>Enable camera and take a picture</button>
           <p>or just upload file from your device</p> -->
           <template is="dom-if" if="{{fileArray}}">
             <template is='dom-repeat' items='[[fileArray]]'>
               <label for='[[item.value]]'>Upload [[item.label]]</label>
-              <input type='file' name='file' id='[[item.value]]' on-change="_upload"/>[[item.value]]</br>
+              <input type='file' name='file' id='[[item.value]]' on-change="_upload"/></br>
             </template>
           </template>
 
   
           <!-- <p>Please make sure your ID</p> -->
-          </hr>
+          <hr/>
 
-          <!-- <h2>Selfie</h2> -->
-          
-          <wbi-camsnap></wbi-camsnap>
+          <h2>Selfie</h2>
+          <h3>Enable camera and take a picture</h3>
+          <!-- <wbi-camsnap></wbi-camsnap> -->
           <p>or just upload from your device</p>
 
           <label for='file'>Upload selfie</label>
           <input type='file' name='file' id='selfie' on-change="_upload"/></br>
-          <!-- <p>Make sure your selfie is clearly shows your face</p> -->
+          <p>Make sure your selfie is clearly shows your face</p>
         </div>
-        </template>
         <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
+        </template>
+        
       </div>
     `;
   }
