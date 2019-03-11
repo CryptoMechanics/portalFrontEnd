@@ -181,8 +181,10 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
   _isComplete() {
     if (this.email && this.password && this.repeat_password && this.termsValue) {
       this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--cursor-type': 'pointer'});
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--cursor-type': 'default'});
     }
   }
   _signIn() {

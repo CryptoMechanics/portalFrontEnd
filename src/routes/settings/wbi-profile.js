@@ -29,7 +29,10 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         }
         .card {
           max-width: 700px;
-        }          
+        }
+        .green-bg{
+          background-color: var(--active-color, #BDC1C6);
+        }        
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
 
@@ -40,13 +43,13 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         </div>
         <hr>
         <label for="email">Email address</label>
-        <input type="text" name="email" id="email" value="{{email::input}}">
+        <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" value="{{password::input}}">
+        <input type="password" name="password" id="password" value="{{password::input}}" on-keydown="_password">
         <label for="newPassword">New password</label>
-        <input type="password" name="newPassword" id="newPassword" value="{{newPassword::input}}">
+        <input type="password" name="newPassword" id="newPassword" value="{{newPassword::input}}" on-keydown="_newPassword">
         <label for="confirmNewPassword">Confirm new password</label>
-        <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="{{confirmNewPassword::input}}">
+        <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="{{confirmNewPassword::input}}" on-keydown="_confirmNewPassword">
         <button type="button" class="green-bg" on-click="_save">Save Changes</button><br>
       </div>
       <wbi-footer></wbi-footer>
@@ -71,6 +74,11 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      focus: {
+        type: Boolean,
+        value: true,
+        observer: '_focusEmail',
+      },
     };
   }
 
@@ -82,7 +90,49 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-
+  _validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  _validatePassword(password) {
+    const re = /^(?=.*[a-z])(?=.*\d|.*[!@#\$%\^&\*])(?=.*[A-Z])(?:.{8,})$/;
+    return re.test(password);
+  }
+  _email(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#password').focus();
+    }
+  }
+  _password(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#newPassword').focus();
+    }
+  }
+  _newPassword(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#confirmNewPassword').focus();
+    }
+  }
+  _confirmNewPassword() {
+    this._isComplete();
+  }
+  _isComplete() {
+    if (this._validateEmail(this.email) && this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
+      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--cursor-type': 'pointer'});
+    } else {
+      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--cursor-type': 'default'});
+    }
+  }
+  _focusEmail() {
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#email').focus();
+    }, 0);
+  }
   _save() {
     console.log('saving');
   }

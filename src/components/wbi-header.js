@@ -52,12 +52,16 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
           width: 17px;
           margin-right: 8px;
         }
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 768px) {
           .main-nav {
             display: none;
           }
           .logo {
             margin-left: 12px;
+          }
+          :host {
+            position: relative;
+            top: -1px;
           }
         }
 
