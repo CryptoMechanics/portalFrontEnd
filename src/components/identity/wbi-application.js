@@ -113,7 +113,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           <img src="./images/documents.svg" class="documents">
           <h1>Upload documents</h1>
           <p>Information for ensuring only you are capable of transacting on your account</p>
-          <h3>Use your mobile</h3>
+          <h3 on-click="_modalMobile">Use your mobile</h3>
           <hr/>
 
           <!-- <button type='button'>Use your mobile</button> -->
@@ -127,7 +127,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
               {{radio}}
             </p> 
             
-            <h3>Enable camera and take a picture</h3>
+            <h3 on-click="_modalDocument">Enable camera and take a picture</h3>
           <!-- <button type='button'>Enable camera and take a picture</button>
           <p>or just upload file from your device</p> -->
           <template is="dom-if" if="{{fileArray}}">
@@ -142,7 +142,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           <hr/>
 
           <h2>Selfie</h2>
-          <h3>Enable camera and take a picture</h3>
+          <h3 on-click="_modalSelfie">Enable camera and take a picture</h3>
           <!-- <wbi-camsnap></wbi-camsnap> -->
           <p>or just upload from your device</p>
 
@@ -205,7 +205,15 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-
+  _modalMobile() {
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', language: this.language}}));
+  }
+  _modalDocument() {
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'document', language: this.language}}));
+  }
+  _modalSelfie() {
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'selfie', language: this.language}}));
+  }
   _upload(e) {
     if (e && e.target && e.target.id) {
       const target = e.target.id;

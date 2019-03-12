@@ -5,6 +5,7 @@ import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
+import './components/wbi-modal.js';
 
 import store from './global/store.js';
 const ReduxMixin = createMixin(store);
@@ -23,7 +24,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
+      <wbi-modal></wbi-modal>
       <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
         <wbi-signin name="signin"></wbi-signin>
         <wbi-join name="join"></wbi-join>
