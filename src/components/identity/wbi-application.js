@@ -53,6 +53,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         h3 {
           text-transform: uppercase;
           color: #92CC85;
+          cursor: pointer;
         }
         .bullets {
           padding-right: 12px;

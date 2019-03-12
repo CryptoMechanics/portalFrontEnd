@@ -58,21 +58,21 @@ class WbiModal extends ReduxMixin(PolymerElement) {
       </style>
       <div class="overlay" on-click="_hide">
         
-        <template is="dom-if" if="{{join}}">
+        <template is="dom-if" if="{{mobile}}">
           <div class="modal" on-click="_clickModal">
-            <!-- <main-join></main-join> -->
+            <!-- <wbi-mobile></wbi-mobile> -->
           </div>
         </template>
 
-        <template is="dom-if" if="{{login}}">
+        <template is="dom-if" if="{{document}}">
           <div class="modal" on-click="_clickModal">
-            <!-- <main-login></main-login>    -->
+            <!-- <wbi-document></wbi-document>    -->
           </div>
         </template>
 
-        <template is="dom-if" if="{{feedback}}">
+        <template is="dom-if" if="{{selfie}}">
           <div class="modal" on-click="_clickModal">
-            <!-- <main-feedback></main-feedback>    -->
+            <!-- <wbi-selfie></wbi-selfie>    -->
           </div>
         </template>
 
@@ -85,11 +85,6 @@ class WbiModal extends ReduxMixin(PolymerElement) {
       language: {
         type: Text,
         readOnly: true,
-      },
-      mode: {
-        type: Text,
-        readOnly: true,
-        observer: '_mode',
       },
       color: {
         type: Object,
@@ -117,8 +112,6 @@ class WbiModal extends ReduxMixin(PolymerElement) {
   static mapStateToProps(state, element) {
     return {
       language: state.language,
-      mode: state.mode,
-      color: state.color,
     };
   }
 
@@ -140,22 +133,23 @@ class WbiModal extends ReduxMixin(PolymerElement) {
   }
 
   _show(e) {
+    console.log(e);
     this.updateStyles({'--display-none-block': 'block'});
     setTimeout(()=>{
       this.updateStyles({'--opacity': 1});
     }, 1);
-    if (e === 'join') {
-      this.join = true;
-      this.login = false;
-      this.feedback = false;
-    } else if (e === 'login') {
-      this.join = false;
-      this.login = true;
-      this.feedback = false;
-    } else if (e === 'feedback') {
-      this.join = false;
-      this.login = false;
-      this.feedback = true;
+    if (e === 'mobile') {
+      this.mobile = true;
+      this.document = false;
+      this.selfie = false;
+    } else if (e === 'document') {
+      this.mobile = false;
+      this.document = true;
+      this.selfie = false;
+    } else if (e === 'selfie') {
+      this.mobile = false;
+      this.document = false;
+      this.selfie = true;
     }
   }
 
@@ -169,13 +163,5 @@ class WbiModal extends ReduxMixin(PolymerElement) {
 
   _clickModal(event) {
     event.stopPropagation();
-  }
-
-  _mode() {
-    if (this.mode === 'light') {
-      this.updateStyles({'--modal-background-color': this.color.white1});
-    } else {
-      this.updateStyles({'--modal-background-color': this.color.black2});
-    }
   }
 } window.customElements.define('wbi-modal', WbiModal);
