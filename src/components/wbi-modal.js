@@ -1,10 +1,13 @@
-import {createMixin} from '../../node_modules/polymer-redux';
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {createMixin} from 'polymer-redux';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
-// import './main-join.js';
-// import './main-login.js';
-// import './main-feedback.js';
+import '../components/camsnap/wbi-camsnap.js';
+import '../components/data/wbi-api.js';
+import './modals/wbi-mobile.js';
+import './modals/wbi-document.js';
+import './modals/wbi-selfie.js';
+
 
 const ReduxMixin = createMixin(store);
 class WbiModal extends ReduxMixin(PolymerElement) {
@@ -60,19 +63,19 @@ class WbiModal extends ReduxMixin(PolymerElement) {
         
         <template is="dom-if" if="{{mobile}}">
           <div class="modal" on-click="_clickModal">
-            <!-- <wbi-mobile></wbi-mobile> -->
+            <wbi-mobile></wbi-mobile>
           </div>
         </template>
 
         <template is="dom-if" if="{{document}}">
           <div class="modal" on-click="_clickModal">
-            <!-- <wbi-document></wbi-document>    -->
+            <wbi-document></wbi-document>   
           </div>
         </template>
 
         <template is="dom-if" if="{{selfie}}">
           <div class="modal" on-click="_clickModal">
-            <!-- <wbi-selfie></wbi-selfie>    -->
+            <wbi-selfie></wbi-selfie>   
           </div>
         </template>
 
@@ -133,7 +136,6 @@ class WbiModal extends ReduxMixin(PolymerElement) {
   }
 
   _show(e) {
-    console.log(e);
     this.updateStyles({'--display-none-block': 'block'});
     setTimeout(()=>{
       this.updateStyles({'--opacity': 1});
