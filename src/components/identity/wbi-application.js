@@ -29,21 +29,6 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           padding: 30px;
           margin: 24px 0;
         }
-        select {
-          height: 40px;
-          background: #F8F8F8;
-          border: 1px solid #BDC1C6;
-          outline:0;
-          width: 90px;
-          margin-right: 6px;
-          line-height: 1;
-          font-size: 12px;
-          text-indent: 2px;
-          margin-bottom: 12px;
-        }
-        select:focus {
-          border: 1px solid #92CC85;
-        }
         .country{
           width: 100%;
         }

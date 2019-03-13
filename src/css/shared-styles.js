@@ -85,6 +85,21 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         background-color: #FFFFFF;
         color: #92CC7F;
       }
+      select {
+        height: 40px;
+        background: #F8F8F8;
+        border: 1px solid #BDC1C6;
+        outline:0;
+        width: 100%;
+        margin-right: 6px;
+        line-height: 1;
+        font-size: 12px;
+        text-indent: 2px;
+        margin-bottom: 12px;
+      }
+      select:focus {
+        border: 1px solid #92CC85;
+      }
     </style>
   </template>
 </dom-module>`;

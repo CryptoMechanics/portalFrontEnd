@@ -13,15 +13,15 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         }
       </style>
       <template is="dom-if" if="{{!start}}">
-        <h2>Continue veryfication on your mobile</h2>
+        <h2>Continue verification on your mobile</h2>
         <div class="container-mobile">
           <div class="left">
-            <img src="./">
+            <!-- <img src="./"> -->
           </div>
           <div class="right">
-            <div>We'll SMS a secure link to your mobile (no app download required)</div>
-            <div>We'll walk you through taking the photos</div>
-            <div>Return to your computer to complete your verification</div>
+            <div>We'll SMS a secure link to your mobile (no app download required)</div><br/>
+            <div>We'll walk you through taking the photos</div><br/>
+            <div>Return to your computer to complete your verification</div><br/>
           </div>
         </div>
         <button class="green-bg" on-click="_letsStart">Lets Start</button>
