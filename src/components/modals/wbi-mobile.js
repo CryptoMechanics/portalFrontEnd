@@ -12,7 +12,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           background-color: white;
         }
       </style>
-      <div> Mobile
+      <div> Mobile.
       </div>
     `;
   }
