@@ -3,6 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
+import '../components/data/wbi-api.js';
 import '../components/layouts/wbi-center.js';
 
 import store from '../global/store.js';
@@ -42,6 +43,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+      <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
           <img src="./images/worbli.svg">
@@ -126,6 +128,15 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/signin');
   }
   _send() {
-    this.set('route.path', '/sent');
+    if (this.email) {
+      this.$.api.forgotPassword(this.email)
+          .then((response) => {
+            if (response.data === false && response.error) {
+              this.error = response.error;
+            } else {
+              this.set('route.path', '/sent');
+            }
+          });
+    }
   }
 } window.customElements.define('wbi-forgot', WbiForgot);

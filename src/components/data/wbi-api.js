@@ -26,22 +26,27 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} password - guests password
  * @param {boolean} agreedTerms - agreement of the terms and conditions
  * @param {boolean} agreedMarketing - agreed to recieve marketing materials
+ * @return {Object} data and error - response
  */
   join(email, password, agreedTerms, agreedMarketing) {
-    const url = `${this.env.apiUrl}/visitor/join/`;
-    const data = {email, password, agreedTerms, agreedMarketing};
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {'Content-Type': 'application/json'},
-    })
-        .then((response) => {
-          return response.json();
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => console.log('Error:', error));
+    return new Promise((resolve, reject) => {
+      const url = `${this.env.apiUrl}/visitor/join/`;
+      const data = {email, password, agreedTerms, agreedMarketing};
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            console.log('Error:', error);
+          });
+    });
   }
 
 
@@ -53,7 +58,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   signIn(email, password) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/user/login/`;
+      const url = `${this.env.apiUrl}/visitor/signin/`;
       const data = {email, password};
       fetch(url, {
         method: 'POST',
@@ -86,7 +91,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   forgotPassword(email) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/visitor/reset/`;
+      const url = `${this.env.apiUrl}/visitor/forgot/`;
       const data = {email};
       fetch(url, {
         method: 'POST',

@@ -93,6 +93,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}" on-change="_optInCheckbox">[[txt.optInMarketing]]</label>
           <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
           <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
+          <p>[[error]]</p>
           <div class="bottom">
             <ul><li><img src="./images/language-icon.svg" class="language-icon">English</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
@@ -192,7 +193,12 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
   }
   _join() {
     if (this.email && this.password && this.repeat_password && this.termsValue) {
-      this.$.api.join(this.email, this.password, this.termsValue, this.optInValue);
+      this.$.api.join(this.email, this.password, this.termsValue, this.optInValue)
+          .then((response) => {
+            if (response.data === false && response.error) {
+              this.error = response.error;
+            }
+          });
     }
   }
 } window.customElements.define('wbi-join', WbiJoin);
