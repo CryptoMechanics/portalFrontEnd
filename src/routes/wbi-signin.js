@@ -186,9 +186,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   _signIn() {
     this.$.api.signIn(this.email, this.password)
         .then((response) => {
-          if (response && response.error) {
+          if (response && response.data === false && response.error) {
             this.error = response.error;
-          } else {
+          } else if (response && response.data === true) {
             localStorage.setItem('jwt', response.token);
             this.set('route.path', '/settings');
           }
@@ -198,6 +198,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/join');
   }
   _forgot() {
+    this.dispatchAction({
+      type: 'CHANGE_EMAIL',
+      email: this.email,
+    });
     this.set('route.path', '/forgot');
   }
 } window.customElements.define('wbi-signin', WbiSignin);

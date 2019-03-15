@@ -84,6 +84,10 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         value: true,
         observer: '_focusEmail',
       },
+      email: {
+        type: String,
+        value: true,
+      },
     };
   }
 
@@ -93,6 +97,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+      email: state.email,
     };
   }
   _email(e) {
