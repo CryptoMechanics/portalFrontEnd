@@ -82,11 +82,11 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <hr>
           <h2>[[txt.join]]</h2>
           <label for="email">[[txt.emailAddress]]</label>
-          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keyup="_email">
           <label for="password">[[txt.password]]</label>
-          <input type="password" name="password" id="password" value="{{password::input}}" on-keydown="_password">
+          <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password">
           <label for="repeat_password">[[txt.repeatPassword]]</label>
-          <input type="password" name="repeat_password" id="repeat_password" value="{{repeat_password::input}}" on-keydown="_repeatPassword">
+          <input type="password" name="repeat_password" id="repeat_password" value="{{repeat_password::input}}" on-keyup="_repeatPassword">
           <label for="agree">
           <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">[[txt.agreeTheTerms]]</label>
           <label for="optIn">
@@ -138,6 +138,14 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
+  _validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+  _validatePassword(password) {
+    const re = /^(?=.*[a-z])(?=.*\d|.*[!@#\$%\^&\*])(?=.*[A-Z])(?:.{8,})$/;
+    return re.test(password);
+  }
   _focusEmail() {
     setTimeout(() => {
       this.shadowRoot.querySelector('#email').focus();
@@ -180,10 +188,19 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _isComplete() {
-    if (this.email && this.password && this.repeat_password && this.termsValue && this.password === this.repeat_password) {
+    if (this.email && this._validatePassword(this.password) && this._validatePassword(this.repeat_password) && this.termsValue && this.password === this.repeat_password) {
+      console.log('pass')
+      console.log(this.password)
+      console.log(this.repeat_password)
+      console.log('----------')
+
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
     } else {
+      console.log('fail')
+      console.log(this.password)
+      console.log(this.repeat_password)
+      console.log('----------')
       this.updateStyles({'--active-color': '#BDC1C6'});
       this.updateStyles({'--cursor-type': 'default'});
     }
@@ -192,7 +209,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/signin');
   }
   _join() {
-    if (this.email && this.password && this.repeat_password && this.termsValue) {
+    if (this.email && this.password && this.repeat_password && this.termsValue && this.password === this.repeat_password) {
       this.$.api.join(this.email, this.password, this.termsValue, this.optInValue)
           .then((response) => {
             if (response.data === false && response.error) {

@@ -87,9 +87,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           <hr>
           <h2>[[txt.signIn]]</h2>
           <label for="email">[[txt.emailAddress]]</label>
-          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keyup="_email">
           <label for="password">[[txt.password]]</label>
-          <input type="password" name="password" id="password" value="{{password::input}}" on-keydown="_password">
+          <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password">
           <a on-click="_forgot" class="forgot">[[txt.forgotPassword]]</a>
           <button type="button" class="green-bg" on-click="_signIn">[[txt.signIn]]</button>
           <button type="button" class="white-bg" on-click="_join">[[txt.joinWorbli]]</button>

@@ -51,7 +51,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           <h2>[[txt.forgotPassword]]</h2>
           <p>[[txt.forgotPasswordIntro]]</p>
           <label for="email">[[txt.emailAddress]]</label>
-          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keyup="_email">
           <button type="button" class="green-bg" on-click="_send">[[txt.sendResetLink]]</button>
           <button type="button" class="white-bg" on-click="_signIn">[[txt.backToSignIn]]</button>
           <p>[[error]]</p>
