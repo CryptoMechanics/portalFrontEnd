@@ -1,10 +1,8 @@
 const savedLanguage = localStorage.getItem('language') || 'English';
-const savedMode = localStorage.getItem('mode') || 'light';
 import {env} from '../../env.js';
 
 const initial = {
   language: savedLanguage,
-  mode: savedMode,
   env: env,
   color: {
     black1: '#121212',
@@ -18,9 +16,9 @@ export default (state = initial, action) => {
       return Object.assign({}, state, {
         language: action.language,
       });
-    case 'CHANGE_MODE':
+    case 'CHANGE_EMAIL':
       return Object.assign({}, state, {
-        mode: action.mode,
+        email: action.email,
       });
     default:
       return state;

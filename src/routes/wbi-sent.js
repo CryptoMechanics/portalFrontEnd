@@ -43,7 +43,9 @@ class WbiSent extends ReduxMixin(PolymerElement) {
           <img src="./images/worbli.svg">
           <hr>
           <h2>[[txt.sentEmail]]</h2>
-          <p>[[txt.checkYourEmail]] Johndoe@worbli.com</p>
+          <template is="dom-if" if="{{email}}">
+            <p>[[txt.checkYourEmail]] [[email]]</p>
+          </template>
         </div>
       </wbi-center>
     `;
@@ -68,13 +70,17 @@ class WbiSent extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      email: {
+        type: String,
+        readOnly: true,
+      },
     };
   }
 
   static mapStateToProps(state, element) {
     return {
       language: state.language,
-      mode: state.mode,
+      email: state.email,
       color: state.color,
       env: state.env,
     };
