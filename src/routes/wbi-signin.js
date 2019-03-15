@@ -93,9 +93,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           <a on-click="_forgot" class="forgot">[[txt.forgotPassword]]</a>
           <button type="button" class="green-bg" on-click="_signIn">[[txt.signIn]]</button>
           <button type="button" class="white-bg" on-click="_join">[[txt.joinWorbli]]</button>
-          <template is="dom-if" if="{{error}}">
+          <template is="dom-if" if="[[error]]">
             <div class="error">
-              <p>Invalid email address or password. Please try again. If you have recently created an account, please check your email for activation instructions.</p>
+              <p>[[error]]</p>
             </div>
           </template>
           <div class="bottom">
@@ -185,8 +185,13 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   }
   _signIn() {
     this.$.api.signIn(this.email, this.password)
-        .then((result) => {
-          this.error = result;
+        .then((response) => {
+          if (response && response.error) {
+            this.error = response.error;
+          } else {
+            localStorage.setItem('jwt', response.token);
+            this.set('route.path', '/settings');
+          }
         });
   }
   _join() {

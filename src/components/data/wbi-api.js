@@ -69,14 +69,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
             return response.json();
           })
           .then((response) => {
-            if (response.data === false) {
-              resolve(false);
-            } else if (response.data === true) {
-              const jwt = response.token;
-              localStorage.setItem('jwt', jwt);
-              this.set('route.path', '/settings/');
-              resolve(true);
-            }
+            resolve(response);
           })
           .catch((error) => {
             resolve(false);
