@@ -197,6 +197,8 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error) {
               this.error = response.error;
+            } else {
+              this.set('route.path', '/sent');
             }
           });
     }
