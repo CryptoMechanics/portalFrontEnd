@@ -54,6 +54,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
           <button type="button" class="green-bg" on-click="_send">[[txt.sendResetLink]]</button>
           <button type="button" class="white-bg" on-click="_signIn">[[txt.backToSignIn]]</button>
+          <p>[[error]]</p>
         </div>
       </wbi-center>
     `;
@@ -94,7 +95,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-  _email() {
+  _email(e) {
     this._isComplete();
     if (e.keyCode === 13 && this._validateEmail(this.email)) {
       this.$.api.forgotPassword(this.email)
@@ -131,9 +132,13 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
     if (this.email) {
       this.$.api.forgotPassword(this.email)
           .then((response) => {
-            if (response.data === false && response.error) {
+            if (response && response.data === false && response.error) {
               this.error = response.error;
             } else {
+              this.dispatchAction({
+                type: 'CHANGE_EMAIL',
+                email: this.email,
+              });
               this.set('route.path', '/sent');
             }
           });

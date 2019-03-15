@@ -95,8 +95,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
             return response.json();
           })
           .then((response) => {
-            console.log(response);
-            resolve(true);
+            resolve(response);
           })
           .catch((error) => {
             resolve(false);
