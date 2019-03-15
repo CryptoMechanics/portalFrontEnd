@@ -51,7 +51,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           <h2>[[txt.forgotPassword]]</h2>
           <p>[[txt.forgotPasswordIntro]]</p>
           <label for="email">[[txt.emailAddress]]</label>
-          <input type="text" name="email" id="email" value="{{email::input}}" on-change="_email">
+          <input type="text" name="email" id="email" value="{{email::input}}" on-keydown="_email">
           <button type="button" class="green-bg" on-click="_send">[[txt.sendResetLink]]</button>
           <button type="button" class="white-bg" on-click="_signIn">[[txt.backToSignIn]]</button>
           <p>[[error]]</p>
@@ -116,9 +116,10 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _validateEmail(email) {
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   }
+
   _language(e) {
     this.txt = translations[this.language];
   }
