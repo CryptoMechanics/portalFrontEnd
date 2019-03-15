@@ -103,7 +103,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   }
   _email(e) {
     this._isComplete();
-    if (this.email && e.keyCode === 13 && this._validateEmail(this.email)) {
+    if (e && this.email && e.keyCode === 13 && this._validateEmail(this.email)) {
       this._send();
     }
   }
