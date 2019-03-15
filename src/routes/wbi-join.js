@@ -180,7 +180,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _isComplete() {
-    if (this.email && this.password && this.repeat_password && this.termsValue) {
+    if (this.email && this.password && this.repeat_password && this.termsValue && this.password === this.repeat_password) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
     } else {

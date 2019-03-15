@@ -44,7 +44,7 @@ class WbiSent extends ReduxMixin(PolymerElement) {
           <hr>
           <h2>[[txt.sentEmail]]</h2>
           <template is="dom-if" if="{{email}}">
-            <p>[[txt.checkYourEmail]] [[email]]</p>
+            <p>[[txt.checkYourEmail]] <strong>[[email]]</strong></p>
           </template>
         </div>
       </wbi-center>
