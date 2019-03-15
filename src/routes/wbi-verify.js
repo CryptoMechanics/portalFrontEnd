@@ -1,6 +1,5 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
@@ -19,6 +18,7 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
       </style>
       <wbi-api id='api'></wbi-api>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+      <p>[[error]]</p>
     `;
   }
 
@@ -27,6 +27,9 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
       route: {
         type: Object,
         observer: '_route',
+      },
+      error: {
+        type: String,
       },
     };
   }
