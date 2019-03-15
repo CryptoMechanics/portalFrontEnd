@@ -33,6 +33,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
         <wbi-set name="set"></wbi-set>
         <wbi-settings name="settings"></wbi-settings>
         <wbi-error name="error"></wbi-error>
+        <wbi-verify name="verify"></wbi-verify>
       </iron-pages>
     `;
   }
@@ -67,7 +68,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
   _routePageChanged(page) {
     if (!page) {
       this.page = 'signin';
-    } else if (['signin', 'join', 'forgot', 'sent', 'set', 'settings'].indexOf(page) !== -1) {
+    } else if (['signin', 'join', 'forgot', 'sent', 'set', 'settings', 'verify'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'error';
@@ -94,6 +95,9 @@ class AppShell extends ReduxMixin(PolymerElement) {
         break;
       case 'settings':
         import('./routes/settings/wbi-settings.js');
+        break;
+      case 'verify':
+        import('./routes/wbi-verify.js');
         break;
       case 'error':
         import('./routes/wbi-error.js');
