@@ -111,11 +111,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   verify(token) {
     return new Promise((resolve, reject) => {
       const url = `${this.env.apiUrl}/user/verify/`;
-      const data = {token};
       fetch(url, {
         method: 'POST',
-        body: JSON.stringify(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
       })
           .then((response) => {
             return response.json();
