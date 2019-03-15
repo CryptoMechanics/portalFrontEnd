@@ -87,6 +87,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       email: {
         type: String,
         value: true,
+        observer: '_email',
       },
     };
   }
