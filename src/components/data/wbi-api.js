@@ -111,9 +111,11 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   verify(token) {
     return new Promise((resolve, reject) => {
       const url = `${this.env.apiUrl}/user/verify/`;
+      const data = {token};
       fetch(url, {
         method: 'POST',
-        headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'},
       })
           .then((response) => {
             return response.json();
@@ -136,11 +138,11 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   setPassword(password, token) {
     return new Promise((resolve, reject) => {
       const url = `${this.env.apiUrl}/user/password/`;
-      const data = {password};
+      const data = {password, token};
       fetch(url, {
         method: 'PUT',
         body: JSON.stringify(data),
-        headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
       })
           .then((response) => {
             return response.json();
