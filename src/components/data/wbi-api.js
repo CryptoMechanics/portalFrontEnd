@@ -128,7 +128,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
- * Guests has set a new password
+ * User sets a new password
  * @param {string} password - guests new password
  * @param {string} token - guests token they gtom from the reset email
  * @return {boolean} password - guests password
