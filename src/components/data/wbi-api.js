@@ -128,6 +128,33 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
+ * Guests has set a new password
+ * @param {string} password - guests new password
+ * @param {string} token - guests token they gtom from the reset email
+ * @return {boolean} password - guests password
+ */
+  setPassword(password, token) {
+    return new Promise((resolve, reject) => {
+      const url = `${this.env.apiUrl}/user/password/`;
+      const data = {password};
+      fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            resolve(false);
+          });
+    });
+  }
+
+  /**
  * Upload an image
  * @param {file} file - file blob
  * @param {string} fileType - tyoe of file 'passport-front'
