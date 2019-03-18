@@ -49,6 +49,7 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
           if (response && response.data === false && response.error) {
             this.error = response.error;
           } else if (response && response.data === true) {
+            localStorage.setItem('jwt', response.jwt);
             this.set('route.path', '/settings');
           }
         });
