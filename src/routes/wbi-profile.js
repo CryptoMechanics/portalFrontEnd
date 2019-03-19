@@ -34,7 +34,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
           cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event);
+          pointer-events: var(--pointer-event, none);
         }        
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
