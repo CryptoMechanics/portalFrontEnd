@@ -117,7 +117,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
   }
 
   _settings() {
-    this.set('route.path', '/settings/');
+    this.set('route.path', '/');
   }
   _logout() {
     this.set('route.path', '/signin/');

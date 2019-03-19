@@ -31,7 +31,6 @@ class AppShell extends ReduxMixin(PolymerElement) {
         <wbi-forgot name="forgot"></wbi-forgot>
         <wbi-sent name="sent"></wbi-sent>
         <wbi-set name="set"></wbi-set>
-        <wbi-settings name="settings"></wbi-settings>
         <wbi-error name="error"></wbi-error>
         <wbi-verify name="verify"></wbi-verify>
         <wbi-home name="home"></wbi-home>
@@ -75,7 +74,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
       this.page = 'home';
     } else if (!page && !jwt) {
       this.set('route.path', '/signin/');
-    } else if (['signin', 'join', 'forgot', 'sent', 'set', 'settings', 'verify', 'home', 'identity', 'network', 'profile'].indexOf(page) !== -1) {
+    } else if (['signin', 'join', 'forgot', 'sent', 'set', 'verify', 'home', 'identity', 'network', 'profile'].indexOf(page) !== -1) {
       this.page = page;
       if (this.page === 'home' || this.page == 'identity' || this.page === 'network' || this.page === 'profile' && !jwt) {
         this.set('route.path', '/signin/');
