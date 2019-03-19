@@ -57,7 +57,8 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         .bottom li {
           list-style: none;
         }
-        .green-bg{
+        .green-bg {
+          margin: auto;
           background-color: var(--active-color, #BDC1C6);
           cursor: var(--cursor-type, default);
           pointer-events: var(--pointer-event, none);
