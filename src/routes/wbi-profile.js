@@ -4,6 +4,7 @@ import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/wbi-header.js';
 import '../components/wbi-footer.js';
+import '../components/data/wbi-api.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -35,7 +36,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         }        
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-
+      <wbi-api id='api'></wbi-api>
       <wbi-header></wbi-header>
       <div class="card">
       <div class="header">
@@ -43,7 +44,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         </div>
         <hr>
         <label for="email">Email address</label>
-        <input type="text" name="email" id="email" value="{{email::input}}" on-keyup="_email">
+        <input type="text" name="email" id="email" value="{{email::input}}" readonly>
         <label for="password">Password</label>
         <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password">
         <label for="newPassword">New password</label>
@@ -79,16 +80,35 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         value: true,
         observer: '_focusEmail',
       },
+      route: {
+        type: Boolean,
+        observer: '_routeChanged',
+      },
     };
   }
 
   static mapStateToProps(state, element) {
     return {
       language: state.language,
+      email: state.email,
       mode: state.mode,
       color: state.color,
       env: state.env,
     };
+  }
+  _routeChanged() {
+    this.$.api.getEmail()
+        .then((response) => {
+          if (response.data === false && response.error) {
+            this.error = response.error;
+          } else {
+            this.email = reponse.email;
+            this.dispatchAction({
+              type: 'CHANGE_EMAIL',
+              email: this.email,
+            });
+          }
+        });
   }
   _validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -120,7 +140,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
     this._isComplete();
   }
   _isComplete() {
-    if (this._validateEmail(this.email) && this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
+    if (this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
     } else {
@@ -134,6 +154,15 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _save() {
-    console.log('saving');
+    if (this.email, this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
+      this.$.api.profile(this.email, this.password, this.newPassword)
+          .then((response) => {
+            if (response.data === false && response.error) {
+              this.error = response.error;
+            } else {
+              this.set('route.path', '/');
+            }
+          });
+    }
   }
 } window.customElements.define('wbi-profile', WbiProfile);

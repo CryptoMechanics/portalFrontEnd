@@ -157,6 +157,59 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
+ * User sets profile
+ * @param {string} password - users email
+ * @param {string} newPassword - the password the user wants to have
+ * @return {boolean} true/false - was it saved or not
+ */
+  profile(password, newPassword) {
+    return new Promise((resolve, reject) => {
+      const jwt = localStorage.getItem('jwt');
+      const url = `${this.env.apiUrl}/user/profile/`;
+      const data = {password, newPassword};
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+    });
+  }
+
+  /**
+ * Gets User Email
+ * @return {string} users email
+ */
+  getEmail() {
+    return new Promise((resolve, reject) => {
+      const jwt = localStorage.getItem('jwt');
+      const url = `${this.env.apiUrl}/user/profile/`;
+      fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+    });
+  }
+
+
+  /**
  * Upload an image
  * @param {file} file - file blob
  * @param {string} fileType - tyoe of file 'passport-front'
