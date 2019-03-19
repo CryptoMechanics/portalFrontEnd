@@ -60,6 +60,8 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
+          cursor: var(--cursor-type, default);
+          pointer-events: var(--pointer-event);
         }
         .language-icon{
           position: absolute;
@@ -191,9 +193,11 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     if (this.email && this._validatePassword(this.password) && this._validatePassword(this.repeat_password) && this.termsValue && this.password === this.repeat_password) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
+      this.updateStyles({'--pointer-event': 'auto'});
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
       this.updateStyles({'--cursor-type': 'default'});
+      this.updateStyles({'--pointer-event': 'none'});
     }
   }
   _signIn() {
