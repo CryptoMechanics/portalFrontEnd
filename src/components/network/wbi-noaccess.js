@@ -32,7 +32,7 @@ class WbiNoaccess extends ReduxMixin(PolymerElement) {
 
       </style>
       <div>Please confirm your identity first</div>
-      <a href="./settings/identity/"><button class="green-bg">Go to identity</button></a>
+      <a href="./identity/"><button class="green-bg">Go to identity</button></a>
     `;
   }
 

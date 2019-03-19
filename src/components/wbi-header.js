@@ -71,9 +71,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         <img src="./images/worbli.svg" class="logo" on-click="_settings">
         <div class="main-nav">
           <ul>
-            <li><a href="/settings/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">My profile</a></li>
-            <li><a href="/settings/identity/"><img src="./images/identity-icon.svg" style="position: relative; top: 2px;">Identity</a></li>
-            <li><a href="/settings/network/"><img src="./images/network-icon.svg" style="position: relative; top: 5px;">Network Account</a></li>
+            <li><a href="/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">My profile</a></li>
+            <li><a href="/identity/"><img src="./images/identity-icon.svg" style="position: relative; top: 2px;">Identity</a></li>
+            <li><a href="/network/"><img src="./images/network-icon.svg" style="position: relative; top: 5px;">Network Account</a></li>
           </ul>
         </div>
         <div class="logout">
@@ -120,7 +120,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/settings/');
   }
   _logout() {
-    console.log('logout');
+    this.set('route.path', '/signin/');
   }
   _language() {
     console.log('language');

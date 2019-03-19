@@ -1,11 +1,11 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-location.js';
-import '../../css/shared-styles.js';
-import '../../components/wbi-header.js';
-import '../../components/wbi-footer.js';
+import '../css/shared-styles.js';
+import '../components/wbi-header.js';
+import '../components/wbi-footer.js';
 
-import store from '../../global/store.js';
+import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
 class WbiProfile extends ReduxMixin(PolymerElement) {

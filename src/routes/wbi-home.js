@@ -1,11 +1,11 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-location.js';
-import '../../css/shared-styles.js';
-import '../../components/wbi-header.js';
-import '../../components/wbi-footer.js';
+import '../css/shared-styles.js';
+import '../components/wbi-header.js';
+import '../components/wbi-footer.js';
 
-import store from '../../global/store.js';
+import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
 class WbiHome extends ReduxMixin(PolymerElement) {
@@ -64,17 +64,17 @@ class WbiHome extends ReduxMixin(PolymerElement) {
       <wbi-header></wbi-header>
       <div class="card">
       
-        <a href="/settings/profile/" class="block">
+        <a href="/profile/" class="block">
           <div class="disk"><img src="./images/profile-header-icon.svg"></div>
           <div class="title">My profile</div>
           <div class="next"><img src="/images/next.svg"></div>
         </a>
-        <a href="/settings/identity/" class="block">
+        <a href="/identity/" class="block">
           <div class="disk"><img src="/images/identity-header-icon.svg"></div>
           <div class="title">Identity</div>
           <div class="next"><img src="/images/next.svg"></div>
         </a>
-        <a href="/settings/network/" class="block">
+        <a href="/network/" class="block">
           <div class="disk"><img src="/images/network-header-icon.svg"></div>
           <div class="title">Network account</div>
           <div class="next"><img src="/images/next.svg"></div>
