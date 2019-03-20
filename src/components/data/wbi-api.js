@@ -157,6 +157,34 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
+ * Check acount name is available on china
+ * @param {string} accountName - guests token they gtom from the reset email
+ * @return {boolean} true/false - if acocunt is or is nor avail
+ */
+  checkAccountName(accountName) {
+    return new Promise((resolve, reject) => {
+      const url = `${this.env.apiUrl}/network/check/${accountName}`;
+      fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            console.log('response');
+            console.log(response);
+            resolve(response);
+          })
+          .catch((error) => {
+            console.log('error');
+            console.log(error);
+            reject(error);
+          });
+    });
+  }
+
+  /**
  * User sets profile
  * @param {string} password - users email
  * @param {string} newPassword - the password the user wants to have
