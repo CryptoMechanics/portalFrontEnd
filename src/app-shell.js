@@ -106,10 +106,10 @@ class AppShell extends ReduxMixin(PolymerElement) {
         import('./routes/wbi-home.js');
         break;
       case 'identity':
-        import('./routes/wbi-home.js');
+        import('./routes/wbi-identity.js');
         break;
       case 'network':
-        import('./routes/wbi-home.js');
+        import('./routes/wbi-network.js');
         break;
       case 'profile':
         import('./routes/wbi-profile.js');
