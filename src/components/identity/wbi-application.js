@@ -242,7 +242,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   }
 
   _submit() {
-    const selfieFile = this.shadowRoot.querySelector('#selfie').files;
+    // const selfieFile = this.shadowRoot.querySelector('#selfie').files;
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) { // NOTE: only post to api if we have the data
       this._postToApi();
     } else {
