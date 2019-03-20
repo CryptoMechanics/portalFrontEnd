@@ -177,7 +177,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
     if (this._validateEmail(this.email) && this._validatePassword(this.password)) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({', none': 'auto'});
+      this.updateStyles({'--pointer-event': 'auto'});
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
       this.updateStyles({'--cursor-type': 'default'});

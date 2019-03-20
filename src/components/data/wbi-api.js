@@ -60,6 +60,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     return new Promise((resolve, reject) => {
       const url = `${this.env.apiUrl}/visitor/signin/`;
       const data = {email, password};
+      console.log(data);
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -157,29 +158,56 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
- * Check acount name is available on china
+ * Check acount name is available on chain
  * @param {string} accountName - guests token they gtom from the reset email
+ * @param {string} token - guests token they gtom from the reset email
  * @return {boolean} true/false - if acocunt is or is nor avail
  */
   checkAccountName(accountName) {
     return new Promise((resolve, reject) => {
+      const jwt = localStorage.getItem('jwt');
       const url = `${this.env.apiUrl}/network/check/${accountName}`;
       fetch(url, {
         method: 'GET',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
       })
           .then((response) => {
             return response.json();
           })
           .then((response) => {
-            console.log('response');
-            console.log(response);
             resolve(response);
           })
           .catch((error) => {
-            console.log('error');
-            console.log(error);
-            reject(error);
+            resolve(false);
+          });
+    });
+  }
+
+  /**
+ * Create an on chain account
+ * @param {string} accountName - guests token they gtom from the reset email
+ * @param {string} publicKeyOwner - publicKeyOwner token they gtom from the reset email
+ * @param {string} publicKeyActive - publicKeyActive token they gtom from the reset email
+ * @return {boolean} true/false - if acocunt is or is nor avail
+ */
+  createAccount(accountName, publicKeyOwner, publicKeyActive) {
+    return new Promise((resolve, reject) => {
+      const jwt = localStorage.getItem('jwt');
+      const data = {accountName, publicKeyOwner, publicKeyActive};
+      const url = `${this.env.apiUrl}/network/account/`;
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            resolve(false);
           });
     });
   }
@@ -217,6 +245,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @return {string} users email
  */
   getEmail() {
+    console.log('FIRE');
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
       const url = `${this.env.apiUrl}/user/profile/`;

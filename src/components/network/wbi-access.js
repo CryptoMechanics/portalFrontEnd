@@ -36,10 +36,10 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       <hr>
       <h2>Keys</h2>
         <label>Owner Public Key</label>
-        <input type="text" name="publicKey" id="publicKey" value="{{publicKey::input}}" on-keyup="_publicKey"></br>
+        <input type="text" name="ownerPublicKey" id="ownerPublicKey" value="{{ownerPublicKey::input}}" on-keyup="_ownerPublicKey"></br>
 
         <label>Active Public Key</label>
-        <input type="text" name="privateKey" id="privateKey" value="{{privateKey::input}}" on-keyup="_privateKey"></br>
+        <input type="text" name="activePublicKey" id="activePublicKey" value="{{activePublicKey::input}}" on-keyup="_activePublicKey"></br>
         <a href="">Not sure what public keys are?</br>Check out our FAQ on how to generate a public key with Scatter.</a>
         <button class="green-bg" on-click="_submit">Apply for account</button>
     `;
@@ -86,16 +86,16 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   _accountName(e) {
     this._checkAccountName();
     if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#publicKey').focus();
+      this.shadowRoot.querySelector('#ownerPublicKey').focus();
     }
   }
-  _publicKey(e) {
+  _ownerPublicKey(e) {
     this._isComplete();
     if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#privateKey').focus();
+      this.shadowRoot.querySelector('#activePublicKey').focus();
     }
   }
-  _privateKey(e) {
+  _activePublicKey(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this._submit();
@@ -103,9 +103,9 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   }
   _isComplete() {
     console.log(this.checkedAccountName);
-    console.log(this._validatePublicKey(this.publicKey));
-    console.log(this.privateKey);
-    if (this.checkedAccountName && this._validatePublicKey(this.publicKey) && this.privateKey) {
+    console.log(this._validatePublicKey(this.ownerPublicKey));
+    console.log(this.activePublicKey);
+    if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
       this.updateStyles({'--pointer-event': 'auto'});
@@ -116,7 +116,17 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
     }
   }
   _submit() {
-
+    if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
+      this.$.api.createAccount(this.accountName, this.ownerPublicKey, this.activePublicKey)
+          .then((response) => {
+            console.log(response);
+            if (response.data === false) {
+              console.log(response);
+            } else {
+              console.log(response);
+            }
+          });
+    }
   }
   _focusAccountName() {
     setTimeout(() => {
@@ -127,10 +137,10 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
     if (this._validateAccountName(this.accountName)) {
       this.$.api.checkAccountName(this.accountName)
           .then((response) => {
-            if (response.data === false && response.error) {
-              this.checkedAccountName = false;
-            } else {
+            if (response.data === false) {
               this.checkedAccountName = true;
+            } else {
+              this.checkedAccountName = false;
             }
           });
     }
