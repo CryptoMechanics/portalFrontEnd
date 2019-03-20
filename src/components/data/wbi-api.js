@@ -60,7 +60,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     return new Promise((resolve, reject) => {
       const url = `${this.env.apiUrl}/visitor/signin/`;
       const data = {email, password};
-      console.log(data);
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
