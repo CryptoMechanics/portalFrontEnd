@@ -76,7 +76,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
       this.set('route.path', '/signin/');
     } else if (['signin', 'join', 'forgot', 'sent', 'set', 'verify', 'home', 'identity', 'network', 'profile'].indexOf(page) !== -1) {
       this.page = page;
-      if (this.page === 'home' || this.page == 'identity' || this.page === 'network' || this.page === 'profile' && !jwt) {
+      if (this.page === 'home' && !jwt || this.page == 'identity' && !jwt || this.page === 'network' && !jwt|| this.page === 'profile' && !jwt) {
         this.set('route.path', '/signin/');
       }
     } else {

@@ -44,7 +44,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
             resolve(response);
           })
           .catch((error) => {
-            console.log('Error:', error);
+
           });
     });
   }
@@ -189,12 +189,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @return {string} users email
  */
   getEmail() {
-    console.log('get email');
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
       const url = `${this.env.apiUrl}/user/profile/`;
-      console.log(jwt);
-      console.log(url);
       fetch(url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
@@ -218,8 +215,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} fileType - tyoe of file 'passport-front'
  */
   uploadImage(file, fileType) {
-    console.log(file);
-    console.log(fileType);
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
     formData.append(fileType, file);
@@ -233,7 +228,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+
         })
         .catch((error) => console.log('Error:', error));
   }
@@ -254,7 +249,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+
         })
         .catch((error) => console.log('Error:', error));
   }
@@ -280,7 +275,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+       
         })
         .catch((error) => console.log('Error:', error));
   }

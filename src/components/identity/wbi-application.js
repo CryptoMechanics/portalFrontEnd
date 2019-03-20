@@ -242,15 +242,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   }
 
   _submit() {
-    console.log('Sending to API');
-    console.log(`Country: ${this.country}`);
-    console.log(`First Name: ${this.firstName}`);
-    console.log(`Last Name: ${this.lastName}`);
-    console.log(`Date of birth: ${this.day}/${this.month}/${this.year}`);
-    console.log(`Gender: ${this.gender}`);
-    console.log(`Document Type: ${this.selectedDoc}`);
     const selfieFile = this.shadowRoot.querySelector('#selfie').files;
-    console.log(`Selfie: ${selfieFile}`);
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) { // NOTE: only post to api if we have the data
       this._postToApi();
     } else {

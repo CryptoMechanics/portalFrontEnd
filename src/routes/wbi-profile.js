@@ -99,10 +99,8 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
     };
   }
   _routeChanged() {
-    console.log('route changed');
     this.$.api.getEmail()
         .then((response) => {
-          console.log(response);
           if (response.data === false && response.error) {
             this.error = response.error;
           } else {
