@@ -271,6 +271,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} fileType - tyoe of file 'passport-front'
  */
   uploadImage(file, fileType) {
+    console.log('uploadImage');
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
     formData.append(fileType, file);
@@ -284,9 +285,11 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           return response.json();
         })
         .then((response) => {
-
+          console.log('response', response);
         })
-        .catch((error) => console.log('Error:', error));
+        .catch((error) => {
+          console.log('Error:', error);
+        });
   }
 
   /**

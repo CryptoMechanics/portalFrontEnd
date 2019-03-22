@@ -203,6 +203,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'selfie', language: this.language}}));
   }
   _upload(e) {
+    console.log('_upload');
     if (e && e.target && e.target.id) {
       const target = e.target.id;
       const file = this.shadowRoot.querySelector(`#${target}`).files[0];
@@ -232,6 +233,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
             const dataUrl = canvas.toDataURL('image/jpeg');
             localStorage.setItem(target, dataUrl); // save to local storage
             const resizedImage = this._dataURLToBlob(dataUrl);
+            console.log('calling api');
             this.$.api.uploadImage(resizedImage, target); // send to upload
           };
           image.src = readerEvent.target.result;
@@ -242,6 +244,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   }
 
   _submit() {
+    console.log('_submit');
     // const selfieFile = this.shadowRoot.querySelector('#selfie').files;
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) { // NOTE: only post to api if we have the data
       this._postToApi();
