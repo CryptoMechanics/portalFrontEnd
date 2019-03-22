@@ -271,7 +271,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} fileType - tyoe of file 'passport-front'
  */
   uploadImage(file, fileType) {
-    console.log('uploadImage');
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
     formData.append(fileType, file);
@@ -280,6 +279,37 @@ class WbiApi extends ReduxMixin(PolymerElement) {
       method: 'POST',
       body: formData,
       headers: {'Authorization': `Bearer ${token}`},
+    })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          console.log('response', response);
+        })
+        .catch((error) => {
+          console.log('Error:', error);
+        });
+  }
+
+  /**
+ * onfido application
+ * @param {String} country - String blob
+ * @param {String} firstName - String blob
+ * @param {String} lastName - String blob
+ * @param {String} day - String blob
+ * @param {String} month - String blob
+ * @param {String} year - String blob
+ * @param {String} gender - String blob
+ */
+  application(country, firstName, lastName, day, month, year, gender) {
+    const token = localStorage.getItem('jwt');
+    const formData = new FormData();
+    formData.append(country, firstName, lastName, day, month, year, gender);
+    const url = `${this.env.apiUrl}/identity/application/`;
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
     })
         .then((response) => {
           return response.json();

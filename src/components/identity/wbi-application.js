@@ -49,12 +49,15 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           cursor: var(--cursor-type, default);
           pointer-events: var(--pointer-event, none);
         }
+        #day, #month, #year {
+          max-width: 150px;
+        } 
 
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
         <label for='Country'>Select Country</label>
-        <select value='{{country::input}}' on-change="_makeRadioButtons" class="country">
+        <select value='{{country::input}}' on-change="_country" class="country">
           <option value='' id=''>Select...</option>
           <template is='dom-repeat' items='[[countrydocs]]'>
             <option value='{{item.code}}' id='{{item.code}}'>{{item.name}}</option>
@@ -65,25 +68,28 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         <h2>Personal information</h2>
 
         <label for='firstName'>First Name</label>
-        <input type='text' name='firstName' id='firstName' value='{{firstName::input}}'><br>
+        <input type='text' name='firstName' id='firstName' value='{{firstName::input}}' on-keyup="_firstName"><br>
+
+        <label for='firstName'>Middle Name</label>
+        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName"><br>
 
         <label for='lastName'>Last Name</label>
-        <input type='text' name='lastName' id='lastName' value='{{lastName::input}}'><br>
+        <input type='text' name='lastName' id='lastName' value='{{lastName::input}}' on-keyup="_lastName"><br>
 
         <label for='dob'>Date of birth</label>
-        <select name='day' id='day' value='{{day::input}}'>
+        <select name='day' id='day' value='{{day::input}}' on-change="_day">
           <option value='Day'>Day</option>
           <option value='1'>1</option>
           <option value='2'>2</option>
           <option value='3'>3</option>
         </select>
-        <select name='month' id='month' value='{{month::input}}'>
+        <select name='month' id='month' value='{{month::input}}' on-change="_month">
           <option value='Month'>Month</option>
           <option value='1'>January</option>
           <option value='2'>Febuary</option>
           <option value='3'>March</option>
         </select>
-        <select name='year' id='year' value='{{year::input}}'>
+        <select name='year' id='year' value='{{year::input}}' on-change="_year">
           <option value='Year'>Year</option>
           <option value='2000'>2000</option>
           <option value='1999'>1999</option>
@@ -92,8 +98,10 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
 
 
         <label for='gender'>Gender</label>
-        <input type='text' name='gender' id='gender' value='{{gender::input}}'><br>
-        
+        <select name='gender' id='gender' value='{{gender::input}}' on-change="_gender">
+          <option value='Male'>Male</option>
+          <option value='Female'>Female</option>
+        </select>
         <hr/>
 
         
@@ -193,6 +201,66 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
+  _gender() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this._submit();
+    }
+  }
+  _year() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#gender').focus();
+    }
+  }
+  _month() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#year').focus();
+    }
+  }
+  _day() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#month').focus();
+    }
+  }
+  _lastName() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#day').focus();
+    }
+  }
+  _middleName() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#middleName').focus();
+    }
+  }
+  _firstName() {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#middleName').focus();
+    }
+  }
+  _country() {
+    this._isComplete();
+    this._makeRadioButtons();
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#lastName').focus();
+    }, 0);
+  }
+  _isComplete() {
+    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender) {
+      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--cursor-type': 'pointer'});
+      this.updateStyles({'--pointer-event': 'auto'});
+    } else {
+      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--cursor-type': 'default'});
+      this.updateStyles({'--pointer-event': 'none'});
+    }
+  }
   _modalMobile() {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', language: this.language}}));
   }
@@ -248,12 +316,11 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   }
 
   _submit() {
-    console.log('_submit');
-    // const selfieFile = this.shadowRoot.querySelector('#selfie').files;
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year) { // NOTE: only post to api if we have the data
-      this._postToApi();
-    } else {
-      // TODO: Indicate to the user whats missing
+    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender) {
+      this.$.api.application(tthis.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender)
+          .then((response) => {
+            console.log(response);
+          });
     }
   }
 
