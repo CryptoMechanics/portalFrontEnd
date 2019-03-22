@@ -205,7 +205,13 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   _upload(e) {
     if (e && e.target && e.target.id) {
       const target = e.target.id;
-      const file = this.shadowRoot.querySelectorAll(`#${target}`)[1].files[0];
+      let file;
+      if (target.includes('reverse') || target === 'selfie') {
+        file = this.shadowRoot.querySelector(`#${target}`).files[0];
+      } else {
+        file = this.shadowRoot.querySelectorAll(`#${target}`)[1].files[0];
+      }
+
       if (file.type.match(/image.*/)) {
         const reader = new FileReader();
         reader.onload = (readerEvent) => {
