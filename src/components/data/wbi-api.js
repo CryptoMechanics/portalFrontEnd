@@ -269,11 +269,12 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * Upload an image
  * @param {file} file - file blob
  * @param {string} fileType - tyoe of file 'passport-front'
+ * @param {string} country - country
  */
   uploadImage(file, fileType) {
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
-    formData.append(fileType, file);
+    formData.append(fileType, file, country);
     const url = `${this.env.apiUrl}/identity/image/`;
     fetch(url, {
       method: 'POST',
@@ -344,7 +345,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
- * Get an image
+ * Send Kyc application
  * @param {string} country - guests country
  * @param {string} nameFirst - guests first name
  * @param {string} nameLast - guests last name

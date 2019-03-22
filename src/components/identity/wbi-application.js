@@ -400,9 +400,9 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
             canvas.height = height;
             canvas.getContext('2d').drawImage(image, 0, 0, width, height);
             const dataUrl = canvas.toDataURL('image/jpeg');
-            localStorage.setItem(target, dataUrl); // save to local storage
+            localStorage.setItem(target, dataUrl);
             const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, target); // send to upload
+            this.$.api.uploadImage(resizedImage, `${this.country}_target`);
           };
           image.src = readerEvent.target.result;
         };
