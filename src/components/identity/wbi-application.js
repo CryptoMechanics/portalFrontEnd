@@ -297,49 +297,49 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-  _gender() {
+  _gender(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this._submit();
     }
   }
-  _year() {
+  _year(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#gender').focus();
     }
   }
-  _month() {
+  _month(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#year').focus();
     }
   }
-  _day() {
+  _day(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#month').focus();
     }
   }
-  _lastName() {
+  _lastName(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#day').focus();
     }
   }
-  _middleName() {
+  _middleName(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#middleName').focus();
     }
   }
-  _firstName() {
+  _firstName(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#middleName').focus();
     }
   }
-  _country() {
+  _country(e) {
     this._isComplete();
     this._makeRadioButtons();
     setTimeout(() => {
@@ -402,7 +402,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
             const dataUrl = canvas.toDataURL('image/jpeg');
             localStorage.setItem(target, dataUrl);
             const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, `${this.country}_target`);
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`);
           };
           image.src = readerEvent.target.result;
         };

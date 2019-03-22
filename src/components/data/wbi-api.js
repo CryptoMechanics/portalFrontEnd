@@ -274,7 +274,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   uploadImage(file, fileType) {
     const token = localStorage.getItem('jwt');
     const formData = new FormData();
-    formData.append(fileType, file, country);
+    formData.append(fileType, file);
     const url = `${this.env.apiUrl}/identity/image/`;
     fetch(url, {
       method: 'POST',
