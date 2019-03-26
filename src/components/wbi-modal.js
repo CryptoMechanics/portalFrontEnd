@@ -2,7 +2,7 @@ import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
-import '../components/camsnap/wbi-camsnap.js';
+import '../components/identity/wbi-camsnap.js';
 import '../components/data/wbi-api.js';
 import './modals/wbi-mobile.js';
 import './modals/wbi-document.js';

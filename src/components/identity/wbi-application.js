@@ -2,7 +2,6 @@ import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
-import '../../components/camsnap/wbi-camsnap.js';
 import '../../components/data/wbi-api.js';
 
 const ReduxMixin = createMixin(store);
@@ -52,6 +51,26 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         #day, #month, #year {
           max-width: 150px;
         } 
+        small {
+          display: block;
+          text-align: right;
+          position: relative;
+          top: -10px;
+        }
+        .lastNameLabel {
+          margin-top: 0px;
+        }
+        .outline_btn{
+          background-color: white;
+          border: 1px solid #BDC1C6;
+          color: #838383;
+          font-weight: 600;
+          font-size: 13px;
+          margin: 40px 0;
+        }
+        .upload-docs{
+          margin: 40px 0;
+        }
 
       </style>
       <wbi-api id='api'></wbi-api>
@@ -65,15 +84,15 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         </select> 
         <template is="dom-if" if="{{radioArray}}">       
         <hr/>
-        <h2>Personal information</h2>
 
         <label for='firstName'>First Name</label>
         <input type='text' name='firstName' id='firstName' value='{{firstName::input}}' on-keyup="_firstName"><br>
 
-        <label for='firstName'>Middle Name</label>
+        <label for='middleName'>Middle Name</label>
         <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName"><br>
+        <small>Optional</small>
 
-        <label for='lastName'>Last Name</label>
+        <label for='lastName' class="lastNameLabel">Last Name</label>
         <input type='text' name='lastName' id='lastName' value='{{lastName::input}}' on-keyup="_lastName"><br>
 
         <label for='dob'>Date of birth</label>
@@ -200,16 +219,9 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         </select>
         <hr/>
 
-        
-        <div class='inner-frame'>
-          <img src="./images/documents.svg" class="documents">
-          <h1>Upload documents</h1>
-          <p>Information for ensuring only you are capable of transacting on your account</p>
-          <h3 on-click="_modalMobile">Use your mobile</h3>
-          <hr/>
-
-          <!-- <button type='button'>Use your mobile</button> -->
-          <h2>ID type</h2>
+      
+          <h1 class="upload-docs">Upload documents</h1>
+          <p>Select the type of Identity document you wish to upload</p>
             <p class='radio_group'>
             
               <template is='dom-repeat' items='[[radioArray]]'>         
@@ -219,29 +231,19 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
               {{radio}}
             </p> 
             
-            <h3 on-click="_modalDocument">Enable camera and take a picture</h3>
-          <!-- <button type='button'>Enable camera and take a picture</button>
-          <p>or just upload file from your device</p> -->
           <template is="dom-if" if="{{fileArray}}">
+          <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button>
             <template is='dom-repeat' items='[[fileArray]]'>
-              <label for='[[item.value]]'>Upload [[item.label]]</label>
+              <label for='[[item.value]]' style="text-transform: capitalize">[[item.label]]</label>
               <input type='file' name='file' id='[[item.value]]' on-change="_upload"/></br>
             </template>
-          </template>
-
-  
-          <!-- <p>Please make sure your ID</p> -->
-          <hr/>
-
-          <h2>Selfie</h2>
-          <h3 on-click="_modalSelfie">Enable camera and take a picture</h3>
+          
           <!-- <wbi-camsnap></wbi-camsnap> -->
-          <p>or just upload from your device</p>
 
-          <label for='file'>Upload selfie</label>
+          <label for='file'>Selfie</label>
           <input type='file' name='file' id='selfie' on-change="_upload"/></br>
-          <p>Make sure your selfie is clearly shows your face</p>
-        </div>
+
+        </template>
         <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
         </template>
         
@@ -402,7 +404,10 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
             const dataUrl = canvas.toDataURL('image/jpeg');
             localStorage.setItem(target, dataUrl);
             const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`);
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
+                .then((response) => {
+                  console.log(response);
+                });
           };
           image.src = readerEvent.target.result;
         };

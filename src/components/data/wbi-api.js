@@ -270,26 +270,29 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {file} file - file blob
  * @param {string} fileType - tyoe of file 'passport-front'
  * @param {string} country - country
+ * @return {object} arrays showsg what uploaded and whats missing
  */
   uploadImage(file, fileType) {
-    const token = localStorage.getItem('jwt');
-    const formData = new FormData();
-    formData.append(fileType, file);
-    const url = `${this.env.apiUrl}/identity/image/`;
-    fetch(url, {
-      method: 'POST',
-      body: formData,
-      headers: {'Authorization': `Bearer ${token}`},
-    })
-        .then((response) => {
-          return response.json();
-        })
-        .then((response) => {
-          console.log('response', response);
-        })
-        .catch((error) => {
-          console.log('Error:', error);
-        });
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('jwt');
+      const formData = new FormData();
+      formData.append(fileType, file);
+      const url = `${this.env.apiUrl}/identity/image/`;
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+    });
   }
 
   /**
