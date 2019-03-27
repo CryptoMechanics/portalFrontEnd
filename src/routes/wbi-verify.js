@@ -18,7 +18,18 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
       </style>
       <wbi-api id='api'></wbi-api>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-      <p>[[error]]</p>
+      <template is="dom-if" if="{{error}}">
+      <wbi-center>
+        <div class="card">
+          <img src="./images/worbli.svg">
+          <hr>
+          
+          <h2>Already Verified</h2>
+          <p>You have already verified this account</p>
+          <button type="button" class="green-bg" on-click="_signIn">Sign In</button>
+        </div>
+      </wbi-center>
+      </template>
     `;
   }
 
@@ -42,6 +53,9 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
       env: state.env,
       email: state.email,
     };
+  }
+  _signIn() {
+    this.set('route.path', '/signin/');
   }
   _route() {
     this.$.api.verify(this.route.__queryParams.token)

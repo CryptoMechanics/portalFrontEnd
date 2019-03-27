@@ -244,7 +244,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @return {string} users email
  */
   getEmail() {
-    console.log('FIRE');
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
       const url = `${this.env.apiUrl}/user/profile/`;
