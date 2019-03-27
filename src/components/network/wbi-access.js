@@ -102,9 +102,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
     }
   }
   _isComplete() {
-    console.log(this.checkedAccountName);
-    console.log(this._validatePublicKey(this.ownerPublicKey));
-    console.log(this.activePublicKey);
     if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
@@ -119,7 +116,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
     if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
       this.$.api.createAccount(this.accountName, this.ownerPublicKey, this.activePublicKey)
           .then((response) => {
-            console.log(response);
             if (response.data === false) {
               console.log(response);
             } else {

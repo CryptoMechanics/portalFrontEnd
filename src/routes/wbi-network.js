@@ -42,8 +42,8 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
         </div>
         <hr>
         <!-- <wbi-loading></wbi-loading> -->
-        <!-- <wbi-noaccess></wbi-noaccess> -->
-        <wbi-access></wbi-access>
+        <wbi-noaccess></wbi-noaccess>
+        <!-- <wbi-access></wbi-access> -->
       </div>
       <wbi-footer></wbi-footer>
     `;
