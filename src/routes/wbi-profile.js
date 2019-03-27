@@ -159,7 +159,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
   }
   _save() {
     if (this.email, this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
-      this.$.api.profile(this.email, this.password, this.newPassword)
+      this.$.api.profile(this.password, this.newPassword)
           .then((response) => {
             if (response.data === false && response.error) {
               this.error = response.error;
