@@ -4,6 +4,7 @@ import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/layouts/wbi-center.js';
+import '../components/data/wbi-api.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -37,6 +38,7 @@ class WbiSent extends ReduxMixin(PolymerElement) {
           }
         }
       </style>
+      <wbi-api id='api'></wbi-api>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-center>
         <div class="card">
@@ -45,6 +47,7 @@ class WbiSent extends ReduxMixin(PolymerElement) {
           <h2>[[txt.sentEmail]]</h2>
           <template is="dom-if" if="{{email}}">
             <p>[[txt.checkYourEmail]] <strong>[[email]]</strong></p>
+            <button type="button" class="green-bg" on-click="_resend">Resend Verification Email</button>
           </template>
         </div>
       </wbi-center>
@@ -84,6 +87,16 @@ class WbiSent extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+  _resend() {
+    this.$.api.resend(this.email)
+        .then((response) => {
+          if (response && response.data === false && response.error) {
+            this.error = response.error;
+          } else if (response && response.data === true) {
+            this.set('route.path', '/');
+          }
+        });
   }
   _language(e) {
     this.txt = translations[this.language];

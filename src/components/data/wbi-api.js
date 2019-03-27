@@ -49,6 +49,32 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     });
   }
 
+  /**
+ * Resend email
+ * @param {string} email - guests email address
+ * @return {Object} data and error - response
+ */
+  resend(email) {
+    return new Promise((resolve, reject) => {
+      const url = `${this.env.apiUrl}/user/resendverify/`;
+      const data = {email};
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+    });
+  }
+
 
   /**
  * SignIn to Worbli
