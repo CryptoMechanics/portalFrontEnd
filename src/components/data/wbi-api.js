@@ -59,7 +59,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
       const url = `${this.env.apiUrl}/user/resendverify/`;
       const data = {email};
       fetch(url, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'},
       })

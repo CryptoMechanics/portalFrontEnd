@@ -98,6 +98,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           <template is="dom-if" if="[[error]]">
             <div class="error">
               <p>[[error]]</p>
+            <!-- TODO: Add resend text link  -->
             </div>
           </template>
           <div class="bottom">
