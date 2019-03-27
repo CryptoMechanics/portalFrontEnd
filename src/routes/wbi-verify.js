@@ -15,6 +15,19 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
         :host {
           display: block;
         }
+        img {
+          display: block;
+          width: 150px;
+          margin: 0 auto;
+          padding-bottom: 24px;
+        }
+        h2 {
+          display: block;
+          text-align: center;
+          color: #2B2C54;
+          font-weight: 400;
+          font-size: 24px;
+        }
       </style>
       <wbi-api id='api'></wbi-api>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
