@@ -46,6 +46,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       input[type=checkbox] {
         background-color: #F8F8F8;
         border: 1.5px solid #92CC85;
+        margin-right: 12px;
       }
 
       label {

@@ -3,6 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../../components/data/wbi-api.js';
+import '../../components/identity/wbi-uploader';
 
 const ReduxMixin = createMixin(store);
 class WbiApplication extends ReduxMixin(PolymerElement) {
@@ -261,17 +262,19 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
-          <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button>
+          
             <template is='dom-repeat' items='[[fileArray]]'>
               <label for='[[item.value]]' style="text-transform: capitalize">[[item.label]]</label>
               <input type='file' name='file' id='[[item.value]]' on-change="_upload"/></br>
+              <wbi-uploader file-name="[[item.value]]"></wbi-uploader>
             </template>
           
           <!-- <wbi-camsnap></wbi-camsnap> -->
 
           <label for='file'>Selfie</label>
           <input type='file' name='file' id='selfie' on-change="_upload"/></br>
-
+          <wbi-uploader file-name="selfie"></wbi-uploader>
+          <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button>
         </template>
         <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
         </template>
