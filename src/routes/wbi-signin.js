@@ -36,7 +36,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           height: 24px;
           line-height: 24px;
           color: #92CC7F;
-          margin-top: 12px;
+          margin: 2px 0 24px;
         }
         .bottom{
           display: flex;
@@ -72,8 +72,8 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           left: -27px;
           top: -2px;
         }
-        .error {
-          color: #AB4949;
+        .error a{
+          text-decoration: underline;
         }
         @media only screen and (max-width: 600px) {
           .card {
@@ -97,8 +97,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           <button type="button" class="white-bg" on-click="_join">[[txt.joinWorbli]]</button>
           <template is="dom-if" if="[[error]]">
             <div class="error">
-              <p>[[error]]</p>
-            <!-- TODO: Add resend text link  -->
+              <p>[[error]] <a on-click="_resend">Resend validation email</a></p>
             </div>
           </template>
           <div class="bottom">
@@ -196,6 +195,16 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           } else if (response && response.data === true) {
             localStorage.setItem('jwt', response.jwt);
             this.set('route.path', '/');
+          }
+        });
+  }
+  _resend() {
+    this.$.api.resend(this.email)
+        .then((response) => {
+          if (response && response.data === false && response.error) {
+            this.error = response.error;
+          } else if (response && response.data === true) {
+            this.set('route.path', '/sent/');
           }
         });
   }

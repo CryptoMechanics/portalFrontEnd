@@ -100,6 +100,15 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       select:focus {
         border: 1px solid #92CC85;
       }
+      .error {
+        color: #AB4949;
+        border: 1px solid #FFC7C0;
+        padding: 2px 12px;
+        border-radius: 4px;
+        background-color: #FEF4F2;
+        margin-top: 24px;
+        text-align: center;
+      }
     </style>
   </template>
 </dom-module>`;

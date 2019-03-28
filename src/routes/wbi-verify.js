@@ -37,8 +37,8 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
           <img src="./images/worbli.svg">
           <hr>
           
-          <h2>Already Verified</h2>
-          <p>You have already verified this account</p>
+          <h2>Invalid Link</h2>
+          <p>You have followed an invalid link or your account has already been verified.</p>
           <button type="button" class="green-bg" on-click="_signIn">Sign In</button>
         </div>
       </wbi-center>
