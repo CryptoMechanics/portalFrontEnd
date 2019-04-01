@@ -130,7 +130,6 @@ class WbiUploader extends PolymerElement {
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
                   this.completed = response.completed;
-
                 });
           };
           image.src = readerEvent.target.result;
