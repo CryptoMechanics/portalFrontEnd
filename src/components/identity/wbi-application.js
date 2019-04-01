@@ -22,6 +22,9 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         .radio_group label{
           display: inline;
         }
+        .radio_group{
+          margin-bottom: 24px;
+        }
         .inner-frame{
           background-color: #F8F8F8;
           border: 1px solid #BDC1C6;
@@ -71,6 +74,9 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         }
         .upload-docs{
           margin: 40px 0;
+        }
+        .uploadContainer{
+          display: flex;
         }
 
       </style>
@@ -252,31 +258,25 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       
           <h1 class="upload-docs">Upload documents</h1>
           <p>Select the type of Identity document you wish to upload</p>
-            <p class='radio_group'>
-            
-              <template is='dom-repeat' items='[[radioArray]]'>         
-                <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
-                <label for='sizeSmall' class="bullets">[[item.label]]</label>
-              </template>
+            <p class='radio_group'>            
+            <template is='dom-repeat' items='[[radioArray]]'>         
+              <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
+              <label for='sizeSmall' class="bullets">[[item.label]]</label>
+            </template>
               {{radio}}
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
-          
-            <template is='dom-repeat' items='[[fileArray]]'>
-              <label for='[[item.value]]' style="text-transform: capitalize">[[item.label]]</label>
-              <input type='file' name='file' id='[[item.value]]' on-change="_upload"/></br>
-              <wbi-uploader file-name="[[item.value]]"></wbi-uploader>
-            </template>
-          
-          <!-- <wbi-camsnap></wbi-camsnap> -->
+            <div class="uploadContainer">
+              <template is='dom-repeat' items='[[fileArray]]'>
+                <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]" completed="{{completed}}"></wbi-uploader>
+              </template>
+            </div>
 
-          <label for='file'>Selfie</label>
-          <input type='file' name='file' id='selfie' on-change="_upload"/></br>
-          <wbi-uploader file-name="selfie"></wbi-uploader>
-          <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button>
-        </template>
-        <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
+            <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" completed="{{completed}}"></wbi-uploader>
+            <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button>
+          </template>
+          <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
         </template>
         
       </div>
@@ -400,54 +400,6 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   _modalSelfie() {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'selfie', language: this.language}}));
   }
-  _upload(e) {
-    if (e && e.target && e.target.id) {
-      const target = e.target.id;
-      let file;
-      if (target.includes('reverse') || target === 'selfie') {
-        file = this.shadowRoot.querySelector(`#${target}`).files[0];
-      } else {
-        file = this.shadowRoot.querySelectorAll(`#${target}`)[1].files[0];
-      }
-
-      if (file.type.match(/image.*/)) {
-        const reader = new FileReader();
-        reader.onload = (readerEvent) => {
-          const image = new Image();
-          image.onload = (imageEvent) => {
-            const canvas = document.createElement('canvas');
-            const maxSize = 800;
-            let width = image.width;
-            let height = image.height;
-            if (width > height) {
-              if (width > maxSize) {
-                height *= maxSize / width;
-                width = maxSize;
-              }
-            } else {
-              if (height > maxSize) {
-                width *= maxSize / height;
-                height = maxSize;
-              }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL('image/jpeg');
-            localStorage.setItem(target, dataUrl);
-            const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
-                .then((response) => {
-                  console.log(response);
-                });
-          };
-          image.src = readerEvent.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  }
-
   _submit() {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender) {
       this.$.api.application(this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender)
@@ -456,7 +408,6 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
           });
     }
   }
-
   _makeFileUpload(e) {
     this.fileArray = [];
     this.selectedDoc = e.model.__data.item.value;
@@ -464,7 +415,6 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
     : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
   }
-
   _makeRadioButtons() {
     const docsAvailable = this.countrydocs.find((x) => x.code === this.country).accepted[0];
     this.radioArray = [];
@@ -474,25 +424,6 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
         value: Object.keys(docsAvailable)[i],
       });
     }
-  }
-
-  _dataURLToBlob(dataURL) {
-    const BASE64_MARKER = ';base64,';
-    if (dataURL.indexOf(BASE64_MARKER) == -1) {
-      const parts = dataURL.split(',');
-      const contentType = parts[0].split(':')[1];
-      const raw = parts[1];
-      return new Blob([raw], {type: contentType});
-    }
-    const parts = dataURL.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
-    const rawLength = raw.length;
-    const uInt8Array = new Uint8Array(rawLength);
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-    return new Blob([uInt8Array], {type: contentType});
   }
 
   ready() {

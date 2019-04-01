@@ -1,4 +1,5 @@
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import '../../components/data/wbi-api.js';
 import '../../css/shared-styles.js';
 
 class WbiUploader extends PolymerElement {
@@ -7,13 +8,32 @@ class WbiUploader extends PolymerElement {
       <style include="shared-styles">
         :host {
           display: box;
+          min-width: 250px;
+          margin-right: 12px;
+          position: relative;
         }
         label {
-          border: 3px dashed #BDC1C6;
+          border: 2px dashed #BDC1C6;
           display: block;
           min-height: 170px;
           max-width: 250px;
           border-radius: 3px;
+          background-image: var(--background-image);
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center; 
+          text-transform: capitalize;
+        }
+        .delete{
+          display: block;
+          min-height: 170px;
+          width: 250px;
+          position:absolute;
+          z-index: 999;
+          cursor: pointer;
+          background-image: url("./images/delete.png");
+          background-repeat: no-repeat;
+          background-position: center; 
         }
         input {
           width: 0.1px;
@@ -23,9 +43,17 @@ class WbiUploader extends PolymerElement {
           position: absolute;
           z-index: -1;
         }
+        .title{
+          text-transform: capitalize;
+        }
       </style>
-        <label for='[[item.value]]' style="text-transform: capitalize">[[item.label]]
-        <input type='file' name='file' id='[[item.value]]' on-change="_upload"/>
+        <wbi-api id='api'></wbi-api>
+        <p class="title">[[label]]</p>
+        <template is="dom-if" if="{{preview}}">  
+          <div class="delete" on-click="_delete"></div>
+        </template>
+        <label for='[[fileName]]' on-drop="_drop"  on-dragover="_allowDrop">
+          <input type='file' name='file' id='[[fileName]]' on-change="_upload"/>
         </label>
     `;
   }
@@ -35,6 +63,99 @@ class WbiUploader extends PolymerElement {
       fileName: {
         type: String,
       },
+      country: {
+        type: String,
+      },
+      label: {
+        type: String,
+      },
+      completed: {
+        type: Boolean,
+        reflectToAttribute: true,
+        notify: true,
+      },
+      preview: {
+        type: Boolean,
+        value: false,
+      },
     };
+  }
+  _allowDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  _drop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    console.log(files);
+  }
+  _delete() {
+    this.preview = false;
+    this.updateStyles({'--background-image': `none`});
+  }
+  _upload(e) {
+    if (e && e.target && e.target.id) {
+      const target = e.target.id;
+      const file = this.shadowRoot.querySelector(`#${target}`).files[0];
+      if (file.type.match(/image.*/)) {
+        const reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          const image = new Image();
+          image.onload = (imageEvent) => {
+            const canvas = document.createElement('canvas');
+            const maxSize = 800;
+            let width = image.width;
+            let height = image.height;
+            if (width > height) {
+              if (width > maxSize) {
+                height *= maxSize / width;
+                width = maxSize;
+              }
+            } else {
+              if (height > maxSize) {
+                width *= maxSize / height;
+                height = maxSize;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            localStorage.setItem(target, dataUrl);
+            this.updateStyles({'--background-image': `url("${dataUrl}")`});
+            this.preview = true;
+            const resizedImage = this._dataURLToBlob(dataUrl);
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
+                .then((response) => {
+                  this.completed = response.completed;
+
+                });
+          };
+          image.src = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  _dataURLToBlob(dataURL) {
+    const BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+      const parts = dataURL.split(',');
+      const contentType = parts[0].split(':')[1];
+      const raw = parts[1];
+      return new Blob([raw], {type: contentType});
+    }
+    const parts = dataURL.split(BASE64_MARKER);
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], {type: contentType});
   }
 } window.customElements.define('wbi-uploader', WbiUploader);
