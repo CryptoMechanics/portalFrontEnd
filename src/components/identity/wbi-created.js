@@ -414,7 +414,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
   _submit() {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
-      this.$.api.application(this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender)
+      this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
             console.log(response);
           });

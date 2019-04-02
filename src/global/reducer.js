@@ -2,7 +2,7 @@ const savedLanguage = localStorage.getItem('language') || 'English';
 import {env} from '../../env.js';
 
 const initial = {
-  status: 'pending',
+  status: 'created',
   language: savedLanguage,
   env: env,
   color: {

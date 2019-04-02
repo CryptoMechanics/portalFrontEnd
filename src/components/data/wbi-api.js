@@ -324,6 +324,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * onfido application
  * @param {String} country - String blob
  * @param {String} firstName - String blob
+ * @param {String} middleName - String blob
  * @param {String} lastName - String blob
  * @param {String} day - String blob
  * @param {String} month - String blob
@@ -331,14 +332,22 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {String} gender - String blob
  * @return {object} arrays showsg what uploaded and whats missing
  */
-  application(country, firstName, lastName, day, month, year, gender) {
+  application(country, firstName, middleName, lastName, day, month, year, gender) {
+    console.log(country);
+    console.log(firstName);
+    console.log(middleName);
+    console.log(lastName);
+    console.log(day);
+    console.log(month);
+    console.log(year);
+    console.log(gender);
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
       const data = {country, firstName, lastName, day, month, year, gender};
       const url = `${this.env.apiUrl}/identity/application/`;
       fetch(url, {
         method: 'POST',
-        body: data,
+        body: JSON.stringify(data),
         headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
       })
           .then((response) => {
