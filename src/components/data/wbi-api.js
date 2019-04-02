@@ -333,17 +333,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @return {object} arrays showsg what uploaded and whats missing
  */
   application(country, firstName, middleName, lastName, day, month, year, gender) {
-    console.log(country);
-    console.log(firstName);
-    console.log(middleName);
-    console.log(lastName);
-    console.log(day);
-    console.log(month);
-    console.log(year);
-    console.log(gender);
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
-      const data = {country, firstName, lastName, day, month, year, gender};
+      const data = {country, firstName, middleName, lastName, day, month, year, gender};
       const url = `${this.env.apiUrl}/identity/application/`;
       fetch(url, {
         method: 'POST',

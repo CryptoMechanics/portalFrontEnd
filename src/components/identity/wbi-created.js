@@ -416,6 +416,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
+            // TODO update redux status to pending
             console.log(response);
           });
     }
