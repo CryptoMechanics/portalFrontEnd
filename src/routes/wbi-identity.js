@@ -6,9 +6,12 @@ import '../components/wbi-header.js';
 import '../components/wbi-footer.js';
 import '../components/wbi-loading.js';
 
-import '../components/identity/wbi-application.js';
-import '../components/identity/wbi-reviewing.js';
-import '../components/identity/wbi-status.js';
+import '../components/identity/wbi-created.js';
+import '../components/identity/wbi-pending.js';
+import '../components/identity/wbi-manualreview.js';
+import '../components/identity/wbi-approved.js';
+import '../components/identity/wbi-rejected.js';
+import '../components/identity/wbi-error.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -44,9 +47,26 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
           <img src="./images/identity-header-icon.svg"><h1>Identity</h1>
         </div>
         <hr>
-        <wbi-application></wbi-application>
-        <!-- <wbi-reviewing></wbi-reviewing>
-        <wbi-status></wbi-status> -->
+
+        <template is="dom-if" if="{{created}}">   
+          <wbi-created></wbi-created>
+        </template>
+        <template is="dom-if" if="{{pending}}">   
+          <wbi-pending></wbi-pending>
+        </template>
+        <template is="dom-if" if="{{manualreview}}">   
+          <wbi-manualreview></wbi-manualreview>
+        </template>
+        <template is="dom-if" if="{{approved}}">   
+          <wbi-approved></wbi-approved>
+        </template>
+        <template is="dom-if" if="{{rejected}}">   
+          <wbi-rejected></wbi-rejected>
+        </template>
+        <template is="dom-if" if="{{error}}">   
+          <wbi-error></wbi-error>
+        </template>
+
       </div>
       <wbi-footer></wbi-footer>
     `;
@@ -70,6 +90,35 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      status: {
+        type: String,
+        readOnly: true,
+        observer: '_status',
+      },
+      created: {
+        type: Boolean,
+        readOnly: false,
+      },
+      pending: {
+        type: Boolean,
+        readOnly: false,
+      },
+      manualreview: {
+        type: Boolean,
+        readOnly: false,
+      },
+      approved: {
+        type: Boolean,
+        readOnly: false,
+      },
+      rejected: {
+        type: Boolean,
+        readOnly: false,
+      },
+      error: {
+        type: Boolean,
+        readOnly: false,
+      },
     };
   }
 
@@ -79,7 +128,36 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+      status: state.status,
     };
+  }
+
+  _status() {
+    this.created = false;
+    this.pending = false;
+    this.manualreview = false;
+    this.approved = false;
+    this.rejected = false;
+    this.error = false;
+    switch (this.status) {
+      case 'created':
+        this.created = true;
+        break;
+      case 'pending':
+        this.pending = true;
+        break;
+      case 'manualreview':
+        this.manualreview = true;
+        break;
+      case 'approved':
+        this.approved = true;
+        break;
+      case 'rejected':
+        this.rejected = true;
+        break;
+      case 'error':
+        this.error = true;
+    }
   }
 
   _set() {

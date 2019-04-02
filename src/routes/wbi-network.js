@@ -41,9 +41,12 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
           <img src="./images/network-header-icon.svg"><h1>Network Account</h1>
         </div>
         <hr>
-        <!-- <wbi-loading></wbi-loading> -->
-        <wbi-noaccess></wbi-noaccess>
-        <!-- <wbi-access></wbi-access> -->
+        <template is="dom-if" if="{{!approved}}"> 
+          <wbi-noaccess></wbi-noaccess>
+        </template>
+        <template is="dom-if" if="{{approved}}"> 
+          <wbi-access></wbi-access>
+        </template>
       </div>
       <wbi-footer></wbi-footer>
     `;
@@ -67,6 +70,11 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      status: {
+        type: String,
+        readOnly: true,
+        observer: '_status',
+      },
     };
   }
 
@@ -76,9 +84,17 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+      status: state.status,
     };
   }
 
+  _status() {
+    if (this.status === 'approved') {
+      this.approved = true;
+    } else {
+      this.approved = false;
+    }
+  }
   _set() {
     this.set('route.path', '/home');
   }

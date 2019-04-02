@@ -4,7 +4,7 @@ import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 
 const ReduxMixin = createMixin(store);
-class WbiReviewing extends ReduxMixin(PolymerElement) {
+class WbiApproved extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -14,8 +14,28 @@ class WbiReviewing extends ReduxMixin(PolymerElement) {
           box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
         }
+        .green-alert {
+          background-color: #F2FAF5;
+          border: 1px solid #7ECF7D;
+          padding: 24px;
+          border-radius: 3px;
+        }
+        .status {
+          font-weight: 600;
+          margin-top: 48px;
+          font-size: 14px;
+        }
+        .status span{
+          font-weight: 600;
+          background-color: #4285D4;
+          border-radius: 3px;
+          color: white;
+          padding: 6px 12px;
+          margin-left: 12px;
+        }
       </style>
-      <div>Reviewing</div>
+      <p class="green-alert">Your application has been approved.</p>
+      <div class="status">Status: <span>Approved</span></div>
     `;
   }
 
@@ -48,4 +68,4 @@ class WbiReviewing extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-} window.customElements.define('wbi-reviewing', WbiReviewing);
+} window.customElements.define('wbi-approved', WbiApproved);

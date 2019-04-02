@@ -329,26 +329,28 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {String} month - String blob
  * @param {String} year - String blob
  * @param {String} gender - String blob
+ * @return {object} arrays showsg what uploaded and whats missing
  */
   application(country, firstName, lastName, day, month, year, gender) {
-    const token = localStorage.getItem('jwt');
-    const formData = new FormData();
-    formData.append(country, firstName, lastName, day, month, year, gender);
-    const url = `${this.env.apiUrl}/identity/application/`;
-    fetch(url, {
-      method: 'POST',
-      body: formData,
-      headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
-    })
-        .then((response) => {
-          return response.json();
-        })
-        .then((response) => {
-          console.log('response', response);
-        })
-        .catch((error) => {
-          console.log('Error:', error);
-        });
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('jwt');
+      const data = {country, firstName, lastName, day, month, year, gender};
+      const url = `${this.env.apiUrl}/identity/application/`;
+      fetch(url, {
+        method: 'POST',
+        body: data,
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+    });
   }
 
   /**

@@ -2,6 +2,7 @@ const savedLanguage = localStorage.getItem('language') || 'English';
 import {env} from '../../env.js';
 
 const initial = {
+  status: 'pending',
   language: savedLanguage,
   env: env,
   color: {
@@ -19,6 +20,10 @@ export default (state = initial, action) => {
     case 'CHANGE_EMAIL':
       return Object.assign({}, state, {
         email: action.email,
+      });
+    case 'CHANGE_STATUS':
+      return Object.assign({}, state, {
+        status: action.status,
       });
     default:
       return state;

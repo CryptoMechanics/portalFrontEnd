@@ -2,11 +2,11 @@ import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
-import '../../components/data/wbi-api.js';
-import '../../components/identity/wbi-uploader';
+import '../data/wbi-api.js';
+import './wbi-uploader';
 
 const ReduxMixin = createMixin(store);
-class WbiApplication extends ReduxMixin(PolymerElement) {
+class WbiCreated extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include='shared-styles'>
@@ -274,7 +274,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
             </div>
 
             <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" completed="{{completed}}"></wbi-uploader>
-            <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button>
+            <!-- <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button> -->
           </template>
           <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
         </template>
@@ -286,11 +286,11 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       mode: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       color: {
@@ -319,6 +319,10 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       },
       env: {
         type: Object,
+      },
+      completed: {
+        type: Object,
+        observer: '_isComplete',
       },
     };
   }
@@ -381,7 +385,15 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _isComplete() {
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender) {
+    console.log(this.country);
+    console.log(this.firstName);
+    console.log(this.lastName);
+    console.log(this.day);
+    console.log(this.month);
+    console.log(this.year);
+    console.log(this.gender);
+    console.log(this.completed);
+    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
       this.updateStyles({'--pointer-event': 'auto'});
@@ -401,7 +413,7 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'selfie', language: this.language}}));
   }
   _submit() {
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender) {
+    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.$.api.application(this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender)
           .then((response) => {
             console.log(response);
@@ -642,4 +654,4 @@ class WbiApplication extends ReduxMixin(PolymerElement) {
       return a.name.localeCompare(b.name);
     });
   }
-} window.customElements.define('wbi-application', WbiApplication);
+} window.customElements.define('wbi-created', WbiCreated);
