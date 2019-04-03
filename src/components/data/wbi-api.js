@@ -401,6 +401,29 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .catch((error) => console.log('Error:', error));
   }
 
+  /**
+ * Get a users status
+ * @param {string} fileType - tyoe of file 'passport-front'
+ * @return {object} arrays showsg what uploaded and whats missing
+ */
+  getStatus() {
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('jwt');
+      const url = `${this.env.apiUrl}/user/state/`;
+      fetch(url, {
+        method: 'GET',
+        headers: {'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => console.log('Error:', error));
+    });
+  }
+
   static mapStateToProps(state, element) {
     return {
       language: state.language,

@@ -6,6 +6,7 @@ import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import './components/wbi-modal.js';
+import './components/data/wbi-api.js';
 
 import store from './global/store.js';
 const ReduxMixin = createMixin(store);
@@ -24,6 +25,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+      <wbi-api id='api'></wbi-api>
       <wbi-modal></wbi-modal>
       <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
         <wbi-signin name="signin"></wbi-signin>
@@ -51,6 +53,11 @@ class AppShell extends ReduxMixin(PolymerElement) {
       env: {
         type: Object,
       },
+      status: {
+        type: String,
+        readOnly: true,
+        observer: '_status',
+      },
       routeData: Object,
       subroute: Object,
     };
@@ -59,6 +66,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
   static mapStateToProps(state, element) {
     return {
       env: state.env,
+      status: state.status,
     };
   }
 
@@ -120,6 +128,23 @@ class AppShell extends ReduxMixin(PolymerElement) {
       case 'error':
         import('./routes/wbi-error.js');
         break;
+    }
+  }
+  _status() {
+    if (this.status != 'created' || this.status != 'approved') {
+      setTimeout(() => {
+        this.$.api.getStatus()
+            .then((response) => {
+              console.log(response);
+              if (response.status) {
+                this.dispatchAction({
+                  type: 'CHANGE_STATUS',
+                  status: response.status,
+                });
+                localStorage.setItem('status', response.status);
+              }
+            });
+      }, 3000);
     }
   }
 } window.customElements.define('app-shell', AppShell);

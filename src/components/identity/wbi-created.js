@@ -416,8 +416,19 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
-            // TODO update redux status to pending
+            // TODO: Check the reponse was positive
+            this.dispatchAction({
+              type: 'CHANGE_STATUS',
+              status: 'pending',
+            });
+            localStorage.setItem('status', 'pending');
             console.log(response);
+          })
+          .catch((error) => {
+            this.dispatchAction({
+              type: 'CHANGE_STATUS',
+              status: 'error',
+            });
           });
     }
   }

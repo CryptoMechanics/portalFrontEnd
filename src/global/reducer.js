@@ -1,8 +1,9 @@
 const savedLanguage = localStorage.getItem('language') || 'English';
+const status = localStorage.getItem('status') || 'created';
 import {env} from '../../env.js';
 
 const initial = {
-  status: 'created',
+  status: status,
   language: savedLanguage,
   env: env,
   color: {
