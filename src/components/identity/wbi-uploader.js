@@ -101,7 +101,6 @@ class WbiUploader extends PolymerElement {
     // TODO: send this to upload
   }
   _delete(target) {
-    console.log(target);
     this.preview = false;
     this.updateStyles({'--background-image': `none`});
     this.shadowRoot.querySelector(`#form`).reset();

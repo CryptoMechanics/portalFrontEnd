@@ -190,6 +190,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   _signIn() {
     this.$.api.signIn(this.email, this.password)
         .then((response) => {
+          console.log(response);
           this.dispatchAction({
             type: 'CHANGE_STATUS',
             status: response.status,

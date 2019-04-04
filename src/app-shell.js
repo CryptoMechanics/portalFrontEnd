@@ -135,7 +135,6 @@ class AppShell extends ReduxMixin(PolymerElement) {
       setInterval(() => {
         this.$.api.getStatus()
             .then((response) => {
-              console.log(response);
               if (response.status) {
                 this.dispatchAction({
                   type: 'CHANGE_STATUS',

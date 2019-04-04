@@ -385,14 +385,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _isComplete() {
-    console.log(this.country);
-    console.log(this.firstName);
-    console.log(this.lastName);
-    console.log(this.day);
-    console.log(this.month);
-    console.log(this.year);
-    console.log(this.gender);
-    console.log(this.completed);
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});

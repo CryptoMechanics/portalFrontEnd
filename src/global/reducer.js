@@ -1,8 +1,10 @@
 const savedLanguage = localStorage.getItem('language') || 'English';
 const status = localStorage.getItem('status') || 'created';
+const network = localStorage.getItem('network') || 'available';
 import {env} from '../../env.js';
 
 const initial = {
+  network: network,
   status: status,
   language: savedLanguage,
   env: env,
@@ -25,6 +27,10 @@ export default (state = initial, action) => {
     case 'CHANGE_STATUS':
       return Object.assign({}, state, {
         status: action.status,
+      });
+    case 'CHANGE_NETWORK':
+      return Object.assign({}, state, {
+        network: action.network,
       });
     default:
       return state;
