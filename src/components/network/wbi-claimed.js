@@ -14,20 +14,9 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
           box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
         }
-        div {
-          display: block;
-          background-color: #fdb8ba3b;
-          height: 47px;
-          line-height: 46px;
-          text-align: center;
-          border: 1px solid #AE464A;
-          border-radius: 4px;
-          color: #AE464A;
-          font-size: 15px;
-          font-weight: 400;
-        }
         a {
           text-decoration: none;
+          color: #7FCE75;
         }
 
       </style>
