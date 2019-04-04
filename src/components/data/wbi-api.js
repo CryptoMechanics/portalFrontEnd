@@ -150,7 +150,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
             resolve(response);
           })
           .catch((error) => {
-            reject(response);
+            reject(error);
           });
     });
   }

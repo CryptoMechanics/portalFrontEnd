@@ -132,7 +132,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
   }
   _status() {
     if (this.status != 'created' || this.status != 'approved') {
-      setTimeout(() => {
+      setInterval(() => {
         this.$.api.getStatus()
             .then((response) => {
               console.log(response);
