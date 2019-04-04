@@ -34,7 +34,7 @@ class WbiApproved extends ReduxMixin(PolymerElement) {
           margin-left: 12px;
         }
       </style>
-      <p class="green-alert">Your application has been approved.</p>
+      <p class="green-alert">Your identity has been verified.</p>
       <div class="status">Status: <span>Approved</span></div>
     `;
   }
