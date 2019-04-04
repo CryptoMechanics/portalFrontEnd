@@ -135,7 +135,6 @@ class WbiUploader extends PolymerElement {
             canvas.height = height;
             canvas.getContext('2d').drawImage(image, 0, 0, width, height);
             const dataUrl = canvas.toDataURL('image/jpeg');
-            localStorage.setItem(target, dataUrl);
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);

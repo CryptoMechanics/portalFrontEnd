@@ -48,11 +48,15 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       mode: {
-        type: Text,
+        type: String,
+        readOnly: true,
+      },
+      network: {
+        type: String,
         readOnly: true,
       },
       color: {
@@ -81,6 +85,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+      netowrk: state.network,
     };
   }
   _accountName(e) {
@@ -119,6 +124,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
             if (response.data === false) {
               this.error = response.error;
             } else if (response.data === true) {
+              console.log('setting network to claimed');
               this.dispatchAction({
                 type: 'CHANGE_NETWORK',
                 network: 'claimed',

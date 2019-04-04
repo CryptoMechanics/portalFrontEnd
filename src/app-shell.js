@@ -131,7 +131,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
     }
   }
   _status() {
-    if (this.status != 'created' || this.status != 'approved') {
+    if (this.page != 'home' || this.page != 'signin' || this.page != 'join' || this.status != 'created' || this.status != 'approved') {
       setInterval(() => {
         this.$.api.getStatus()
             .then((response) => {

@@ -111,6 +111,8 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
   }
 
   _status() {
+    console.log(this.status);
+    console.log(this.network);
     if (this.status === 'approved' && this.network === 'available') {
       this.access = true;
       this.noaccess = false;
