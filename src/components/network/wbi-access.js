@@ -26,28 +26,22 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
 
       </style>
       <wbi-api id='api'></wbi-api>
-      <template is="dom-if" if="{{canClaim}}">
-        <h2>Name</h2>
-          <label>Worbli Account Name</label>
-          <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName">
-          <small>
-            Choose your desired Worbli account name. </br>
-            (6-12 charectors, must start with a letter and can only contain letters and numbers 1-5)
-          </small>
-        <hr>
-        <h2>Keys</h2>
-          <label>Owner Public Key</label>
-          <input type="text" name="ownerPublicKey" id="ownerPublicKey" value="{{ownerPublicKey::input}}" on-keyup="_ownerPublicKey"></br>
+      <h2>Name</h2>
+        <label>Worbli Account Name</label>
+        <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName">
+        <small>
+          Choose your desired Worbli account name. </br>
+          (6-12 charectors, must start with a letter and can only contain letters and numbers 1-5)
+        </small>
+      <hr>
+      <h2>Keys</h2>
+        <label>Owner Public Key</label>
+        <input type="text" name="ownerPublicKey" id="ownerPublicKey" value="{{ownerPublicKey::input}}" on-keyup="_ownerPublicKey"></br>
 
-          <label>Active Public Key</label>
-          <input type="text" name="activePublicKey" id="activePublicKey" value="{{activePublicKey::input}}" on-keyup="_activePublicKey"></br>
-          <a href="">Not sure what public keys are?</br>Check out our FAQ on how to generate a public key with Scatter.</a>
-          <button class="green-bg" on-click="_submit">Apply for account</button>
-        </template>
-        <template is="dom-if" if="{{!canClaim}}">
-          <p>Your WORBLI blockchain account has been created. Account name lipovanski12</p>
-          <p>Check it out at <a href="http://worbli.bloks.io">worbli.bloks.io</a></p>
-        </template>
+        <label>Active Public Key</label>
+        <input type="text" name="activePublicKey" id="activePublicKey" value="{{activePublicKey::input}}" on-keyup="_activePublicKey"></br>
+        <a href="">Not sure what public keys are?</br>Check out our FAQ on how to generate a public key with Scatter.</a>
+        <button class="green-bg" on-click="_submit">Apply for account</button>
     `;
   }
 
@@ -77,10 +71,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       checkedAccountName: {
         type: Boolean,
         value: false,
-      },
-      canClaim: {
-        type: Boolean,
-        value: true,
       },
     };
   }
@@ -129,7 +119,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
             if (response.data === false) {
               this.error = response.error;
             } else if (response.data === true) {
-              this.canClaim = false;
               this.dispatchAction({
                 type: 'CHANGE_NETWORK',
                 network: 'claimed',

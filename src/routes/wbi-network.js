@@ -9,6 +9,7 @@ import '../components/wbi-loading.js';
 
 import '../components/network/wbi-noaccess.js';
 import '../components/network/wbi-access.js';
+import '../components/network/wbi-claimed.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -41,11 +42,14 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
           <img src="./images/network-header-icon.svg"><h1>Network Account</h1>
         </div>
         <hr>
-        <template is="dom-if" if="{{!approved}}"> 
+        <template is="dom-if" if="{{noaccess}}"> 
           <wbi-noaccess></wbi-noaccess>
         </template>
-        <template is="dom-if" if="{{approved}}"> 
+        <template is="dom-if" if="{{access}}"> 
           <wbi-access></wbi-access>
+        </template>
+        <template is="dom-if" if="{{claimed}}"> 
+          <wbi-claimed></wbi-claimed>
         </template>
       </div>
       <wbi-footer></wbi-footer>
@@ -70,7 +74,16 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      claimed: {
+        type: Boolean,
+        value: false,
+      },
       status: {
+        type: String,
+        readOnly: true,
+        observer: '_status',
+      },
+      network: {
         type: String,
         readOnly: true,
         observer: '_status',
@@ -85,14 +98,25 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
       status: state.status,
+      network: state.network,
     };
   }
 
   _status() {
-    if (this.status === 'approved') {
-      this.approved = true;
-    } else {
-      this.approved = false;
+    if (this.status === 'approved' && this.network === 'available') {
+      this.access = true;
+      this.noaccess = false;
+      this.claimed = false;
+    }
+    if (this.status != 'approved' && this.network === 'available') {
+      this.access = false;
+      this.noaccess = true;
+      this.claimed = false;
+    }
+    if (this.network === 'claimed') {
+      this.access = false;
+      this.noaccess = false;
+      this.claimed = true;
     }
   }
   _set() {

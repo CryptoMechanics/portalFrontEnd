@@ -142,6 +142,19 @@ class AppShell extends ReduxMixin(PolymerElement) {
                 });
                 localStorage.setItem('status', response.status);
               }
+              if (!response.worbliAccountName) {
+                this.dispatchAction({
+                  type: 'CHANGE_NETWORK',
+                  network: 'available',
+                });
+                localStorage.setItem('network', 'available');
+              } else {
+                this.dispatchAction({
+                  type: 'CHANGE_NETWORK',
+                  network: 'claimed',
+                });
+                localStorage.setItem('network', 'claimed');
+              }
             });
       }, 30000);
     }

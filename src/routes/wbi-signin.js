@@ -190,7 +190,19 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   _signIn() {
     this.$.api.signIn(this.email, this.password)
         .then((response) => {
-          console.log(response);
+          if (!response.worbliAccountName) {
+            this.dispatchAction({
+              type: 'CHANGE_NETWORK',
+              network: 'available',
+            });
+            localStorage.setItem('network', 'available');
+          } else {
+            this.dispatchAction({
+              type: 'CHANGE_NETWORK',
+              network: 'claimed',
+            });
+            localStorage.setItem('network', 'claimed');
+          }
           this.dispatchAction({
             type: 'CHANGE_STATUS',
             status: response.status,
