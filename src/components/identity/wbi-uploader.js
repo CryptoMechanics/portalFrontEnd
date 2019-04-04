@@ -50,6 +50,7 @@ class WbiUploader extends PolymerElement {
           padding: 12px 0;
         }
       </style>
+      <form id="form">
         <wbi-api id='api'></wbi-api>
         <p class="title">[[label]]</p>
         <template is="dom-if" if="{{preview}}">  
@@ -61,6 +62,7 @@ class WbiUploader extends PolymerElement {
         <template is="dom-if" if="{{selfieError}}">  
           <p class="error">[[selfieError]]</p>
         </template>
+      </form>
     `;
   }
 
@@ -99,9 +101,10 @@ class WbiUploader extends PolymerElement {
     // TODO: send this to upload
   }
   _delete(target) {
+    console.log(target);
     this.preview = false;
     this.updateStyles({'--background-image': `none`});
-    this.shadowRoot.querySelector(`#${target}`).value = '';
+    this.shadowRoot.querySelector(`#form`).reset();
   }
   _upload(e) {
     // TODO: Split this function out for drag and drop
