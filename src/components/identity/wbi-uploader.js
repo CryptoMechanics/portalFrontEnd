@@ -55,6 +55,7 @@ class WbiUploader extends PolymerElement {
         <label for='[[fileName]]' on-drop="_drop"  on-dragover="_allowDrop">
           <input type='file' name='file' id='[[fileName]]' on-change="_upload"/>
         </label>
+        <p class="error">[[selfieError]]</p>
     `;
   }
 
@@ -90,12 +91,16 @@ class WbiUploader extends PolymerElement {
     const dt = e.dataTransfer;
     const files = dt.files;
     console.log(files);
+    // TODO: send this to upload
   }
-  _delete() {
+  _delete(target) {
     this.preview = false;
     this.updateStyles({'--background-image': `none`});
+    this.shadowRoot.querySelector(`#${target}`).value = '';
   }
   _upload(e) {
+    // TODO: Split this function out for drag and drop
+    this.selfieError = '';
     if (e && e.target && e.target.id) {
       const target = e.target.id;
       const file = this.shadowRoot.querySelector(`#${target}`).files[0];
@@ -130,7 +135,14 @@ class WbiUploader extends PolymerElement {
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
                   console.log(response);
-                  this.completed = response.completed;
+                  console.log(response.rejectedDocuments);
+                  console.log(response.rejectedDocuments.length);
+                  if (response.rejectedDocuments.length === 0) {
+                    this.completed = response.completed;
+                  } else {
+                    this._delete(target);
+                    this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+                  };
                 });
           };
           image.src = readerEvent.target.result;
