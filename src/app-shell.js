@@ -144,7 +144,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
                 localStorage.setItem('status', response.status);
               }
             });
-      }, 3000);
+      }, 30000);
     }
   }
 } window.customElements.define('app-shell', AppShell);
