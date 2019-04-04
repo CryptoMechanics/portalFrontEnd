@@ -46,6 +46,9 @@ class WbiUploader extends PolymerElement {
         .title{
           text-transform: capitalize;
         }
+        .error{
+          padding: 12px 0;
+        }
       </style>
         <wbi-api id='api'></wbi-api>
         <p class="title">[[label]]</p>
@@ -55,7 +58,9 @@ class WbiUploader extends PolymerElement {
         <label for='[[fileName]]' on-drop="_drop"  on-dragover="_allowDrop">
           <input type='file' name='file' id='[[fileName]]' on-change="_upload"/>
         </label>
-        <p class="error">[[selfieError]]</p>
+        <template is="dom-if" if="{{selfieError}}">  
+          <p class="error">[[selfieError]]</p>
+        </template>
     `;
   }
 
