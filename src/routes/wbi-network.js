@@ -74,6 +74,14 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      noaccess: {
+        type: Boolean,
+        value: false,
+      },
+      access: {
+        type: Boolean,
+        value: false,
+      },
       claimed: {
         type: Boolean,
         value: false,
