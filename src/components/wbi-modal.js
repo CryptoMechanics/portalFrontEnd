@@ -2,12 +2,8 @@ import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
-import '../components/identity/wbi-camsnap.js';
 import '../components/data/wbi-api.js';
-import './modals/wbi-mobile.js';
-import './modals/wbi-document.js';
-import './modals/wbi-selfie.js';
-
+import '../components/identity/wbi-camsnap.js';
 
 const ReduxMixin = createMixin(store);
 class WbiModal extends ReduxMixin(PolymerElement) {
@@ -46,7 +42,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
           justify-content: center;
         }
         .modal {
-          width: 300px;
+          min-width: 300px;
           padding: 40px;
           cursor: default;
           margin: 24px;
@@ -61,21 +57,16 @@ class WbiModal extends ReduxMixin(PolymerElement) {
       </style>
       <div class="overlay" on-click="_hide">
         
-        <template is="dom-if" if="{{mobile}}">
-          <div class="modal" on-click="_clickModal">
-            <wbi-mobile></wbi-mobile>
-          </div>
-        </template>
 
         <template is="dom-if" if="{{document}}">
           <div class="modal" on-click="_clickModal">
-            <wbi-document></wbi-document>   
+            <wbi-camsnap image="{{image}}"></wbi-camsnap>   
           </div>
         </template>
 
         <template is="dom-if" if="{{selfie}}">
           <div class="modal" on-click="_clickModal">
-            <wbi-selfie></wbi-selfie>   
+            <wbi-camsnap selfie image="{{image}}"></wbi-camsnap>   
           </div>
         </template>
 
@@ -140,18 +131,12 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     setTimeout(()=>{
       this.updateStyles({'--opacity': 1});
     }, 1);
-    if (e === 'mobile') {
-      this.mobile = true;
-      this.document = false;
-      this.selfie = false;
-    } else if (e === 'document') {
-      this.mobile = false;
-      this.document = true;
-      this.selfie = false;
-    } else if (e === 'selfie') {
-      this.mobile = false;
+    if (e === 'selfie') {
       this.document = false;
       this.selfie = true;
+    } else {
+      this.document = true;
+      this.selfie = false;
     }
   }
 

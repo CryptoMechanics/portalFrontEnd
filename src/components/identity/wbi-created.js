@@ -274,7 +274,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </div>
 
             <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" completed="{{completed}}"></wbi-uploader>
-            <!-- <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button> -->
           </template>
           <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
         </template>
@@ -395,15 +394,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.updateStyles({'--pointer-event': 'none'});
     }
   }
-  _modalMobile() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', language: this.language}}));
-  }
-  _modalDocument() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'document', language: this.language}}));
-  }
-  _modalSelfie() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'selfie', language: this.language}}));
-  }
+
   _submit() {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
