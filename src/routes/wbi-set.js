@@ -84,7 +84,7 @@ class WbiSet extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.svg" alt="Worbli">
+          <img src="./images/worbli.png" alt="Worbli">
           <hr>
           <h2>Set new password</h2>
           <label for="password">[[txt.password]]</label>

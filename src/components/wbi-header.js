@@ -68,7 +68,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <div class="header">
-        <img src="./images/worbli.svg" class="logo" on-click="_settings">
+        <img src="./images/worbli.png" class="logo" on-click="_settings">
         <div class="main-nav">
           <ul>
             <li><a href="/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">My profile</a></li>
