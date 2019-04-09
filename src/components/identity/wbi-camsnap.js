@@ -6,7 +6,7 @@ class WbiCamsnap extends PolymerElement {
     return html`
       <style include="shared-styles">
         :host {
-          display: box;
+          display: block;
         }
         *:focus {outline:none}
         video {
@@ -54,13 +54,13 @@ class WbiCamsnap extends PolymerElement {
           border: none;
           background-color: transparent;
         }
-        .content{
+        .content {
           position:relative;
           width: 640px;
           height: 480px;
           border-radius: 3px;
         }
-        .overlay{
+        .overlay {
           display: var(--capture-display, block);
           position:absolute;
           top: -6px;
@@ -68,11 +68,21 @@ class WbiCamsnap extends PolymerElement {
           z-index: 100;
           border-radius: 3px;
         }
+        video {
+          object-fit: cover;
+          width: 640px;
+          height: 480px;
+        }
+        .openCamera {
+          width: 400px;
+        }
       </style>
 
       <template is="dom-if" if="{{showVid}}">
         <div class="content">
-          <img src="/images/faceMask.svg" class="overlay">
+          <template is="dom-if" if="{{selfie}}">
+            <img src="/images/faceMask.svg" class="overlay">
+          </template>
           <video id="player" autoplay></video>
           <canvas id="canvas" width=640 height=480></canvas>
           <button id="capture" on-click="_capture"><img src="/images/cam.svg"></button>
@@ -82,7 +92,7 @@ class WbiCamsnap extends PolymerElement {
       </template>
       
       <template is="dom-if" if="{{!showVid}}">
-        <button type="button" on-click="_getCam">Enable camera and take a selfie</button>
+        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a selfie</button>
       </template>
     `;
   }
@@ -101,15 +111,38 @@ class WbiCamsnap extends PolymerElement {
         type: Boolean,
         value: false,
       },
+      selfie: {
+        type: Boolean,
+        value: false,
+      },
+      upload: {
+        type: Boolean,
+        value: false,
+        notify: true,
+        reflectToAttribue: true,
+      },
+      base64: {
+        type: String,
+        notify: true,
+        reflectToAttribue: true,
+      },
+      blob: {
+        type: Object,
+        notify: true,
+        reflectToAttribue: true,
+      },
     };
   }
   _getCam() {
-    const constraints = {video: true};
+    const constraints = {video: {width: 800, height: 600}};
     navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
           this.shadowRoot.querySelector('#player').srcObject = stream;
         });
     this.showVid = true;
+  }
+  _upload() {
+    this.upload = true;
   }
 
   _capture() {
@@ -124,6 +157,8 @@ class WbiCamsnap extends PolymerElement {
     context.scale(-1, 1);
     context.drawImage(player, 0, 0, canvas.width*-1, canvas.height);
     context.restore();
+    this.base64 = canvas.toDataURL('image/jpeg');
+    this.blob = this._dataURLToBlob(this.base64);
   }
 
   _retake() {
@@ -131,5 +166,24 @@ class WbiCamsnap extends PolymerElement {
     this.updateStyles({'--retake-display': 'none'});
     this.updateStyles({'--video-display': 'block'});
     this.updateStyles({'--canvas-display': 'none'});
+  }
+
+  _dataURLToBlob(dataURL) {
+    const BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+      const parts = dataURL.split(',');
+      const contentType = parts[0].split(':')[1];
+      const raw = parts[1];
+      return new Blob([raw], {type: contentType});
+    }
+    const parts = dataURL.split(BASE64_MARKER);
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], {type: contentType});
   }
 } window.customElements.define('wbi-camsnap', WbiCamsnap);

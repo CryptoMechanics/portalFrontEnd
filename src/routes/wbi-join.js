@@ -69,6 +69,9 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           left: -27px;
           top: -2px;
         }
+        .error {
+          padding: 12px 12px;
+        }
         @media only screen and (max-width: 600px) {
           .card {
             border-radius: 0px;
@@ -95,7 +98,9 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}" on-change="_optInCheckbox">[[txt.optInMarketing]]</label>
           <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
           <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
-          <p>[[error]]</p>
+          <template is="dom-if" if="{{error}}">
+            <p class="error">[[error]]</p>
+          </template>
           <div class="bottom">
             <ul><li><img src="./images/language-icon.svg" class="language-icon">English</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>

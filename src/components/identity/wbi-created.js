@@ -4,6 +4,7 @@ import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../data/wbi-api.js';
 import './wbi-uploader';
+import '../loading/ball-spin.js';
 
 const ReduxMixin = createMixin(store);
 class WbiCreated extends ReduxMixin(PolymerElement) {
@@ -272,11 +273,14 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
                 <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]" completed="{{completed}}"></wbi-uploader>
               </template>
             </div>
-
             <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" completed="{{completed}}"></wbi-uploader>
-            <!-- <button on-click="_modalMobile" class="outline_btn">Take Pictures using your mobile device</button> -->
           </template>
-          <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
+          <template is="dom-if" if="{{!loading}}">
+            <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
+          </template>
+          <template is="dom-if" if="{{loading}}">
+            <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+          </template>
         </template>
         
       </div>
@@ -323,6 +327,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       completed: {
         type: Object,
         observer: '_isComplete',
+      },
+      loading: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -395,20 +403,13 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.updateStyles({'--pointer-event': 'none'});
     }
   }
-  _modalMobile() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', language: this.language}}));
-  }
-  _modalDocument() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'document', language: this.language}}));
-  }
-  _modalSelfie() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'selfie', language: this.language}}));
-  }
+
   _submit() {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
+      this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
-            // TODO: Check the reponse was positive
+            this.loading = false;
             this.dispatchAction({
               type: 'CHANGE_STATUS',
               status: 'pending',
@@ -461,7 +462,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       {'code': 'BEN', 'name': 'Benin', 'accepted': [{'passport': false}]},
       {'code': 'BFA', 'name': 'Burkina Faso', 'accepted': [{'passport': false}]},
       {'code': 'BGD', 'name': 'Bangladesh', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
-      {'code': 'BGR', 'name': 'Bulgaria', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'BGR', 'name': 'Bulgaria', 'accepted': [{'national_identity_card': true, 'passport': false, 'driving_license': false, 'residency_permit': true}]},
       {'code': 'BHR', 'name': 'Bahrain', 'accepted': [{'passport': false, 'national_identity_card': true}]},
       {'code': 'BHS', 'name': 'Bahamas', 'accepted': [{'passport': false, 'driving_license': false}]},
       {'code': 'BIH', 'name': 'Bosnia and Herzegovina', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},

@@ -41,3 +41,4 @@ after_deploy:
   - test $TRAVIS_BRANCH = "dev" && travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_DEV_DISTRIBUTION_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'develop'
 notifications:
   email: false
+  slack: worbli:PfaJOrAFdR08kwLNybNkiJ2T

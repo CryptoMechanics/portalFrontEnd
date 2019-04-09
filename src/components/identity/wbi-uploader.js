@@ -62,6 +62,7 @@ class WbiUploader extends PolymerElement {
         <template is="dom-if" if="{{selfieError}}">  
           <p class="error">[[selfieError]]</p>
         </template>
+        <p on-click="_openModal">Use Webcam</p>
       </form>
     `;
   }
@@ -86,7 +87,19 @@ class WbiUploader extends PolymerElement {
         type: Boolean,
         value: false,
       },
+      selfie: {
+        type: Boolean,
+        value: false,
+      },
     };
+  }
+
+  _openModal() {
+    this.selfie = false;
+    if (this.fileName === '_selfie') {
+      this.selfie = true;
+    }
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: this.fileName, fileName: `${this.country}_${this.fileName}`, selfie: this.selfie}}));
   }
   _allowDrop(e) {
     e.preventDefault();

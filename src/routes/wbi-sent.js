@@ -48,6 +48,9 @@ class WbiSent extends ReduxMixin(PolymerElement) {
           <template is="dom-if" if="{{email}}">
             <p>[[txt.checkYourEmail]] <strong>[[email]]</strong></p>
             <button type="button" class="green-bg" on-click="_resend">Resend Verification Email</button>
+            <template is="dom-if" if="{{error}}">
+              <p class="error">[[error]]</p>
+            </template>
           </template>
         </div>
       </wbi-center>
