@@ -355,6 +355,27 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
+ * Delete an image
+ * @param {string} fileType - tyoe of file 'passport-front'
+ */
+  deleteImage(fileType) {
+    const token = localStorage.getItem('jwt');
+    const url = `${this.env.apiUrl}/identity/image/${fileType}`;
+    fetch(url, {
+      method: 'DELETE',
+      headers: {'Authorization': `Bearer ${token}`},
+    })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+
+        })
+        .catch((error) => console.log('Error:', error));
+  }
+
+
+  /**
  * Get an image
  * @param {string} fileType - tyoe of file 'passport-front'
  */

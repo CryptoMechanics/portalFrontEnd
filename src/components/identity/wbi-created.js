@@ -376,7 +376,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   _middleName(e) {
     this._isComplete();
     if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#middleName').focus();
+      this.shadowRoot.querySelector('#lastName').focus();
     }
   }
   _firstName(e) {
@@ -389,7 +389,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this._isComplete();
     this._makeRadioButtons();
     setTimeout(() => {
-      this.shadowRoot.querySelector('#lastName').focus();
+      this.shadowRoot.querySelector('#firstName').focus();
     }, 0);
   }
   _isComplete() {

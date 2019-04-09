@@ -113,10 +113,15 @@ class WbiUploader extends PolymerElement {
     console.log(files);
     // TODO: send this to upload
   }
-  _delete(target) {
+  _delete(e) {
+    console.log(e);
     this.preview = false;
     this.updateStyles({'--background-image': `none`});
     this.shadowRoot.querySelector(`#form`).reset();
+    this.$.api.deleteImage(`${this.country}_${this.fileName}`)
+        .then((response) => {
+          console.log(response);
+        });
   }
   _upload(e) {
     // TODO: Split this function out for drag and drop
