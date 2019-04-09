@@ -34,7 +34,7 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
       <template is="dom-if" if="{{error}}">
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.svg">
+          <img src="./images/worbli.svg" alt="Worbli">
           <hr>
           
           <h2>Invalid Link</h2>

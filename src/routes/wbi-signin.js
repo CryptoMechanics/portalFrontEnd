@@ -85,7 +85,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.svg">
+          <img src="./images/worbli.svg" alt="Worbli">
           <hr>
           <h2>[[txt.signIn]]</h2>
           <label for="email">[[txt.emailAddress]]</label>
@@ -101,7 +101,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             </div>
           </template>
           <div class="bottom">
-            <ul><li><img src="./images/language-icon.svg" class="language-icon">English</li></ul>
+            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="Change Language">English</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>
