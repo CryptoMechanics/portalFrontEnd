@@ -5,6 +5,7 @@ import '../css/shared-styles.js';
 import '../components/wbi-header.js';
 import '../components/wbi-footer.js';
 import '../components/data/wbi-api.js';
+import '../components/loading/ball-spin.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -35,7 +36,13 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           background-color: var(--active-color, #BDC1C6);
           cursor: var(--cursor-type, default);
           pointer-events: var(--pointer-event, none);
-        }        
+        }
+        ball-spin{
+          display: inline-block;
+          margin-right: 6px;
+          position: relative;
+          top: 2px;
+        }     
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
@@ -55,7 +62,12 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           <input type="password" name="newPassword" id="newPassword" value="{{newPassword::input}}" on-keyup="_newPassword">
           <label for="confirmNewPassword">Confirm new password</label>
           <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="{{confirmNewPassword::input}}" on-keyup="_confirmNewPassword">
-          <button type="button" class="green-bg" on-click="_save">Save Changes</button><br>
+          <template is="dom-if" if="{{!loading}}">
+            <button type="button" class="green-bg" on-click="_save">Save Changes</button><br>
+          </template>
+          <template is="dom-if" if="{{loading}}">
+            <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+          </template>
         </template>
 
 
@@ -90,6 +102,10 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       route: {
         type: Boolean,
         observer: '_routeChanged',
+      },
+      loading: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -164,8 +180,10 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
   }
   _save() {
     if (this.email, this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
+      this.loading = true;
       this.$.api.profile(this.password, this.newPassword)
           .then((response) => {
+            this.loading = false;
             if (response.data === false && response.error) {
               this.error = response.error;
             } else {

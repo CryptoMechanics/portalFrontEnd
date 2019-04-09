@@ -4,6 +4,7 @@ import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../data/wbi-api.js';
 import './wbi-uploader';
+import '../loading/ball-spin.js';
 
 const ReduxMixin = createMixin(store);
 class WbiCreated extends ReduxMixin(PolymerElement) {
@@ -272,10 +273,14 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
                 <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]" completed="{{completed}}"></wbi-uploader>
               </template>
             </div>
-
             <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" completed="{{completed}}"></wbi-uploader>
           </template>
-          <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
+          <template is="dom-if" if="{{!loading}}">
+            <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
+          </template>
+          <template is="dom-if" if="{{loading}}">
+            <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+          </template>
         </template>
         
       </div>
@@ -322,6 +327,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       completed: {
         type: Object,
         observer: '_isComplete',
+      },
+      loading: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -397,9 +406,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
   _submit() {
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
+      this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
-            // TODO: Check the reponse was positive
+            this.loading = false;
             this.dispatchAction({
               type: 'CHANGE_STATUS',
               status: 'pending',

@@ -3,6 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../../components/data/wbi-api.js';
+import '../../components/loading/ball-spin.js';
 
 const ReduxMixin = createMixin(store);
 class WbiAccess extends ReduxMixin(PolymerElement) {
@@ -41,7 +42,13 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         <label>Active Public Key</label>
         <input type="text" name="activePublicKey" id="activePublicKey" value="{{activePublicKey::input}}" on-keyup="_activePublicKey" on-paste="_activePublicKey"></br>
         <a href="">Not sure what public keys are?</br>Check out our FAQ on how to generate a public key with Scatter.</a>
-        <button class="green-bg" on-click="_submit">Apply for account</button>
+        
+        <template is="dom-if" if="{{!loading}}">
+          <button class="green-bg" on-click="_submit">Apply for account</button>
+        </template>
+        <template is="dom-if" if="{{loading}}">
+          <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+        </template>
     `;
   }
 
@@ -73,6 +80,10 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         observer: '_focusAccountName',
       },
       checkedAccountName: {
+        type: Boolean,
+        value: false,
+      },
+      loading: {
         type: Boolean,
         value: false,
       },
@@ -119,8 +130,10 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   }
   _submit() {
     if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
+      this.loading = true;
       this.$.api.createAccount(this.accountName, this.ownerPublicKey, this.activePublicKey)
           .then((response) => {
+            this.loading = false;
             if (response.data === false) {
               this.error = response.error;
             } else if (response.data === true) {
