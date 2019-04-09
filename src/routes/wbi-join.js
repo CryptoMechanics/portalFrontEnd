@@ -69,6 +69,9 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           left: -27px;
           top: -2px;
         }
+        .error {
+          padding: 12px 12px;
+        }
         @media only screen and (max-width: 600px) {
           .card {
             border-radius: 0px;
