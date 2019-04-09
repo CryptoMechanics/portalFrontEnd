@@ -452,7 +452,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       {'code': 'BEN', 'name': 'Benin', 'accepted': [{'passport': false}]},
       {'code': 'BFA', 'name': 'Burkina Faso', 'accepted': [{'passport': false}]},
       {'code': 'BGD', 'name': 'Bangladesh', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},
-      {'code': 'BGR', 'name': 'Bulgaria', 'accepted': [{'national_identity_card': true}]},
+      {'code': 'BGR', 'name': 'Bulgaria', 'accepted': [{'national_identity_card': true, 'passport': false, 'driving_license': false, 'residency_permit': true}]},
       {'code': 'BHR', 'name': 'Bahrain', 'accepted': [{'passport': false, 'national_identity_card': true}]},
       {'code': 'BHS', 'name': 'Bahamas', 'accepted': [{'passport': false, 'driving_license': false}]},
       {'code': 'BIH', 'name': 'Bosnia and Herzegovina', 'accepted': [{'passport': false, 'driving_license': false, 'national_identity_card': true}]},

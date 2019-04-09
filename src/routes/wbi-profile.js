@@ -45,15 +45,20 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           <img src="./images/profile-header-icon.svg"><h1>My profile</h1>
         </div>
         <hr>
-        <label for="email">Email address</label>
-        <input type="text" name="email" id="email" value="{{email::input}}" readonly>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password">
-        <label for="newPassword">New password</label>
-        <input type="password" name="newPassword" id="newPassword" value="{{newPassword::input}}" on-keyup="_newPassword">
-        <label for="confirmNewPassword">Confirm new password</label>
-        <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="{{confirmNewPassword::input}}" on-keyup="_confirmNewPassword">
-        <button type="button" class="green-bg" on-click="_save">Save Changes</button><br>
+
+        <template is="dom-if" if="[[email]]">
+          <label for="email">Email address</label>
+          <input type="text" name="email" id="email" value="{{email::input}}" readonly>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password">
+          <label for="newPassword">New password</label>
+          <input type="password" name="newPassword" id="newPassword" value="{{newPassword::input}}" on-keyup="_newPassword">
+          <label for="confirmNewPassword">Confirm new password</label>
+          <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="{{confirmNewPassword::input}}" on-keyup="_confirmNewPassword">
+          <button type="button" class="green-bg" on-click="_save">Save Changes</button><br>
+        </template>
+
+
       </div>
       <wbi-footer></wbi-footer>
     `;
