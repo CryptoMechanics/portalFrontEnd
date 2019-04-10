@@ -60,13 +60,13 @@ class WbiModal extends ReduxMixin(PolymerElement) {
 
         <template is="dom-if" if="{{document}}">
           <div class="modal" on-click="_clickModal">
-            <wbi-camsnap image="{{image}}"></wbi-camsnap>   
+            <wbi-camsnap file-name="[[fileName]]" stop-cam="[[stopCam]]" closenow="{{closenow}}"></wbi-camsnap>   
           </div>
         </template>
 
         <template is="dom-if" if="{{selfie}}">
           <div class="modal" on-click="_clickModal">
-            <wbi-camsnap selfie image="{{image}}"></wbi-camsnap>   
+            <wbi-camsnap selfie file-name="[[fileName]]" stop-cam="[[stopCam]]" closenow="{{closenow}}"></wbi-camsnap>   
           </div>
         </template>
 
@@ -84,10 +84,6 @@ class WbiModal extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
-      reset: {
-        type: Boolean,
-        value: false,
-      },
       join: {
         type: Boolean,
         value: false,
@@ -99,6 +95,15 @@ class WbiModal extends ReduxMixin(PolymerElement) {
       feedback: {
         type: Boolean,
         value: false,
+      },
+      turnoff: {
+        type: Boolean,
+        value: false,
+      },
+      closenow: {
+        type: Boolean,
+        value: false,
+        observer: '_closenow',
       },
     };
   }
@@ -119,6 +124,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     };
     window.addEventListener('modal', (e) => {
       this.language = e.detail.language;
+      this.fileName = e.detail.fileName;
       this._show(e.detail.action);
     });
     window.addEventListener('hideModal', () => {
@@ -127,6 +133,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
   }
 
   _show(e) {
+    this.stopCam = false;
     this.updateStyles({'--display-none-block': 'block'});
     setTimeout(()=>{
       this.updateStyles({'--opacity': 1});
@@ -140,10 +147,16 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     }
   }
 
+  _closenow() {
+    if (this.closenow) {
+      this._hide();
+    }
+  }
+
   _hide() {
-    this.reset = true;
-    this.updateStyles({'--opacity': 0});
+    this.stopCam = true;
     setTimeout(() => {
+      this.updateStyles({'--opacity': 0});
       this.updateStyles({'--display-none-block': 'none'});
     }, 1);
   }

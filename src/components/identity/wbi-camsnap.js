@@ -1,5 +1,6 @@
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '../../css/shared-styles.js';
+import '../../components/data/wbi-api.js';
 
 class WbiCamsnap extends PolymerElement {
   static get template() {
@@ -77,7 +78,7 @@ class WbiCamsnap extends PolymerElement {
           width: 400px;
         }
       </style>
-
+      <wbi-api id='api'></wbi-api>
       <template is="dom-if" if="{{showVid}}">
         <div class="content">
           <template is="dom-if" if="{{selfie}}">
@@ -131,17 +132,50 @@ class WbiCamsnap extends PolymerElement {
         notify: true,
         reflectToAttribue: true,
       },
+      fileName: {
+        type: String,
+      },
+      stopCam: {
+        type: Boolean,
+        observer: '_stopCam',
+      },
+      closenow: {
+        type: Boolean,
+        notify: true,
+        reflectToAttribue: true,
+      },
     };
   }
+
+  _stopCam() {
+    if (this.stopCam) {
+      this.stream.getTracks()[0].stop();
+    }
+  }
+
   _getCam() {
     const constraints = {video: {width: 800, height: 600}};
     navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
-          this.shadowRoot.querySelector('#player').srcObject = stream;
+          this.stream = stream;
+          this.shadowRoot.querySelector('#player').srcObject = this.stream;
         });
     this.showVid = true;
   }
   _upload() {
+    console.log(this.fileName);
+    this.$.api.uploadImage(this.blob, this.fileName)
+        .then((response) => {
+          console.log(response);
+          console.log(response.rejectedDocuments);
+          console.log(response.rejectedDocuments.length);
+          if (response.rejectedDocuments.length === 0) {
+            this.closenow = true;
+          } else {
+            this._retake();
+            this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+          };
+        });
     this.upload = true;
   }
 
