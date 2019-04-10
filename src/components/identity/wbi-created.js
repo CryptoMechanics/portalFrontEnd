@@ -860,6 +860,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       {'code': 'ZWE', 'name': 'Zimbabwe', 'accepted': [{'passport': false}]},
       {'code': 'MAC', 'name': 'Macao', 'accepted': [{'residency_permit': false}]},
       {'code': 'MAF', 'name': 'Saint Martin (French part)', 'accepted': [{'driving_licence': false}]},
+      {'code': 'SXM', 'name': 'Sint Maarten (Dutch part)', 'accepted': [{'driving_licence': false}]},
     ];
 
     this.countrydocs.sort(function(a, b) {
