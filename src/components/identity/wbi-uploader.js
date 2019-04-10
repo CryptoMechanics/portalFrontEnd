@@ -49,6 +49,19 @@ class WbiUploader extends PolymerElement {
         .error{
           padding: 12px 0;
         }
+        .webcam {
+          cursor: pointer;
+        }
+        .webcam:hover {
+          text-decoration: underline;
+        }
+        .webcam-image{
+          height: 16px;
+          position: relative;
+          top: 3px;
+          margin-right: 6px;
+          opacity: 0.8;
+        }
       </style>
       <form id="form">
         <wbi-api id='api'></wbi-api>
@@ -62,7 +75,7 @@ class WbiUploader extends PolymerElement {
         <template is="dom-if" if="{{selfieError}}">  
           <p class="error">[[selfieError]]</p>
         </template>
-        <p on-click="_openModal">Use Webcam</p>
+        <p on-click="_openModal" class="webcam"><img src="./images/webCam.png" class="webcam-image">Use Webcam</p>
       </form>
     `;
   }

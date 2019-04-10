@@ -47,7 +47,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.svg">
+          <img src="./images/worbli.png" alt="Worbli">
           <hr>
           <h2>[[txt.forgotPassword]]</h2>
           <p>[[txt.forgotPasswordIntro]]</p>
