@@ -93,7 +93,7 @@ class WbiCamsnap extends PolymerElement {
       </template>
       
       <template is="dom-if" if="{{!showVid}}">
-        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a selfie</button>
+        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a picture</button>
       </template>
     `;
   }
