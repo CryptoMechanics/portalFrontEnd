@@ -60,7 +60,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
         
       <template is="dom-if" if="{{mobile}}">
           <div class="modal" on-click="_clickModal">
-            <wbi-mobile file-array="[[fileArray]]" country="[[country]]"></wbi-mobile>   
+            <wbi-mobile file-array="[[fileArray]]" country="[[country]]" closenow="{{closenow}}"></wbi-mobile>   
           </div>
         </template>
 

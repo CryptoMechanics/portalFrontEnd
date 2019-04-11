@@ -163,12 +163,8 @@ class WbiCamsnap extends PolymerElement {
     this.showVid = true;
   }
   _upload() {
-    console.log(this.fileName);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
-          console.log(response);
-          console.log(response.rejectedDocuments);
-          console.log(response.rejectedDocuments.length);
           if (response.rejectedDocuments.length === 0) {
             this.closenow = true;
           } else {

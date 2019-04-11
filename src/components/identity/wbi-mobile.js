@@ -263,9 +263,11 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="[[error]]">
           <p class="error">[[error]]</p>
         </template>
-        <!-- <p>Copy link instead</p>
-        <input type="text" name="shortcode" id="shortcode" value="{{text::input}}"">
-        <button class="green-bg" on-click="_copyToClipboard">Copy</button> -->
+        <template is="dom-if" if="[[shortcode]]">
+        <p>Copy link instead</p>
+        <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
+        <button class="green-bg" on-click="_copyToClipboard">Copy</button>
+        </template>
       </template>
     `;
   }
@@ -285,6 +287,11 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
       },
       fileArray: {
         type: Array,
+      },
+      closenow: {
+        type: Boolean,
+        notify: true,
+        reflectToAttribue: true,
       },
     };
   }
@@ -328,8 +335,8 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     this.$.api.sendShortcode(cleanNumber, this.country, this.fileArray, message)
         .then((response) => {
           if (response.data === true) {
-            console.log(response.shortcode);
-            console.log('TODO: CLOSE THE MODAL');
+            this.shortcode = response.shortcode;
+            this.closeNow = true;
           } else if (response.data = false && response.error) {
             this.error = error;
           }

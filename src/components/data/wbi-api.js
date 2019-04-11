@@ -447,7 +447,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             resolve(response);
           })
-          .catch((error) => console.log('Error:', error));
+          .catch((error) => {
+            console.log('Error:', error);
+          });
     });
   }
 
