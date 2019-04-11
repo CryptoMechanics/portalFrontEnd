@@ -427,13 +427,14 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} number - guests country
  * @param {string} country - guests country
  * @param {array} fileArray - array of files needed
+ * @param {string} message - array of files needed
  * @return {object} object
  */
-  sendShortcode(number, country, fileArray) {
+  sendShortcode(number, country, fileArray, message) {
     return new Promise((resolve, reject) => {
       const files = JSON.stringify(fileArray);
       const token = localStorage.getItem('jwt');
-      const data = {number, country, files};
+      const data = {number, country, files, message};
       const url = `${this.env.apiUrl}/mobile/sms/`;
       fetch(url, {
         method: 'POST',

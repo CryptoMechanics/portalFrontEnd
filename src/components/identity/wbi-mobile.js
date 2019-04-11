@@ -322,8 +322,10 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     }
   }
   _sendLink() {
-    const number = `+${this.code} ${this.number}`;
-    this.$.api.sendShortcode(number, this.country, this.fileArray)
+    const number = `+${this.code}${this.number}`;
+    const cleanNumber = number.replace(/\s/g, '');
+    const message = 'Click the link to take photos:';
+    this.$.api.sendShortcode(cleanNumber, this.country, this.fileArray, message)
         .then((response) => {
           if (response.data === true) {
             console.log(response.shortcode);
