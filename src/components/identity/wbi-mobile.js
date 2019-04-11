@@ -260,7 +260,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         <label for="male">Mobile number</label>
         <input type="text" name="number" id="number" value='{{number::input}}' on-keyup="_number">
         <button class="green-bg" on-click="_sendLink">Send Link</button>
-        <p class="error">[[error]]</p>
+        <template is="dom-if" if="[[error]]">
+          <p class="error">[[error]]</p>
+        </template>
         <!-- <p>Copy link instead</p>
         <input type="text" name="shortcode" id="shortcode" value="{{text::input}}"">
         <button class="green-bg" on-click="_copyToClipboard">Copy</button> -->
