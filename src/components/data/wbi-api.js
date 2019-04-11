@@ -439,7 +439,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {'Authorization': `Bearer ${token}`},
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
       })
           .then((response) => {
             return response.json();

@@ -331,7 +331,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
   _sendLink() {
     const number = `+${this.code}${this.number}`;
     const cleanNumber = number.replace(/\s/g, '');
-    const message = 'WORBLI: Tap this link to proceed with uploading your photos:';
+    const message = 'WORBLI: Tap this link to upload your photos:';
     this.$.api.sendShortcode(cleanNumber, this.country, this.fileArray, message)
         .then((response) => {
           if (response.data === true) {
