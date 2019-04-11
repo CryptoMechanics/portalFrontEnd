@@ -24,7 +24,7 @@ class WbiUploader extends PolymerElement {
           background-position: center; 
           text-transform: capitalize;
         }
-        .delete{
+        .delete {
           display: block;
           min-height: 170px;
           width: 250px;
@@ -43,10 +43,10 @@ class WbiUploader extends PolymerElement {
           position: absolute;
           z-index: -1;
         }
-        .title{
+        .title {
           text-transform: capitalize;
         }
-        .error{
+        .error {
           padding: 12px 0;
         }
         .webcam {
@@ -55,7 +55,7 @@ class WbiUploader extends PolymerElement {
         .webcam:hover {
           text-decoration: underline;
         }
-        .webcam-image{
+        .webcam-image {
           height: 16px;
           position: relative;
           top: 3px;

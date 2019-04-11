@@ -423,6 +423,34 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
+ * Send Shortcode
+ * @param {string} number - guests country
+ * @param {string} country - guests country
+ * @param {array} fileArray - array of files needed
+ * @return {object} object
+ */
+  sendShortcode(number, country, fileArray) {
+    return new Promise((resolve, reject) => {
+      const files = JSON.stringify(fileArray);
+      const token = localStorage.getItem('jwt');
+      const data = {number, country, files};
+      const url = `${this.env.apiUrl}/mobile/sms/`;
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => console.log('Error:', error));
+    });
+  }
+
+  /**
  * Get a users status
  * @param {string} fileType - tyoe of file 'passport-front'
  * @return {object} arrays showsg what uploaded and whats missing
