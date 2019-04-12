@@ -195,6 +195,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
               type: 'CHANGE_NETWORK',
               network: 'available',
             });
+            localStorage.setItem('email', this.email);
             localStorage.setItem('network', 'available');
           } else {
             this.dispatchAction({

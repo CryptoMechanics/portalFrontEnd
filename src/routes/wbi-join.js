@@ -215,6 +215,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
             if (response.data === false && response.error) {
               this.error = response.error;
             } else {
+              localStorage.setItem('email', this.email);
               this.dispatchAction({
                 type: 'CHANGE_EMAIL',
                 email: this.email,

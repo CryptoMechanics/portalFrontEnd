@@ -119,6 +119,12 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
+
+  ready() {
+    super.ready();
+    this.email = localStorage.getItem('email');
+    this._routeChanged();
+  }
   _routeChanged() {
     this.$.api.getEmail()
         .then((response) => {
@@ -126,6 +132,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
             this.error = response.error;
           } else {
             this.email = response.email;
+            localStorage.setItem('email', this.email);
             this.dispatchAction({
               type: 'CHANGE_EMAIL',
               email: this.email,
