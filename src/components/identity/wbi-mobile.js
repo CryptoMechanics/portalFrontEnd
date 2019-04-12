@@ -305,10 +305,10 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
   ready() {
     super.ready();
     setTimeout(() => {
-      this.shadowRoot.querySelector('#number').focus();
-    }, 0);
+      this.shadowRoot.querySelector('#code').focus();
+    }, 10);
   }
-  _code() {
+  _code(e) {
     this._isComplete();
     if (e.keyCode === 13) {
       this.shadowRoot.querySelector('#number').focus();
