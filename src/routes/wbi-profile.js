@@ -132,6 +132,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
             this.error = response.error;
           } else {
             this.email = response.email;
+            localStorage.setItem('email', this.email);
             this.dispatchAction({
               type: 'CHANGE_EMAIL',
               email: this.email,
