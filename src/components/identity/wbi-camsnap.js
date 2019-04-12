@@ -93,7 +93,7 @@ class WbiCamsnap extends PolymerElement {
       </template>
       
       <template is="dom-if" if="{{!showVid}}">
-        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a selfie</button>
+        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a picture</button>
       </template>
     `;
   }
@@ -163,12 +163,11 @@ class WbiCamsnap extends PolymerElement {
     this.showVid = true;
   }
   _upload() {
-    console.log(this.fileName);
+    console.log('Save');
+    localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
           console.log(response);
-          console.log(response.rejectedDocuments);
-          console.log(response.rejectedDocuments.length);
           if (response.rejectedDocuments.length === 0) {
             this.closenow = true;
           } else {
@@ -180,6 +179,7 @@ class WbiCamsnap extends PolymerElement {
   }
 
   _capture() {
+    console.log('Capture');
     this.updateStyles({'--capture-display': 'none'});
     this.updateStyles({'--retake-display': 'block'});
     this.updateStyles({'--video-display': 'none'});

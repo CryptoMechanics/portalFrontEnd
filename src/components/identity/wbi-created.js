@@ -71,14 +71,15 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           color: #838383;
           font-weight: 600;
           font-size: 13px;
-          margin: 40px 0;
+          margin: 40px 0 20px 0;
         }
         .upload-docs{
-          margin: 40px 0;
+          margin: 40px 0 0 0;
         }
         .uploadContainer{
           display: flex;
         }
+
 
       </style>
       <wbi-api id='api'></wbi-api>
@@ -473,6 +474,8 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
+            <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button>
+            <small>Optional</small>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
                 <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]" completed="{{completed}}"></wbi-uploader>
@@ -548,6 +551,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
+
+  _mobile() {
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', country: this.country, fileArray: this.fileArray}}));
+  }
   _gender(e) {
     this._isComplete();
     if (e.keyCode === 13) {
@@ -619,8 +626,12 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
               type: 'CHANGE_STATUS',
               status: 'pending',
             });
+            const jwt = localStorage.getItem('jwt');
+            const network = localStorage.getItem('network');
+            localStorage.clear();
+            localStorage.setItem('jwt', jwt);
+            localStorage.setItem('network', network);
             localStorage.setItem('status', 'pending');
-            console.log(response);
           })
           .catch((error) => {
             this.dispatchAction({

@@ -4,6 +4,7 @@ import store from '../global/store.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/identity/wbi-camsnap.js';
+import '../components/identity/wbi-mobile.js';
 
 const ReduxMixin = createMixin(store);
 class WbiModal extends ReduxMixin(PolymerElement) {
@@ -57,6 +58,11 @@ class WbiModal extends ReduxMixin(PolymerElement) {
       </style>
       <div class="overlay" on-click="_hide">
         
+      <template is="dom-if" if="{{mobile}}">
+          <div class="modal" on-click="_clickModal">
+            <wbi-mobile file-array="[[fileArray]]" country="[[country]]" closenow="{{closenow}}"></wbi-mobile>   
+          </div>
+        </template>
 
         <template is="dom-if" if="{{document}}">
           <div class="modal" on-click="_clickModal">
@@ -77,8 +83,11 @@ class WbiModal extends ReduxMixin(PolymerElement) {
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
+      },
+      country: {
+        type: String,
       },
       color: {
         type: Object,
@@ -125,6 +134,8 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     window.addEventListener('modal', (e) => {
       this.language = e.detail.language;
       this.fileName = e.detail.fileName;
+      this.fileArray = e.detail.fileArray;
+      this.country = e.detail.country;
       this._show(e.detail.action);
     });
     window.addEventListener('hideModal', () => {
@@ -140,10 +151,16 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     }, 1);
     if (e === 'selfie') {
       this.document = false;
+      this.mobile = false;
       this.selfie = true;
+    } else if (e === 'mobile') {
+      this.document = false;
+      this.selfie = false;
+      this.mobile = true;
     } else {
       this.document = true;
       this.selfie = false;
+      this.mobile = false;
     }
   }
 

@@ -2,6 +2,7 @@ import {createMixin} from 'polymer-redux';
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
+import '../data/wbi-api.js';
 
 const ReduxMixin = createMixin(store);
 class WbiMobile extends ReduxMixin(PolymerElement) {
@@ -11,12 +12,17 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         :host {
           background-color: white;
         }
+        .green-bg{
+          background-color: var(--active-color, #BDC1C6);
+          cursor: var(--cursor-type, default);
+          pointer-events: var(--pointer-event, none);
+        }
       </style>
+      <wbi-api id='api'></wbi-api>
       <template is="dom-if" if="{{!start}}">
         <h2>Continue verification on your mobile</h2>
         <div class="container-mobile">
           <div class="left">
-            <!-- <img src="./"> -->
           </div>
           <div class="right">
             <div>We'll SMS a secure link to your mobile (no app download required)</div><br/>
@@ -24,14 +30,15 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
             <div>Return to your computer to complete your verification</div><br/>
           </div>
         </div>
-        <button class="green-bg" on-click="_letsStart">Lets Start</button>
+        <button on-click="_letsStart">Lets Start</button>
       </template>
 
       <template is="dom-if" if="{{start}}">
         <h2>Get your secure link</h2>
         <p>We will send a one-time secure link to your mobile</p>
-        <select name="countryCode" id="">
-          <option data-countryCode="GB" value="44" Selected>UK (+44)</option>
+        <select name="countryCode" id="code" value='{{code::input}}' on-change="_code">
+          <option Selected>Select...</option>
+          <option data-countryCode="GB" value="44">UK (+44)</option>
           <option data-countryCode="US" value="1">USA (+1)</option>
           <optgroup label="Other countries">
             <option data-countryCode="DZ" value="213">Algeria (+213)</option>
@@ -251,11 +258,16 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           </optgroup>
         </select>
         <label for="male">Mobile number</label>
-        <input type="text" name="number" id="number" value="">
+        <input type="text" name="number" id="number" value='{{number::input}}' on-keyup="_number">
         <button class="green-bg" on-click="_sendLink">Send Link</button>
+        <template is="dom-if" if="[[error]]">
+          <p class="error">[[error]]</p>
+        </template>
+        <template is="dom-if" if="[[shortcode]]">
         <p>Copy link instead</p>
-        <input type="text" name="shortcode" id="shortcode" value="{{text::input}}"">
+        <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
         <button class="green-bg" on-click="_copyToClipboard">Copy</button>
+        </template>
       </template>
     `;
   }
@@ -266,9 +278,20 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         type: String,
         readOnly: true,
       },
+      country: {
+        type: String,
+      },
       start: {
         type: Boolean,
         value: false,
+      },
+      fileArray: {
+        type: Array,
+      },
+      closenow: {
+        type: Boolean,
+        notify: true,
+        reflectToAttribue: true,
       },
     };
   }
@@ -281,6 +304,46 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
 
   ready() {
     super.ready();
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#code').focus();
+    }, 10);
+  }
+  _code(e) {
+    this._isComplete();
+    if (e.keyCode === 13) {
+      this.shadowRoot.querySelector('#number').focus();
+    }
+  }
+  _number() {
+    this._isComplete();
+  }
+  _isComplete() {
+    if (this.code && this.number) {
+      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--cursor-type': 'pointer'});
+      this.updateStyles({'--pointer-event': 'auto'});
+    } else {
+      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--cursor-type': 'default'});
+      this.updateStyles({'--pointer-event': 'none'});
+    }
+  }
+  _sendLink() {
+    const number = `+${this.code}${this.number}`;
+    const cleanNumber = number.replace(/\s/g, '');
+    const message = 'WORBLI: Tap this link to upload your photos:';
+    this.$.api.sendShortcode(cleanNumber, this.country, this.fileArray, message)
+        .then((response) => {
+          if (response.data === true) {
+            this.shortcode = response.shortcode;
+            this.closeNow = true;
+          } else if (response.data = false && response.error) {
+            this.error = error;
+          }
+        })
+        .catch((error) => {
+          this.error = error;
+        });
   }
   _letsStart() {
     this.start = true;

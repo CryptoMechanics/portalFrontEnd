@@ -24,7 +24,7 @@ class WbiUploader extends PolymerElement {
           background-position: center; 
           text-transform: capitalize;
         }
-        .delete{
+        .delete {
           display: block;
           min-height: 170px;
           width: 250px;
@@ -43,10 +43,10 @@ class WbiUploader extends PolymerElement {
           position: absolute;
           z-index: -1;
         }
-        .title{
+        .title {
           text-transform: capitalize;
         }
-        .error{
+        .error {
           padding: 12px 0;
         }
         .webcam {
@@ -55,7 +55,7 @@ class WbiUploader extends PolymerElement {
         .webcam:hover {
           text-decoration: underline;
         }
-        .webcam-image{
+        .webcam-image {
           height: 16px;
           position: relative;
           top: 3px;
@@ -107,6 +107,17 @@ class WbiUploader extends PolymerElement {
     };
   }
 
+  ready() {
+    super.ready();
+    setInterval(() => {
+      const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
+      if (savedImage) {
+        this.updateStyles({'--background-image': `url("${savedImage}")`});
+        this.completed = true;
+      }
+    }, 1000);
+  }
+
   _openModal() {
     this.selfie = false;
     if (this.fileName === '_selfie') {
@@ -127,10 +138,10 @@ class WbiUploader extends PolymerElement {
     // TODO: send this to upload
   }
   _delete(e) {
-    console.log(e);
     this.preview = false;
     this.updateStyles({'--background-image': `none`});
     this.shadowRoot.querySelector(`#form`).reset();
+    localStorage.removeItem(`${this.country}_${this.fileName}`);
     this.$.api.deleteImage(`${this.country}_${this.fileName}`)
         .then((response) => {
           console.log(response);
@@ -166,6 +177,7 @@ class WbiUploader extends PolymerElement {
             canvas.height = height;
             canvas.getContext('2d').drawImage(image, 0, 0, width, height);
             const dataUrl = canvas.toDataURL('image/jpeg');
+            localStorage.setItem(`${this.country}_${target}`, dataUrl);
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
