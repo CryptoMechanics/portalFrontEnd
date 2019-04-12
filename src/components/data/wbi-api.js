@@ -550,12 +550,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
             return response.json();
           })
           .then((response) => {
-            if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
-              localStorage.clear();
-              this.set('route.path', '/signin');
-            } else {
-              resolve(response);
-            }
+            resolve(response);
           })
           .catch((error) => console.log('Error:', error));
     });
