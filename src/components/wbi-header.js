@@ -120,9 +120,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/');
   }
   _logout() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('status');
-    localStorage.removeItem('network');
+    localStorage.clear();
     this.set('route.path', '/signin/');
   }
   _language() {

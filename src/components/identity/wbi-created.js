@@ -626,6 +626,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
               type: 'CHANGE_STATUS',
               status: 'pending',
             });
+            const jwt = localStorage.getItem('jwt');
+            const network = localStorage.getItem('network');
+            localStorage.clear();
+            localStorage.setItem('jwt', jwt);
+            localStorage.setItem('network', network);
             localStorage.setItem('status', 'pending');
           })
           .catch((error) => {

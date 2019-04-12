@@ -163,8 +163,11 @@ class WbiCamsnap extends PolymerElement {
     this.showVid = true;
   }
   _upload() {
+    console.log('Save');
+    localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
+          console.log(response);
           if (response.rejectedDocuments.length === 0) {
             this.closenow = true;
           } else {
@@ -176,6 +179,7 @@ class WbiCamsnap extends PolymerElement {
   }
 
   _capture() {
+    console.log('Capture');
     this.updateStyles({'--capture-display': 'none'});
     this.updateStyles({'--retake-display': 'block'});
     this.updateStyles({'--video-display': 'none'});
