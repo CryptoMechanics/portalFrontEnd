@@ -107,6 +107,16 @@ class WbiUploader extends PolymerElement {
     };
   }
 
+  ready() {
+    super.ready();
+    setInterval(() => {
+      const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
+      if (savedImage) {
+        this.updateStyles({'--background-image': `url("${savedImage}")`});
+      }
+    }, 1000);
+  }
+
   _openModal() {
     this.selfie = false;
     if (this.fileName === '_selfie') {
@@ -130,6 +140,7 @@ class WbiUploader extends PolymerElement {
     this.preview = false;
     this.updateStyles({'--background-image': `none`});
     this.shadowRoot.querySelector(`#form`).reset();
+    localStorage.removeItem(`${this.country}_${this.fileName}`);
     this.$.api.deleteImage(`${this.country}_${this.fileName}`)
         .then((response) => {
           console.log(response);
