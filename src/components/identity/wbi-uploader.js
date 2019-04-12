@@ -113,6 +113,7 @@ class WbiUploader extends PolymerElement {
       const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
       if (savedImage) {
         this.updateStyles({'--background-image': `url("${savedImage}")`});
+        this.completed = true;
       }
     }, 1000);
   }
