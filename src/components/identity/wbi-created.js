@@ -628,8 +628,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             });
             const jwt = localStorage.getItem('jwt');
             const network = localStorage.getItem('network');
+            const email = localStorage.getItem('email');
             localStorage.clear();
             localStorage.setItem('jwt', jwt);
+            localStorage.setItem('email', email);
             localStorage.setItem('network', network);
             localStorage.setItem('status', 'pending');
           })

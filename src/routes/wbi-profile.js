@@ -119,6 +119,12 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
+
+  ready() {
+    super.ready();
+    this.email = localStorage.getItem('email');
+    this._routeChanged();
+  }
   _routeChanged() {
     this.$.api.getEmail()
         .then((response) => {
