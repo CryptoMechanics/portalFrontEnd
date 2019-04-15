@@ -1,9 +1,9 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
+import '../components/identity/wbi-mobisnap.js';
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
@@ -14,10 +14,33 @@ class WbiId extends ReduxMixin(PolymerElement) {
         :host {
           display: block;
         }
+        div {
+          text-align: center;
+          margin: 24px;
+        }
+        h1 {
+          margin: 0 auto;
+          color: #63656F;
+          margin: 44px 0;
+        }
+        img {
+          width: 100%;
+          max-width: 360px;
+          margin: 21px 0;
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
-        <p>missing images are:</p>
+      <div>
+        <template is="dom-if" if="{{allowAccess}}">
+          <h1>Allow camera access</h1>
+          <p>Enable your camera to continue verification</p>
+          <p>Click allow on the popup that will appear on the text screen</p>
+          <img src="./images/enable-cam.png">
+          <p>Why do I need to do this?</p>
+          <button on-click="_takePic">Enable Camera</button>
+        </template>
+      </div>
     `;
   }
 
@@ -26,6 +49,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
       env: {
         type: Object,
         readOnly: true,
+      },
+      allowAccess: {
+        type: Boolean,
+        value: true,
       },
     };
   }
@@ -43,6 +70,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this._swapToken();
   }
 
+  _takePic() {
+    console.log('test');
+  }
+
   _routeChanged() {
     this.token = this.route.__queryParams.token;
   }
@@ -53,9 +84,16 @@ class WbiId extends ReduxMixin(PolymerElement) {
       this.$.api.swapToken(token)
           .then((response) => {
             if (response && response.data === false && response.error) {
-              this.error = response.error;
+              this.country = localStorage.getItem('country');
+              this.files = JSON.parse(localStorage.getItem('file'));
+              this.jwt = localStorage.getItem('jwt');
             } else if (response && response.data === true) {
-              console.log(response);
+              localStorage.setItem('country', response.country);
+              localStorage.setItem('files', response.files);
+              localStorage.setItem('jwt', response.jwt);
+              this.country = response.country;
+              this.files = JSON.parse(response.files);
+              this.jwt = response.jwt;
             }
           });
     }

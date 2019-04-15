@@ -558,15 +558,17 @@ class WbiApi extends ReduxMixin(PolymerElement) {
 
   /**
  * Get a users status
- * @param {string} token - tyoe of file 'passport-front'
+ * @param {string} shortcode - tyoe of file 'passport-front'
  * @return {object} arrays showsg what uploaded and whats missing
  */
-  swapToken(token) {
+  swapToken(shortcode) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/mobile/shortcode/${token}`;
-      console.log(url);
+      const data = {shortcode};
+      const url = `${this.env.apiUrl}/mobile/shortcode/`;
       fetch(url, {
-        method: 'GET',
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'},
       })
           .then((response) => {
             return response.json();
