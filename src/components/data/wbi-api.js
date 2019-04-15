@@ -556,6 +556,28 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     });
   }
 
+  /**
+ * Get a users status
+ * @param {string} token - tyoe of file 'passport-front'
+ * @return {object} arrays showsg what uploaded and whats missing
+ */
+  swapToken(token) {
+    return new Promise((resolve, reject) => {
+      const url = `${this.env.apiUrl}/mobile/shortcode/${token}`;
+      console.log(url);
+      fetch(url, {
+        method: 'GET',
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => console.log('Error:', error));
+    });
+  }
+
   static mapStateToProps(state, element) {
     return {
       language: state.language,
