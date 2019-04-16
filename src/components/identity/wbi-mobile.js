@@ -335,7 +335,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     this.$.api.sendShortcode(cleanNumber, this.country, this.fileArray, message)
         .then((response) => {
           if (response.data === true) {
-            this.shortcode = response.shortcode;
+            this.shortcode = `https://worbli.io/id/${response.shortcode}`;
             this.closeNow = true;
           } else if (response.data = false && response.error) {
             this.error = error;
