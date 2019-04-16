@@ -28,11 +28,11 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       </style>
       <wbi-api id='api'></wbi-api>
       <h2>Name</h2>
-        <label>Worbli Account Name</label>
+        <label>Worbli Network Account</label>
         <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName" on-paste="_accountName">
         <small>
           Choose your desired Worbli account name. </br>
-          (6-12 charectors, must start with a letter and can only contain letters and numbers 1-5)
+          (6-12 characters, must start with a letter and can only contain letters and numbers 1-5)
         </small>
       <hr>
       <h2>Keys</h2>
