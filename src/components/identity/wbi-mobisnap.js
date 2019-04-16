@@ -20,65 +20,59 @@ class WbiMobisnap extends PolymerElement {
           display: var(--canvas-display, none);
           border-radius: 3px;
         }
+        h1 {
+            color: #63656F;
+            text-transform: capitalize;
+        }
         #capture {
           display: var(--capture-display, block);
-          position:absolute;
-          bottom:25px;
-          right: 35px;
-          background-color: transparent;
-          border: none;
-          width: 100px;
-          height: 100px;
-          z-index: 200;
+          background-color: #91CC7F;
         }
         #retake {
           display: var(--retake-display, none);
-          position:absolute;
-          bottom:26px;
-          right: 38px;
-          z-index: 200;
-          width: 100px;
-          height: 100px;
-          z-index: 200;
-          border: none;
-          background-color: transparent;
+          background-color: white;
+          margin-right: 12px;
+          border: 1px solid #91CC7F;
+          color: #91CC7F;
+          flex: 3;
         }
         #upload {
           display: var(--retake-display, none);
-          position:absolute;
-          bottom:25px;
-          left: 20px;
-          z-index: 200;
-          width: 100px;
-          height: 100px;
-          z-index: 200;
-          border: none;
-          background-color: transparent;
+          background-color: #91CC7F;
+          flex: 5;
+        }
+        #image {
+          display: var(--image-display, none);
+          max-width: calc(100vw - 50px);
         }
         .content {
           position:relative;
-          width: 640px;
-          height: 480px;
           border-radius: 3px;
         }
         .overlay {
           display: var(--capture-display, block);
+          max-width: calc(100vw - 50px);
           position:absolute;
-          top: -6px;
-          left: -6px;
           z-index: 100;
           border-radius: 3px;
         }
         video {
-          object-fit: cover;
-          width: 640px;
-          height: 480px;
+            max-width: calc(100vw - 50px);
         }
         .openCamera {
           width: 400px;
         }
+        .container {
+            max-width: calc(100vw - 50px);
+            display: flex;
+        }
+        .error {
+          padding: 12px 0;
+        }
       </style>
       <wbi-api id='api'></wbi-api>
+      <h1>[[displayTitle]]</h1>
+      <p>[[description]]</p>
       <template is="dom-if" if="{{showVid}}">
         <div class="content">
           <template is="dom-if" if="{{selfie}}">
@@ -86,14 +80,18 @@ class WbiMobisnap extends PolymerElement {
           </template>
           <video id="player" autoplay></video>
           <canvas id="canvas" width=640 height=480></canvas>
-          <button id="capture" on-click="_capture"><img src="/images/cam.svg"></button>
-          <button id="retake" on-click="_retake"><img src="/images/bin2.svg"></button>
-          <button id="upload" on-click="_upload"><img src="/images/upload2.svg"></button>
+            <img id="image" src="[[base64]]">
+          <button id="capture" on-click="_capture">TAKE A PHOTO</button>
+
+          <div class="container">
+            <button id="retake" on-click="_retake">REDO</button>
+            <button id="upload" on-click="_upload">CONFIRM</button>
+          </div>
+
+          <template is="dom-if" if="{{selfieError}}">
+            <div class="error">[[selfieError]]</div>
+          </template>
         </div>
-      </template>
-      
-      <template is="dom-if" if="{{!showVid}}">
-        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a picture</button>
       </template>
     `;
   }
@@ -101,11 +99,14 @@ class WbiMobisnap extends PolymerElement {
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
+      title: {
+        type: String,
+      },
       mode: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       showVid: {
@@ -114,7 +115,7 @@ class WbiMobisnap extends PolymerElement {
       },
       selfie: {
         type: Boolean,
-        value: false,
+        value: true,
       },
       upload: {
         type: Boolean,
@@ -134,6 +135,7 @@ class WbiMobisnap extends PolymerElement {
       },
       fileName: {
         type: String,
+        observer: '_title',
       },
       stopCam: {
         type: Boolean,
@@ -147,13 +149,24 @@ class WbiMobisnap extends PolymerElement {
     };
   }
 
+  _title() {
+    if (this.fileName.includes('selfie')) {
+      this.displayTitle = 'Take a selfie';
+      this.description = 'Make sure your face is the only face in the shot and that its clearly visable with no blur or glare';
+    } else {
+      this.displayTitle = this.fileName.replace(/_/g, ' ');
+      this.description = 'Make sure your details are clear to read, with no blur or glare';
+    };
+  }
+
   _stopCam() {
     if (this.stopCam) {
       this.stream.getTracks()[0].stop();
     }
   }
 
-  _getCam() {
+  ready() {
+    super.ready();
     const constraints = {video: {width: 800, height: 600}};
     navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
@@ -162,14 +175,25 @@ class WbiMobisnap extends PolymerElement {
         });
     this.showVid = true;
   }
+
   _upload() {
-    console.log('Save');
     localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
-          console.log(response);
-          if (response.rejectedDocuments.length === 0) {
-            this.closenow = true;
+          if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
+            const files = JSON.parse(localStorage.getItem('files'));
+            if (files && files.length > 0) {
+              const country = localStorage.getItem('country');
+              this.fileName = `${country}_${files[0].value}`;
+              files.shift();
+              localStorage.setItem('files', JSON.stringify(files));
+              this.selfie = false;
+              this._retake();
+            } else {
+              this.showVid = false;
+              this.displayTitle = 'Complete';
+              this.description = 'Please return to the desktop';
+            }
           } else {
             this._retake();
             this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
@@ -183,7 +207,8 @@ class WbiMobisnap extends PolymerElement {
     this.updateStyles({'--capture-display': 'none'});
     this.updateStyles({'--retake-display': 'block'});
     this.updateStyles({'--video-display': 'none'});
-    this.updateStyles({'--canvas-display': 'block'});
+    this.updateStyles({'--canvas-display': 'none'});
+    this.updateStyles({'--image-display': 'block'});
     const player = this.shadowRoot.querySelector('#player');
     const canvas = this.shadowRoot.querySelector('#canvas');
     const context = canvas.getContext('2d');
@@ -200,6 +225,7 @@ class WbiMobisnap extends PolymerElement {
     this.updateStyles({'--retake-display': 'none'});
     this.updateStyles({'--video-display': 'block'});
     this.updateStyles({'--canvas-display': 'none'});
+    this.updateStyles({'--image-display': 'none'});
   }
 
   _dataURLToBlob(dataURL) {

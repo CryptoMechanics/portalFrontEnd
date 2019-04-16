@@ -38,7 +38,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <p>Click allow on the popup that will appear on the text screen</p>
           <img src="./images/enable-cam.png">
           <p>Why do I need to do this?</p>
-          <button on-click="_takePic">Enable Camera</button>
+          <button on-click="_takeSelfie">Enable Camera</button>
+        </template>
+        <template is="dom-if" if="{{selfie}}">
+          <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
         </template>
       </div>
     `;
@@ -53,6 +56,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
       allowAccess: {
         type: Boolean,
         value: true,
+      },
+      country: {
+        type: String,
       },
     };
   }
@@ -70,8 +76,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this._swapToken();
   }
 
-  _takePic() {
-    console.log('test');
+  _takeSelfie() {
+    this.selfie = true;
+    this.allowAccess = false;
   }
 
   _routeChanged() {
