@@ -3,6 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-location.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
+import '../components/data/wbi-socket.js';
 
 const ReduxMixin = createMixin(store);
 class WbiHeader extends ReduxMixin(PolymerElement) {
@@ -67,6 +68,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
 
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+      <wbi-socket></wbi-socket>
       <div class="header">
         <img src="./images/worbli.png" class="logo" on-click="_settings">
         <div class="main-nav">
