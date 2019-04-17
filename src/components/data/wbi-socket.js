@@ -8,7 +8,7 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-      <script src="[[env.socketUrl]]/socket.io.js"></script>
+      <script src="../../../socket.io.js"></script>
     `;
   }
 
