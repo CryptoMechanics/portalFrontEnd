@@ -7,6 +7,7 @@ import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import './components/wbi-modal.js';
 import './components/data/wbi-api.js';
+import './components/data/wbi-socket.js';
 
 import store from './global/store.js';
 const ReduxMixin = createMixin(store);
