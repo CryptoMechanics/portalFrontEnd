@@ -77,6 +77,9 @@ class WbiCamsnap extends PolymerElement {
         .openCamera {
           width: 400px;
         }
+        .error {
+          padding: 12px;
+        }
       </style>
       <wbi-api id='api'></wbi-api>
       <template is="dom-if" if="{{showVid}}">
@@ -90,6 +93,7 @@ class WbiCamsnap extends PolymerElement {
           <button id="retake" on-click="_retake"><img src="/images/bin2.svg"></button>
           <button id="upload" on-click="_upload"><img src="/images/upload2.svg"></button>
         </div>
+        <p class="error">[[selfieError]]</p>
       </template>
       
       <template is="dom-if" if="{{!showVid}}">
@@ -163,23 +167,20 @@ class WbiCamsnap extends PolymerElement {
     this.showVid = true;
   }
   _upload() {
-    console.log('Save');
     localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
-          console.log(response);
           if (response.rejectedDocuments.length === 0) {
             this.closenow = true;
           } else {
             this._retake();
-            this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+            this.selfieError = 'Face detection failed. Ensure your face is clearly visible and no other people in the background.';
           };
         });
     this.upload = true;
   }
 
   _capture() {
-    console.log('Capture');
     this.updateStyles({'--capture-display': 'none'});
     this.updateStyles({'--retake-display': 'block'});
     this.updateStyles({'--video-display': 'none'});
