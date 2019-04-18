@@ -47,7 +47,9 @@ class WbiSent extends ReduxMixin(PolymerElement) {
           <h2>[[txt.sentEmail]]</h2>
           <template is="dom-if" if="{{email}}">
             <p>[[txt.checkYourEmail]] <strong>[[email]]</strong></p>
-            <button type="button" class="green-bg" on-click="_resend">Resend Verification Email</button>
+            <template is="dom-if" if="{{!forgot}}">
+              <button type="button" class="green-bg" on-click="_resend">Resend Verification Email</button>
+            </template>
             <template is="dom-if" if="{{error}}">
               <p class="error">[[error]]</p>
             </template>
@@ -80,6 +82,10 @@ class WbiSent extends ReduxMixin(PolymerElement) {
         type: String,
         readOnly: true,
       },
+      forgot: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -89,6 +95,13 @@ class WbiSent extends ReduxMixin(PolymerElement) {
       email: state.email,
       color: state.color,
       env: state.env,
+    };
+  }
+
+  ready() {
+    super.ready();
+    if (this.route.path.split('/')[2] === 'forgot') {
+      this.forgot = true;
     };
   }
   _resend() {
