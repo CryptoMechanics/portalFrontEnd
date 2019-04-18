@@ -35,16 +35,14 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
   _connect() {
     this.jwt = localStorage.getItem('jwt');
     this.socket = io('https://dev-api.worbli.io/', {query: `jwt=${this.jwt}`});
-    console.log(this.socket);
     this.socket.on('connect', () => {
-      console.log('connected');
       this.socket.on('status', (response) => {
         this.dispatchAction({
           type: 'CHANGE_STATUS',
-          status: response.status,
+          status: response.status.status,
         });
-        localStorage.setItem('status', response.status);
-        if (!response.worbliAccountName) {
+        localStorage.setItem('status', response.status.status);
+        if (!response.status.worbliAccountName) {
           this.dispatchAction({
             type: 'CHANGE_NETWORK',
             network: 'available',
