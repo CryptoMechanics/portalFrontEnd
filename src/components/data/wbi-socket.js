@@ -38,8 +38,25 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
     console.log(this.socket);
     this.socket.on('connect', () => {
       console.log('connected');
-      this.socket.on('status', (data) => {
-        console.log(data);
+      this.socket.on('status', (response) => {
+        this.dispatchAction({
+          type: 'CHANGE_STATUS',
+          status: response.status,
+        });
+        localStorage.setItem('status', response.status);
+        if (!response.worbliAccountName) {
+          this.dispatchAction({
+            type: 'CHANGE_NETWORK',
+            network: 'available',
+          });
+          localStorage.setItem('network', 'available');
+        } else {
+          this.dispatchAction({
+            type: 'CHANGE_NETWORK',
+            network: 'claimed',
+          });
+          localStorage.setItem('network', 'claimed');
+        }
       });
       this.socket.on('imageStatus', (data) => {
         console.log(data);

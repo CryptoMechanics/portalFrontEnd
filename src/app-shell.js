@@ -6,7 +6,6 @@ import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import './components/wbi-modal.js';
-import './components/data/wbi-api.js';
 
 import store from './global/store.js';
 const ReduxMixin = createMixin(store);
@@ -25,7 +24,6 @@ class AppShell extends ReduxMixin(PolymerElement) {
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-      <wbi-api id='api'></wbi-api>
       <wbi-modal></wbi-modal>
       <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
         <wbi-signin name="signin"></wbi-signin>
@@ -132,35 +130,6 @@ class AppShell extends ReduxMixin(PolymerElement) {
       case 'error':
         import('./routes/wbi-error.js');
         break;
-    }
-  }
-  _status() {
-    if (this.page != 'home' || this.page != 'sent' || this.page != 'signin' || this.page != 'join' || this.status != 'created' || this.status != 'approved') {
-      setInterval(() => {
-        this.$.api.getStatus()
-            .then((response) => {
-              if (response.status) {
-                this.dispatchAction({
-                  type: 'CHANGE_STATUS',
-                  status: response.status,
-                });
-                localStorage.setItem('status', response.status);
-              }
-              if (!response.worbliAccountName) {
-                this.dispatchAction({
-                  type: 'CHANGE_NETWORK',
-                  network: 'available',
-                });
-                localStorage.setItem('network', 'available');
-              } else {
-                this.dispatchAction({
-                  type: 'CHANGE_NETWORK',
-                  network: 'claimed',
-                });
-                localStorage.setItem('network', 'claimed');
-              }
-            });
-      }, 30000);
     }
   }
 } window.customElements.define('app-shell', AppShell);
