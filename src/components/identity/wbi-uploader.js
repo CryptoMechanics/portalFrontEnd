@@ -146,6 +146,9 @@ class WbiUploader extends PolymerElement {
     this.$.api.deleteImage(`${this.country}_${this.fileName}`)
         .then((response) => {
           console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
         });
   }
   _upload(e) {
