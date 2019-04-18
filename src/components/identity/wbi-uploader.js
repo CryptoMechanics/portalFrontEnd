@@ -114,6 +114,7 @@ class WbiUploader extends PolymerElement {
       if (savedImage) {
         this.updateStyles({'--background-image': `url("${savedImage}")`});
         this.completed = true;
+        this.preview = true;
       }
     }, 1000);
   }
