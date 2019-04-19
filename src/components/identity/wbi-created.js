@@ -565,7 +565,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   _imageStatus() {
     this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
-    console.log('------ All socket data ------');
+    console.log('------ All socket datas ------');
     console.log(this.imagestatus);
     console.log('----- All the images have been uploaded -------');
     this.completed = this.imagestatus.completed;
