@@ -366,6 +366,10 @@ class WbiApi extends ReduxMixin(PolymerElement) {
               localStorage.clear();
               this.set('route.path', '/signin');
             } else {
+              this.dispatchAction({
+                type: 'CHANGE_IMAGESTATUS',
+                imagestatus: response,
+              });
               resolve(response);
             }
           })
