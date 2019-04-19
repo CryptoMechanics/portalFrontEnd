@@ -540,6 +540,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
+      imagestatus: {
+        type: Array,
+        readOnly: true,
+        observer: '_imageStatus',
+      },
     };
   }
 
@@ -549,9 +554,13 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+      imagestatus: state.imagestatus,
     };
   }
 
+  _imageStatus() {
+    console.log(this.imagestatus);
+  }
   _mobile() {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', country: this.country, fileArray: this.fileArray}}));
   }
