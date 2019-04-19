@@ -56,8 +56,12 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
           localStorage.setItem('network', 'claimed');
         }
       });
-      this.socket.on('imageStatus', (data) => {
-        console.log(data);
+      this.socket.on('imageStatus', (response) => {
+        this.dispatchAction({
+          type: 'CHANGE_IMAGESTATUS',
+          imagestatus: response.missingDocuments,
+        });
+        localStorage.setItem('imagestatus', response.missingDocuments);
       });
       this.socket.on('disconnect', () => {
         console.log('DISCONNECTED');

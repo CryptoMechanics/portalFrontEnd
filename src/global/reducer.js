@@ -32,6 +32,10 @@ export default (state = initial, action) => {
       return Object.assign({}, state, {
         network: action.network,
       });
+    case 'CHANGE_IMAGESTATUS':
+      return Object.assign({}, state, {
+        imagestatus: action.imagestatus,
+      });
     default:
       return state;
   }
