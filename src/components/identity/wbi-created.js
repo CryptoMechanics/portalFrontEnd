@@ -563,15 +563,16 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _imageStatus() {
+    console.log('----- SOCKET RESPONSE START -------');
     this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
-    console.log('------ All socket datas ------');
-    console.log(this.imagestatus);
     console.log('----- All the images have been uploaded -------');
     this.completed = this.imagestatus.completed;
     console.log(this.imagestatus.completed);
     console.log('----- Missing Images -------');
     console.log(this.imagestatus.missingDocuments);
+    console.log('----- SOCKET RESPONSE END -------');
+    this._isComplete();
   }
   _mobile() {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', country: this.country, fileArray: this.fileArray}}));
@@ -626,6 +627,16 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _isComplete() {
+    console.log('----- CHECK START Do we have eveything we need? ----');
+    console.log('country', this.country == true);
+    console.log('firstName', this.firstName == true);
+    console.log('lastNamet', this.lastName == true);
+    console.log('day', this.day == true);
+    console.log('month', this.month == true);
+    console.log('year', this.year == true);
+    console.log('gender', this.gender == true);
+    console.log('images completed', this.completed == true);
+    console.log('----- CHECK END IF ALL ARE TRUE SHOW GREEN BUTTON ----');
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       this.updateStyles({'--cursor-type': 'pointer'});
