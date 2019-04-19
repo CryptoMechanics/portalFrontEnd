@@ -563,7 +563,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _imageStatus() {
-    console.log('----- SOCKET RESPONSE START -------');
+    console.log('----- REDUX RESPONSE START -------');
     this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
     console.log('----- All the images have been uploaded -------');
@@ -571,7 +571,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     console.log(this.imagestatus.completed);
     console.log('----- Missing Images -------');
     console.log(this.imagestatus.missingDocuments);
-    console.log('----- SOCKET RESPONSE END -------');
+    console.log('----- REDUX RESPONSE END -------');
     this._isComplete();
   }
   _mobile() {
