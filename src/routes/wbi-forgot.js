@@ -32,6 +32,9 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         p {
           margin-bottom: 32px;
         }
+        .error{
+          padding: 12px 0;
+        }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
           cursor: var(--cursor-type, default);
@@ -55,7 +58,9 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           <input type="text" name="email" id="email" value="{{email::input}}" on-keyup="_email" on-paste="_email">
           <button type="button" class="green-bg" on-click="_send">[[txt.sendResetLink]]</button>
           <button type="button" class="white-bg" on-click="_signIn">[[txt.backToSignIn]]</button>
-          <p>[[error]]</p>
+          <template is="dom-if" if="{{error}}">
+              <p class="error">[[error]]</p>
+            </template>
         </div>
       </wbi-center>
     `;
@@ -146,7 +151,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
                 type: 'CHANGE_EMAIL',
                 email: this.email,
               });
-              this.set('route.path', '/sent');
+              this.set('route.path', '/sent/forgot');
             }
           });
     }

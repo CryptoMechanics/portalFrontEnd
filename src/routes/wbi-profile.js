@@ -53,7 +53,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         </div>
         <hr>
 
-        <template is="dom-if" if="[[email]]">
+
           <label for="email">Email address</label>
           <input type="text" name="email" id="email" value="{{email::input}}" readonly>
           <label for="password">Password</label>
@@ -68,7 +68,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           <template is="dom-if" if="{{loading}}">
             <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
           </template>
-        </template>
+   
 
 
       </div>
@@ -94,11 +94,6 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
-      focus: {
-        type: Boolean,
-        value: true,
-        observer: '_focusEmail',
-      },
       route: {
         type: Boolean,
         observer: '_routeChanged',
@@ -123,22 +118,19 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
   ready() {
     super.ready();
     this.email = localStorage.getItem('email');
+    this.dispatchAction({
+      type: 'CHANGE_EMAIL',
+      email: this.email,
+    });
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#email').focus();
+    }, 0);
     this._routeChanged();
   }
   _routeChanged() {
-    this.$.api.getEmail()
-        .then((response) => {
-          if (response.data === false && response.error) {
-            this.error = response.error;
-          } else {
-            this.email = response.email;
-            localStorage.setItem('email', this.email);
-            this.dispatchAction({
-              type: 'CHANGE_EMAIL',
-              email: this.email,
-            });
-          }
-        });
+    this.password = '';
+    this.newPassword = '';
+    this.confirmNewPassword = '';
   }
   _validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -179,11 +171,6 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       this.updateStyles({'--cursor-type': 'default'});
       this.updateStyles({'--pointer-event': 'none'});
     }
-  }
-  _focusEmail() {
-    setTimeout(() => {
-      this.shadowRoot.querySelector('#email').focus();
-    }, 0);
   }
   _save() {
     if (this.email, this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {

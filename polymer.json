@@ -9,6 +9,7 @@
   ],
   "extraDependencies": [
     "env.js",
+    "socket.io.js",
     "robots.txt",
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/*.js",
