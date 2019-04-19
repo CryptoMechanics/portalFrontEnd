@@ -478,10 +478,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             <small>Optional</small>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
-                <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]" completed="{{completed}}"></wbi-uploader>
+                <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
               </template>
             </div>
-            <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" completed="{{completed}}"></wbi-uploader>
+            <wbi-uploader file-name="selfie" label="selfie" country="[[country]]"></wbi-uploader>
           </template>
           <template is="dom-if" if="{{!loading}}">
             <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
@@ -533,7 +533,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         type: Object,
       },
       completed: {
-        type: Object,
+        type: Boolean,
         observer: '_isComplete',
       },
       loading: {
@@ -544,6 +544,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         type: Array,
         readOnly: true,
         observer: '_imageStatus',
+      },
+      missing: {
+        type: Array,
+        readOnly: true,
       },
     };
   }
@@ -559,7 +563,15 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _imageStatus() {
+    this.completed = this.imagestatus.completed;
+    this.missing = this.imagestatus.missingDocuments;
+    console.log('------ All socket data ------');
     console.log(this.imagestatus);
+    console.log('----- All the images have been uploaded -------');
+    this.completed = this.imagestatus.completed;
+    console.log(this.imagestatus.completed);
+    console.log('----- Missing Images -------');
+    console.log(this.imagestatus.missingDocuments);
   }
   _mobile() {
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', country: this.country, fileArray: this.fileArray}}));
