@@ -105,6 +105,12 @@ class WbiMobisnap extends PolymerElement {
       title: {
         type: String,
       },
+      description: {
+        type: String,
+      },
+      displayTitle: {
+        type: String,
+      },
       mode: {
         type: String,
         readOnly: true,
