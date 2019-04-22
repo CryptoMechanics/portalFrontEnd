@@ -60,6 +60,16 @@ class WbiId extends ReduxMixin(PolymerElement) {
       country: {
         type: String,
       },
+      files: {
+        type: Array,
+      },
+      jwt: {
+        type: String,
+      },
+      selfie: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
