@@ -167,12 +167,29 @@ class WbiMobisnap extends PolymerElement {
 
   ready() {
     super.ready();
-    const constraints = {video: {width: 800, height: 600}};
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-          this.stream = stream;
-          this.shadowRoot.querySelector('#player').srcObject = this.stream;
-        });
+    const video = this.shadowRoot.querySelector('#player');
+    video.style.width = document.width + 'px';
+    video.style.height = document.height + 'px';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const constraints = {
+        audio: false,
+        video: {
+          facingMode: 'user',
+        },
+      };
+      navigator.mediaDevices.getUserMedia(constraints)
+          .then(function success(stream) {
+            video.srcObject = stream;
+          })
+          .catch((err) => {
+            alert(err);
+          });
+    } else {
+      alert('navigator.mediaDevices not supported');
+    }
     this.showVid = true;
   }
 
