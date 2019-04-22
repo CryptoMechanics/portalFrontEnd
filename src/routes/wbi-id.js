@@ -3,7 +3,7 @@ import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
-// import '../components/identity/wbi-mobisnap.js';
+import '../components/identity/wbi-mobisnap.js';
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
@@ -40,11 +40,8 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <p>Why do I need to do this?</p>
           <button on-click="_takeSelfie">Enable Camera</button>
         </template>
-        <p>selfie</p>
         <template is="dom-if" if="{{selfie}}">
-        <p>start</p>
         <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
-        <p>end</p>
         </template>
       </div>
     `;

@@ -1,6 +1,6 @@
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '../../css/shared-styles.js';
-// import '../../components/data/wbi-api.js';
+import '../../components/data/wbi-api.js';
 
 class WbiMobisnap extends PolymerElement {
   static get template() {
@@ -9,7 +9,7 @@ class WbiMobisnap extends PolymerElement {
         :host {
           display: block;
         }
-        /* *:focus {outline:none}
+        *:focus {outline:none}
         video {
           -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
@@ -68,13 +68,11 @@ class WbiMobisnap extends PolymerElement {
         }
         .error {
           padding: 12px 0;
-        } */
+        }
       </style>
       
-      <!-- <wbi-api id='api'></wbi-api> -->
-      <h1>test</h1>
-     <!--  <h1>[[displayTitle]]</h1>
-      
+      <wbi-api id='api'></wbi-api>
+      <h1>[[displayTitle]]</h1>
       <p>[[description]]</p>
       <template is="dom-if" if="{{showVid}}">
         <div class="content">
@@ -95,7 +93,7 @@ class WbiMobisnap extends PolymerElement {
             <div class="error">[[selfieError]]</div>
           </template>
         </div>
-      </template> -->
+      </template>
     `;
   }
 
@@ -163,117 +161,112 @@ class WbiMobisnap extends PolymerElement {
   }
 
   _title() {
-    // if (this.fileName.includes('selfie')) {
-    //   this.displayTitle = 'Take a selfie';
-    //   this.description = 'Make sure your face is the only face in the shot and that its clearly visable with no blur or glare';
-    // } else {
-    //   this.displayTitle = this.fileName.replace(/_/g, ' ');
-    //   this.description = 'Make sure your details are clear to read, with no blur or glare';
-    // };
+    if (this.fileName.includes('selfie')) {
+      this.displayTitle = 'Take a selfie';
+      this.description = 'Make sure your face is the only face in the shot and that its clearly visable with no blur or glare';
+    } else {
+      this.displayTitle = this.fileName.replace(/_/g, ' ');
+      this.description = 'Make sure your details are clear to read, with no blur or glare';
+    };
   }
 
   _stopCam() {
-    // if (this.stopCam) {
-    //   this.stream.getTracks()[0].stop();
-    // }
+    if (this.stopCam) {
+      this.stream.getTracks()[0].stop();
+    }
   }
 
-  // ready() {
-  //   super.ready();
-  //   const video = this.shadowRoot.querySelector('#player');
-  //   video.style.width = document.width + 'px';
-  //   video.style.height = document.height + 'px';
-  //   video.setAttribute('autoplay', '');
-  //   video.setAttribute('muted', '');
-  //   video.setAttribute('playsinline', '');
-  //   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  //     const constraints = {
-  //       audio: false,
-  //       video: {
-  //         facingMode: 'user',
-  //       },
-  //     };
-  //     navigator.mediaDevices.getUserMedia(constraints)
-  //         .then(function success(stream) {
-  //           video.srcObject = stream;
-  //         })
-  //         .catch((err) => {
-  //           alert(err);
-  //         });
-  //   } else {
-  //     alert('navigator.mediaDevices not supported');
-  //   }
-  //   this.showVid = true;
-  // }
+  ready() {
+    super.ready();
+    this.showVid = true;
 
-  // _upload() {
-  //   localStorage.setItem(this.fileName, this.base64);
-  //   this.$.api.uploadImage(this.blob, this.fileName)
-  //       .then((response) => {
-  //         if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
-  //           const files = JSON.parse(localStorage.getItem('files'));
-  //           if (files && files.length > 0) {
-  //             const country = localStorage.getItem('country');
-  //             this.fileName = `${country}_${files[0].value}`;
-  //             files.shift();
-  //             localStorage.setItem('files', JSON.stringify(files));
-  //             this.selfie = false;
-  //             this._retake();
-  //           } else {
-  //             this.showVid = false;
-  //             this.displayTitle = 'Complete';
-  //             this.description = 'Please return to the desktop';
-  //           }
-  //         } else {
-  //           this._retake();
-  //           this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
-  //         };
-  //       });
-  //   this.upload = true;
-  // }
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const constraints = {
+        audio: false,
+        video: {
+          facingMode: 'environment',
+        },
+      };
+      navigator.mediaDevices.getUserMedia(constraints)
+          .then((stream) => {
+            this.shadowRoot.querySelector('#player').srcObject = stream;
+          })
+          .catch((err) => {
+            alert(err);
+          });
+    } else {
+      alert('navigator.mediaDevices not supported');
+    }
+  }
 
-  // _capture() {
-  //   console.log('Capture');
-  //   this.updateStyles({'--capture-display': 'none'});
-  //   this.updateStyles({'--retake-display': 'block'});
-  //   this.updateStyles({'--video-display': 'none'});
-  //   this.updateStyles({'--canvas-display': 'none'});
-  //   this.updateStyles({'--image-display': 'block'});
-  //   const player = this.shadowRoot.querySelector('#player');
-  //   const canvas = this.shadowRoot.querySelector('#canvas');
-  //   const context = canvas.getContext('2d');
-  //   context.save();
-  //   context.scale(-1, 1);
-  //   context.drawImage(player, 0, 0, canvas.width*-1, canvas.height);
-  //   context.restore();
-  //   this.base64 = canvas.toDataURL('image/jpeg');
-  //   this.blob = this._dataURLToBlob(this.base64);
-  // }
+  _upload() {
+    localStorage.setItem(this.fileName, this.base64);
+    this.$.api.uploadImage(this.blob, this.fileName)
+        .then((response) => {
+          if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
+            const files = JSON.parse(localStorage.getItem('files'));
+            if (files && files.length > 0) {
+              const country = localStorage.getItem('country');
+              this.fileName = `${country}_${files[0].value}`;
+              files.shift();
+              localStorage.setItem('files', JSON.stringify(files));
+              this.selfie = false;
+              this._retake();
+            } else {
+              this.showVid = false;
+              this.displayTitle = 'Complete';
+              this.description = 'Please return to the desktop';
+            }
+          } else {
+            this._retake();
+            this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+          };
+        });
+    this.upload = true;
+  }
 
-  // _retake() {
-  //   this.updateStyles({'--capture-display': 'block'});
-  //   this.updateStyles({'--retake-display': 'none'});
-  //   this.updateStyles({'--video-display': 'block'});
-  //   this.updateStyles({'--canvas-display': 'none'});
-  //   this.updateStyles({'--image-display': 'none'});
-  // }
+  _capture() {
+    console.log('Capture');
+    this.updateStyles({'--capture-display': 'none'});
+    this.updateStyles({'--retake-display': 'block'});
+    this.updateStyles({'--video-display': 'none'});
+    this.updateStyles({'--canvas-display': 'none'});
+    this.updateStyles({'--image-display': 'block'});
+    const player = this.shadowRoot.querySelector('#player');
+    const canvas = this.shadowRoot.querySelector('#canvas');
+    const context = canvas.getContext('2d');
+    context.save();
+    context.scale(-1, 1);
+    context.drawImage(player, 0, 0, canvas.width*-1, canvas.height);
+    context.restore();
+    this.base64 = canvas.toDataURL('image/jpeg');
+    this.blob = this._dataURLToBlob(this.base64);
+  }
 
-  // _dataURLToBlob(dataURL) {
-  //   const BASE64_MARKER = ';base64,';
-  //   if (dataURL.indexOf(BASE64_MARKER) == -1) {
-  //     const parts = dataURL.split(',');
-  //     const contentType = parts[0].split(':')[1];
-  //     const raw = parts[1];
-  //     return new Blob([raw], {type: contentType});
-  //   }
-  //   const parts = dataURL.split(BASE64_MARKER);
-  //   const contentType = parts[0].split(':')[1];
-  //   const raw = window.atob(parts[1]);
-  //   const rawLength = raw.length;
-  //   const uInt8Array = new Uint8Array(rawLength);
-  //   for (let i = 0; i < rawLength; ++i) {
-  //     uInt8Array[i] = raw.charCodeAt(i);
-  //   }
-  //   return new Blob([uInt8Array], {type: contentType});
-  // }
+  _retake() {
+    this.updateStyles({'--capture-display': 'block'});
+    this.updateStyles({'--retake-display': 'none'});
+    this.updateStyles({'--video-display': 'block'});
+    this.updateStyles({'--canvas-display': 'none'});
+    this.updateStyles({'--image-display': 'none'});
+  }
+
+  _dataURLToBlob(dataURL) {
+    const BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+      const parts = dataURL.split(',');
+      const contentType = parts[0].split(':')[1];
+      const raw = parts[1];
+      return new Blob([raw], {type: contentType});
+    }
+    const parts = dataURL.split(BASE64_MARKER);
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], {type: contentType});
+  }
 } window.customElements.define('wbi-mobisnap', WbiMobisnap);
