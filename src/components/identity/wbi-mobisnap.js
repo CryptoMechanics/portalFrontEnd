@@ -184,7 +184,7 @@ class WbiMobisnap extends PolymerElement {
       const constraints = {
         audio: false,
         video: {
-          facingMode: 'environment',
+          facingMode: 'environment', // user
         },
       };
       navigator.mediaDevices.getUserMedia(constraints)

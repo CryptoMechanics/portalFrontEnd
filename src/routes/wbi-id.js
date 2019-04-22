@@ -111,8 +111,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
               this.country = response.country;
               this.files = JSON.parse(response.files);
               this.jwt = response.jwt;
-            } else {
-              alert('error');
+            }
+            if (!this.files) {
+              this.allowAccess = false;
+              console.log('your done');
             }
           });
     }

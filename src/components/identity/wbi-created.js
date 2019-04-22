@@ -474,7 +474,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
-            <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button>
+            <!-- <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button> -->
             <small>Optional</small>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
