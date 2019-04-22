@@ -1,6 +1,6 @@
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '../../css/shared-styles.js';
-import '../../components/data/wbi-api.js';
+// import '../../components/data/wbi-api.js';
 
 class WbiMobisnap extends PolymerElement {
   static get template() {
@@ -71,8 +71,8 @@ class WbiMobisnap extends PolymerElement {
         } */
       </style>
       
-      <wbi-api id='api'></wbi-api>
-      <p>test</p>
+      <!-- <wbi-api id='api'></wbi-api> -->
+      <h1>test</h1>
      <!--  <h1>[[displayTitle]]</h1>
       
       <p>[[description]]</p>
