@@ -32,7 +32,6 @@ class WbiId extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <div>
-        <p>-- start a-- {{allowAccess}} --</p>
         <template is="dom-if" if="{{allowAccess}}">
           <h1>Allow camera access</h1>
           <p>Enable your camera to continue verification</p>
@@ -41,11 +40,8 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <p>Why do I need to do this?</p>
           <button on-click="_takeSelfie">Enable Camera</button>
         </template>
-        <p>--selfie start a-- {{selfie}} --</p>
         <template is="dom-if" if="{{selfie}}">
-        <p>--selfie start b--</p>
-          <!-- <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap> -->
-        <p>--selfie end--</p>
+        <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
         </template>
       </div>
     `;

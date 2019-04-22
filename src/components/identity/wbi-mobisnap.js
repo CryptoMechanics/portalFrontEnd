@@ -165,33 +165,33 @@ class WbiMobisnap extends PolymerElement {
     }
   }
 
-  ready() {
-    super.ready();
-    const video = this.shadowRoot.querySelector('#player');
-    video.style.width = document.width + 'px';
-    video.style.height = document.height + 'px';
-    video.setAttribute('autoplay', '');
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = {
-        audio: false,
-        video: {
-          facingMode: 'user',
-        },
-      };
-      navigator.mediaDevices.getUserMedia(constraints)
-          .then(function success(stream) {
-            video.srcObject = stream;
-          })
-          .catch((err) => {
-            alert(err);
-          });
-    } else {
-      alert('navigator.mediaDevices not supported');
-    }
-    this.showVid = true;
-  }
+  // ready() {
+  //   super.ready();
+  //   const video = this.shadowRoot.querySelector('#player');
+  //   video.style.width = document.width + 'px';
+  //   video.style.height = document.height + 'px';
+  //   video.setAttribute('autoplay', '');
+  //   video.setAttribute('muted', '');
+  //   video.setAttribute('playsinline', '');
+  //   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  //     const constraints = {
+  //       audio: false,
+  //       video: {
+  //         facingMode: 'user',
+  //       },
+  //     };
+  //     navigator.mediaDevices.getUserMedia(constraints)
+  //         .then(function success(stream) {
+  //           video.srcObject = stream;
+  //         })
+  //         .catch((err) => {
+  //           alert(err);
+  //         });
+  //   } else {
+  //     alert('navigator.mediaDevices not supported');
+  //   }
+  //   this.showVid = true;
+  // }
 
   _upload() {
     localStorage.setItem(this.fileName, this.base64);
