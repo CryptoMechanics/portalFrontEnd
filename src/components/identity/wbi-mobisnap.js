@@ -9,7 +9,7 @@ class WbiMobisnap extends PolymerElement {
         :host {
           display: block;
         }
-        *:focus {outline:none}
+        /* *:focus {outline:none}
         video {
           -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
@@ -68,10 +68,13 @@ class WbiMobisnap extends PolymerElement {
         }
         .error {
           padding: 12px 0;
-        }
+        } */
       </style>
+      
       <wbi-api id='api'></wbi-api>
-      <h1>[[displayTitle]]</h1>
+      <p>test</p>
+     <!--  <h1>[[displayTitle]]</h1>
+      
       <p>[[description]]</p>
       <template is="dom-if" if="{{showVid}}">
         <div class="content">
@@ -92,7 +95,7 @@ class WbiMobisnap extends PolymerElement {
             <div class="error">[[selfieError]]</div>
           </template>
         </div>
-      </template>
+      </template> -->
     `;
   }
 
@@ -122,6 +125,10 @@ class WbiMobisnap extends PolymerElement {
       selfie: {
         type: Boolean,
         value: true,
+      },
+      selfieError: {
+        type: Boolean,
+        value: false,
       },
       upload: {
         type: Boolean,
@@ -156,19 +163,19 @@ class WbiMobisnap extends PolymerElement {
   }
 
   _title() {
-    if (this.fileName.includes('selfie')) {
-      this.displayTitle = 'Take a selfie';
-      this.description = 'Make sure your face is the only face in the shot and that its clearly visable with no blur or glare';
-    } else {
-      this.displayTitle = this.fileName.replace(/_/g, ' ');
-      this.description = 'Make sure your details are clear to read, with no blur or glare';
-    };
+    // if (this.fileName.includes('selfie')) {
+    //   this.displayTitle = 'Take a selfie';
+    //   this.description = 'Make sure your face is the only face in the shot and that its clearly visable with no blur or glare';
+    // } else {
+    //   this.displayTitle = this.fileName.replace(/_/g, ' ');
+    //   this.description = 'Make sure your details are clear to read, with no blur or glare';
+    // };
   }
 
   _stopCam() {
-    if (this.stopCam) {
-      this.stream.getTracks()[0].stop();
-    }
+    // if (this.stopCam) {
+    //   this.stream.getTracks()[0].stop();
+    // }
   }
 
   // ready() {
@@ -199,74 +206,74 @@ class WbiMobisnap extends PolymerElement {
   //   this.showVid = true;
   // }
 
-  _upload() {
-    localStorage.setItem(this.fileName, this.base64);
-    this.$.api.uploadImage(this.blob, this.fileName)
-        .then((response) => {
-          if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
-            const files = JSON.parse(localStorage.getItem('files'));
-            if (files && files.length > 0) {
-              const country = localStorage.getItem('country');
-              this.fileName = `${country}_${files[0].value}`;
-              files.shift();
-              localStorage.setItem('files', JSON.stringify(files));
-              this.selfie = false;
-              this._retake();
-            } else {
-              this.showVid = false;
-              this.displayTitle = 'Complete';
-              this.description = 'Please return to the desktop';
-            }
-          } else {
-            this._retake();
-            this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
-          };
-        });
-    this.upload = true;
-  }
+  // _upload() {
+  //   localStorage.setItem(this.fileName, this.base64);
+  //   this.$.api.uploadImage(this.blob, this.fileName)
+  //       .then((response) => {
+  //         if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
+  //           const files = JSON.parse(localStorage.getItem('files'));
+  //           if (files && files.length > 0) {
+  //             const country = localStorage.getItem('country');
+  //             this.fileName = `${country}_${files[0].value}`;
+  //             files.shift();
+  //             localStorage.setItem('files', JSON.stringify(files));
+  //             this.selfie = false;
+  //             this._retake();
+  //           } else {
+  //             this.showVid = false;
+  //             this.displayTitle = 'Complete';
+  //             this.description = 'Please return to the desktop';
+  //           }
+  //         } else {
+  //           this._retake();
+  //           this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+  //         };
+  //       });
+  //   this.upload = true;
+  // }
 
-  _capture() {
-    console.log('Capture');
-    this.updateStyles({'--capture-display': 'none'});
-    this.updateStyles({'--retake-display': 'block'});
-    this.updateStyles({'--video-display': 'none'});
-    this.updateStyles({'--canvas-display': 'none'});
-    this.updateStyles({'--image-display': 'block'});
-    const player = this.shadowRoot.querySelector('#player');
-    const canvas = this.shadowRoot.querySelector('#canvas');
-    const context = canvas.getContext('2d');
-    context.save();
-    context.scale(-1, 1);
-    context.drawImage(player, 0, 0, canvas.width*-1, canvas.height);
-    context.restore();
-    this.base64 = canvas.toDataURL('image/jpeg');
-    this.blob = this._dataURLToBlob(this.base64);
-  }
+  // _capture() {
+  //   console.log('Capture');
+  //   this.updateStyles({'--capture-display': 'none'});
+  //   this.updateStyles({'--retake-display': 'block'});
+  //   this.updateStyles({'--video-display': 'none'});
+  //   this.updateStyles({'--canvas-display': 'none'});
+  //   this.updateStyles({'--image-display': 'block'});
+  //   const player = this.shadowRoot.querySelector('#player');
+  //   const canvas = this.shadowRoot.querySelector('#canvas');
+  //   const context = canvas.getContext('2d');
+  //   context.save();
+  //   context.scale(-1, 1);
+  //   context.drawImage(player, 0, 0, canvas.width*-1, canvas.height);
+  //   context.restore();
+  //   this.base64 = canvas.toDataURL('image/jpeg');
+  //   this.blob = this._dataURLToBlob(this.base64);
+  // }
 
-  _retake() {
-    this.updateStyles({'--capture-display': 'block'});
-    this.updateStyles({'--retake-display': 'none'});
-    this.updateStyles({'--video-display': 'block'});
-    this.updateStyles({'--canvas-display': 'none'});
-    this.updateStyles({'--image-display': 'none'});
-  }
+  // _retake() {
+  //   this.updateStyles({'--capture-display': 'block'});
+  //   this.updateStyles({'--retake-display': 'none'});
+  //   this.updateStyles({'--video-display': 'block'});
+  //   this.updateStyles({'--canvas-display': 'none'});
+  //   this.updateStyles({'--image-display': 'none'});
+  // }
 
-  _dataURLToBlob(dataURL) {
-    const BASE64_MARKER = ';base64,';
-    if (dataURL.indexOf(BASE64_MARKER) == -1) {
-      const parts = dataURL.split(',');
-      const contentType = parts[0].split(':')[1];
-      const raw = parts[1];
-      return new Blob([raw], {type: contentType});
-    }
-    const parts = dataURL.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
-    const rawLength = raw.length;
-    const uInt8Array = new Uint8Array(rawLength);
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-    return new Blob([uInt8Array], {type: contentType});
-  }
+  // _dataURLToBlob(dataURL) {
+  //   const BASE64_MARKER = ';base64,';
+  //   if (dataURL.indexOf(BASE64_MARKER) == -1) {
+  //     const parts = dataURL.split(',');
+  //     const contentType = parts[0].split(':')[1];
+  //     const raw = parts[1];
+  //     return new Blob([raw], {type: contentType});
+  //   }
+  //   const parts = dataURL.split(BASE64_MARKER);
+  //   const contentType = parts[0].split(':')[1];
+  //   const raw = window.atob(parts[1]);
+  //   const rawLength = raw.length;
+  //   const uInt8Array = new Uint8Array(rawLength);
+  //   for (let i = 0; i < rawLength; ++i) {
+  //     uInt8Array[i] = raw.charCodeAt(i);
+  //   }
+  //   return new Blob([uInt8Array], {type: contentType});
+  // }
 } window.customElements.define('wbi-mobisnap', WbiMobisnap);
