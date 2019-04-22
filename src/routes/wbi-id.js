@@ -40,8 +40,11 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <p>Why do I need to do this?</p>
           <button on-click="_takeSelfie">Enable Camera</button>
         </template>
+        <p>--selfie start a--</p>
         <template is="dom-if" if="{{selfie}}">
+        <p>--selfie start b--</p>
           <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
+        <p>--selfie end--</p>
         </template>
       </div>
     `;
