@@ -154,13 +154,13 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
           });
     } else {
       if (!this._validateAccountName(this.accountName)) {
-        this.error = 'Account name not supported';
+        this.error = 'Invalid account name. Make sure your account name is 6-12 characters and only contains letters and digits 1-5.';
       } else if (!this.checkedAccountName) {
-        this.error = 'Account name unavailable';
+        this.error = 'Account name is unavailable.';
       } else if (!this._validatePublicKey(this.ownerPublicKey)) {
-        this.error = 'Owner public key not valid';
+        this.error = 'Invalid owner public key.';
       } else if (!this._validatePublicKey(this.activePublicKey)) {
-        this.error = 'Active public key not valid';
+        this.error = 'Invalid active public key.';
       }
     }
   }
