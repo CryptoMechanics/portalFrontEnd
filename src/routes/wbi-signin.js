@@ -217,9 +217,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
     } else {
       this.error = '';
       if (!this._validateEmail(this.email)) {
-        this.error = 'Invalid Email';
+        this.error = 'Invalid Email address.';
       } else if (!this._validatePassword(this.password) ) {
-        this.error = 'Invalid Password';
+        this.error = 'Invalid Password.';
       }
     }
   }
