@@ -34,15 +34,16 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
         }
         ball-spin{
           display: inline-block;
           margin-right: 6px;
           position: relative;
           top: 2px;
-        }     
+        }
+        .error {
+          padding: 12px 12px;
+        }   
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
@@ -67,6 +68,9 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           </template>
           <template is="dom-if" if="{{loading}}">
             <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+          </template>
+          <template is="dom-if" if="{{error}}">
+            <p class="error">[[error]]</p>
           </template>
    
 
@@ -117,14 +121,29 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
 
   ready() {
     super.ready();
-    this.email = localStorage.getItem('email');
-    this.dispatchAction({
-      type: 'CHANGE_EMAIL',
-      email: this.email,
-    });
-    setTimeout(() => {
-      this.shadowRoot.querySelector('#email').focus();
-    }, 0);
+    if (localStorage.getItem('email')) {
+      this.email = localStorage.getItem('email');
+      this.dispatchAction({
+        type: 'CHANGE_EMAIL',
+        email: this.email,
+      });
+      setTimeout(() => {
+        this.shadowRoot.querySelector('#email').focus();
+      }, 0);
+    } else {
+      this.$.api.getEmail()
+          .then((response) => {
+            if (response.data === false && response.error) {
+              this.error = response.error;
+            } else {
+              localStorage.setItem('email', response.email);
+              this.dispatchAction({
+                type: 'CHANGE_EMAIL',
+                email: response.email,
+              });
+            }
+          });
+    }
     this._routeChanged();
   }
   _routeChanged() {
@@ -164,16 +183,15 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
   _isComplete() {
     if (this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
   _save() {
-    if (this.email, this._validatePassword(this.password) && this._validatePassword(this.newPassword) && this._validatePassword(this.confirmNewPassword) && this.newPassword === this.confirmNewPassword) {
+    this.error = '';
+    if (this._isComplete()) {
       this.loading = true;
       this.$.api.profile(this.password, this.newPassword)
           .then((response) => {
@@ -184,6 +202,14 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
               this.set('route.path', '/');
             }
           });
+    } else {
+      if (!this._validatePassword(this.password)) {
+        this.error = 'Invalid password.';
+      } else if (!this._validatePassword(this.newPassword)) {
+        this.error = 'Password is not strong enough - it must contain at least one uppercase letter, one lowercase letter, and one digit or symbol.';
+      } else if (this.newPassword !== this.confirmNewPassword) {
+        this.error = 'Passwords do not match.';
+      }
     }
   }
 } window.customElements.define('wbi-profile', WbiProfile);

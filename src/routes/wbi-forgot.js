@@ -37,8 +37,6 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
         }
         @media only screen and (max-width: 600px) {
           .card {
@@ -116,12 +114,8 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   _isComplete() {
     if (this._validateEmail(this.email)) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
     }
   }
   _focusEmail() {
@@ -141,7 +135,8 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/signin');
   }
   _send() {
-    if (this.email) {
+    if (this._validateEmail(this.email)) {
+      this.error = '';
       this.$.api.forgotPassword(this.email)
           .then((response) => {
             if (response && response.data === false && response.error) {
@@ -154,6 +149,8 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
               this.set('route.path', '/sent/forgot');
             }
           });
+    } else {
+      this.error = 'Invalid Password';
     }
   }
 } window.customElements.define('wbi-forgot', WbiForgot);

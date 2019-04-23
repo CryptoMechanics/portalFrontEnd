@@ -70,6 +70,7 @@ class WbiMobisnap extends PolymerElement {
           padding: 12px 0;
         }
       </style>
+      
       <wbi-api id='api'></wbi-api>
       <h1>[[displayTitle]]</h1>
       <p>[[description]]</p>
@@ -105,6 +106,12 @@ class WbiMobisnap extends PolymerElement {
       title: {
         type: String,
       },
+      description: {
+        type: String,
+      },
+      displayTitle: {
+        type: String,
+      },
       mode: {
         type: String,
         readOnly: true,
@@ -116,6 +123,10 @@ class WbiMobisnap extends PolymerElement {
       selfie: {
         type: Boolean,
         value: true,
+      },
+      selfieError: {
+        type: Boolean,
+        value: false,
       },
       upload: {
         type: Boolean,
@@ -167,13 +178,25 @@ class WbiMobisnap extends PolymerElement {
 
   ready() {
     super.ready();
-    const constraints = {video: {width: 800, height: 600}};
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-          this.stream = stream;
-          this.shadowRoot.querySelector('#player').srcObject = this.stream;
-        });
     this.showVid = true;
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const constraints = {
+        audio: false,
+        video: {
+          facingMode: 'environment', // user
+        },
+      };
+      navigator.mediaDevices.getUserMedia(constraints)
+          .then((stream) => {
+            this.shadowRoot.querySelector('#player').srcObject = stream;
+          })
+          .catch((err) => {
+            alert(err);
+          });
+    } else {
+      alert('navigator.mediaDevices not supported');
+    }
   }
 
   _upload() {

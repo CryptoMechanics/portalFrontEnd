@@ -69,7 +69,7 @@ class WbiUploader extends PolymerElement {
         <template is="dom-if" if="{{preview}}">  
           <div class="delete" on-click="_delete"></div>
         </template>
-        <label for='[[fileName]]' on-drop="_drop"  on-dragover="_allowDrop">
+        <label for='[[fileName]]' on-drop="_drop" on-dragover="_allowDrop" class="label">
           <input type='file' name='file' id='[[fileName]]' on-change="_upload"/>
         </label>
         <template is="dom-if" if="{{selfieError}}">  
@@ -99,6 +99,7 @@ class WbiUploader extends PolymerElement {
       preview: {
         type: Boolean,
         value: false,
+        observer: '_showAddImageBg',
       },
       selfie: {
         type: Boolean,
@@ -119,6 +120,12 @@ class WbiUploader extends PolymerElement {
     }, 1000);
   }
 
+  _showAddImageBg() {
+    if (!this.preview) {
+      console.log('SHOW ADD IMAGE');
+      this.updateStyles({'--background-image': `url("./images/plus.png")`});
+    }
+  }
   _openModal() {
     this.selfie = false;
     if (this.fileName === '_selfie') {

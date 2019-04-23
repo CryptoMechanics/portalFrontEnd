@@ -41,7 +41,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <button on-click="_takeSelfie">Enable Camera</button>
         </template>
         <template is="dom-if" if="{{selfie}}">
-          <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
+        <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
         </template>
       </div>
     `;
@@ -59,6 +59,16 @@ class WbiId extends ReduxMixin(PolymerElement) {
       },
       country: {
         type: String,
+      },
+      files: {
+        type: Array,
+      },
+      jwt: {
+        type: String,
+      },
+      selfie: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -101,6 +111,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
               this.country = response.country;
               this.files = JSON.parse(response.files);
               this.jwt = response.jwt;
+            }
+            if (!this.files) {
+              this.allowAccess = false;
+              console.log('your done');
             }
           });
     }

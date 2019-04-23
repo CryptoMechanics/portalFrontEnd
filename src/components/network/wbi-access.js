@@ -21,16 +21,22 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
         }
+        .error {
+          padding: 12px 12px;
+        } 
+        .small {
+          padding-top: 12px;
+          display: block;
+          padding-bottom: 12px;
+        } 
 
       </style>
       <wbi-api id='api'></wbi-api>
       <h2>Name</h2>
         <label>Worbli Network Account</label>
         <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName" on-paste="_accountName">
-        <small>
+        <small class="small">
           Choose your desired Worbli account name. </br>
           (6-12 characters, must start with a letter and can only contain letters and numbers 1-5)
         </small>
@@ -48,6 +54,9 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         </template>
         <template is="dom-if" if="{{loading}}">
           <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+        </template>
+        <template is="dom-if" if="{{error}}">
+          <p class="error">[[error]]</p>
         </template>
     `;
   }
@@ -120,16 +129,15 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   _isComplete() {
     if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
   _submit() {
-    if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
+    this.error = '';
+    if (this._isComplete()) {
       this.loading = true;
       this.$.api.createAccount(this.accountName, this.ownerPublicKey, this.activePublicKey)
           .then((response) => {
@@ -137,7 +145,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
             if (response.data === false) {
               this.error = response.error;
             } else if (response.data === true) {
-              console.log('setting network to claimed');
               this.dispatchAction({
                 type: 'CHANGE_NETWORK',
                 network: 'claimed',
@@ -145,6 +152,16 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
               localStorage.setItem('network', 'claimed');
             }
           });
+    } else {
+      if (!this._validateAccountName(this.accountName)) {
+        this.error = 'Invalid account name. Make sure your account name is 6-12 characters and only contains letters and digits 1-5.';
+      } else if (!this.checkedAccountName) {
+        this.error = 'Account name is unavailable.';
+      } else if (!this._validatePublicKey(this.ownerPublicKey)) {
+        this.error = 'Invalid owner public key.';
+      } else if (!this._validatePublicKey(this.activePublicKey)) {
+        this.error = 'Invalid active public key.';
+      }
     }
   }
   _focusAccountName() {

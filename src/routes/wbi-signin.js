@@ -60,8 +60,6 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         .green-bg {
           margin: auto;
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
         }
         .white-bg{
           cursor: pointer;
@@ -176,46 +174,54 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   _isComplete() {
     if (this._validateEmail(this.email) && this._validatePassword(this.password)) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
   _language(e) {
     this.txt = translations[this.language];
   }
   _signIn() {
-    this.$.api.signIn(this.email, this.password)
-        .then((response) => {
-          if (!response.worbliAccountName) {
+    if (this._isComplete()) {
+      this.error = '';
+      this.$.api.signIn(this.email, this.password)
+          .then((response) => {
+            if (!response.worbliAccountName) {
+              this.dispatchAction({
+                type: 'CHANGE_NETWORK',
+                network: 'available',
+              });
+              localStorage.setItem('email', this.email);
+              localStorage.setItem('network', 'available');
+            } else {
+              this.dispatchAction({
+                type: 'CHANGE_NETWORK',
+                network: 'claimed',
+              });
+              localStorage.setItem('network', 'claimed');
+            }
             this.dispatchAction({
-              type: 'CHANGE_NETWORK',
-              network: 'available',
+              type: 'CHANGE_STATUS',
+              status: response.status,
             });
-            localStorage.setItem('email', this.email);
-            localStorage.setItem('network', 'available');
-          } else {
-            this.dispatchAction({
-              type: 'CHANGE_NETWORK',
-              network: 'claimed',
-            });
-            localStorage.setItem('network', 'claimed');
-          }
-          this.dispatchAction({
-            type: 'CHANGE_STATUS',
-            status: response.status,
+            localStorage.setItem('status', response.status);
+            if (response && response.data === false && response.error) {
+              this.error = response.error;
+            } else if (response && response.data === true) {
+              localStorage.setItem('jwt', response.jwt);
+              this.set('route.path', '/');
+            }
           });
-          localStorage.setItem('status', response.status);
-          if (response && response.data === false && response.error) {
-            this.error = response.error;
-          } else if (response && response.data === true) {
-            localStorage.setItem('jwt', response.jwt);
-            this.set('route.path', '/');
-          }
-        });
+    } else {
+      this.error = '';
+      if (!this._validateEmail(this.email)) {
+        this.error = 'Invalid Email address.';
+      } else if (!this._validatePassword(this.password) ) {
+        this.error = 'Invalid Password.';
+      }
+    }
   }
   _join() {
     this.set('route.path', '/join');

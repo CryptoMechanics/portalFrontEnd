@@ -55,7 +55,6 @@ class AppShell extends ReduxMixin(PolymerElement) {
       status: {
         type: String,
         readOnly: true,
-        observer: '_status',
       },
       routeData: Object,
       subroute: Object,
