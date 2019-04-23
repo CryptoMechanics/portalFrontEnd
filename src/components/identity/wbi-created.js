@@ -567,6 +567,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _imageStatus() {
+    console.log('----- REDUX RESPONSE START -------');
     this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
     this.completed = this.imagestatus.completed;
