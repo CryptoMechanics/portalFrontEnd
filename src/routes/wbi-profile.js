@@ -204,11 +204,11 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           });
     } else {
       if (!this._validatePassword(this.password)) {
-        this.error = 'Invalid password';
+        this.error = 'Invalid password.';
       } else if (!this._validatePassword(this.newPassword)) {
-        this.error = 'Invalid new password';
+        this.error = 'Password is not strong enough - it must contain at least one uppercase letter, one lowercase letter, and one digit or symbol.';
       } else if (this.newPassword !== this.confirmNewPassword) {
-        this.error = 'Passwords dont match';
+        this.error = 'Passwords do not match.';
       }
     }
   }
