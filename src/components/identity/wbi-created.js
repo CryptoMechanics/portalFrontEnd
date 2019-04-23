@@ -672,17 +672,17 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           });
     } else {
       if (!this.country) {
-        this.error = 'You must select a country';
+        this.error = 'Please select your country.';
       } else if (!this.firstName) {
-        this.error = 'You must enter a first name';
+        this.error = 'Please enter your first name.';
       } else if (!this.lastName) {
-        this.error = 'You must enter a last name';
+        this.error = 'Please enter your last name.';
       } else if (!this.day || !this.month || !this.year) {
-        this.error = 'You must enter a date of birth';
+        this.error = 'Please select your date of birth.';
       } else if (!this.gender) {
-        this.error = 'You must enter a gender';
+        this.error = 'Please select your sex.';
       } else if (!this.completed) {
-        this.error = 'You must complete uploading images';
+        this.error = 'Please upload all the required images.';
       }
     }
   }
