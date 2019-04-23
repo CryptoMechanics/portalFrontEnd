@@ -50,8 +50,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
         }
         #day, #month, #year {
           max-width: 150px;
@@ -79,6 +77,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         .uploadContainer{
           display: flex;
         }
+        .error {
+          padding: 12px 12px;
+        } 
 
 
       </style>
@@ -475,7 +476,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             
           <template is="dom-if" if="{{fileArray}}">
             <!-- <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button> -->
-            <small>Optional</small>
+            <!-- <small>Optional</small> -->
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
                 <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
@@ -489,6 +490,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           <template is="dom-if" if="{{loading}}">
             <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
           </template>
+        </template>
+        <template is="dom-if" if="{{error}}">
+          <p class="error">[[error]]</p>
         </template>
         
       </div>
@@ -563,15 +567,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _imageStatus() {
-    console.log('----- REDUX RESPONSE START -------');
     this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
-    console.log('----- All the images have been uploaded -------');
     this.completed = this.imagestatus.completed;
-    console.log(this.imagestatus.completed);
-    console.log('----- Missing Images -------');
-    console.log(this.imagestatus.missingDocuments);
-    console.log('----- REDUX RESPONSE END -------');
     this._isComplete();
   }
   _mobile() {
@@ -639,17 +637,16 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     console.log('----- CHECK END IF ALL ARE TRUE SHOW GREEN BUTTON ----');
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
 
   _submit() {
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
+    this.error = '';
+    if (this._isComplete()) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
@@ -673,14 +670,39 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
               status: 'error',
             });
           });
+    } else {
+      if (!this.country) {
+        this.error = 'You must select a country';
+      } else if (!this.firstName) {
+        this.error = 'You must enter a first name';
+      } else if (!this.lastName) {
+        this.error = 'You must enter a last name';
+      } else if (!this.day || !this.month || !this.year) {
+        this.error = 'You must enter a date of birth';
+      } else if (!this.gender) {
+        this.error = 'You must enter a gender';
+      } else if (!this.completed) {
+        this.error = 'You must complete uploading images';
+      }
     }
   }
   _makeFileUpload(e) {
+    this._deleteAll();
     this.fileArray = [];
     this.selectedDoc = e.model.__data.item.value;
     const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
     needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
     : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
+    this.fileArray.reverse();
+  }
+
+  _deleteAll() {
+    this.$.api.deleteAll()
+        .then((response) => {
+          if (response && response.data === false && response.error) {
+            this.error = response.error;
+          }
+        });
   }
   _makeRadioButtons() {
     const docsAvailable = this.countrydocs.find((x) => x.code === this.country).accepted[0];

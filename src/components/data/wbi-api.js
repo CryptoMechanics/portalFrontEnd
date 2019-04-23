@@ -450,6 +450,34 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     });
   }
 
+  /**
+ * Delete all identity images
+ * @param {string} fileType - tyoe of file 'passport-front'
+ * @return {object} arrays shows
+ */
+  deleteAll() {
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('jwt');
+      const url = `${this.env.apiUrl}/identity/identityimages/`;
+      fetch(url, {
+        method: 'DELETE',
+        headers: {'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
+              localStorage.clear();
+              this.set('route.path', '/signin');
+            } else {
+              resolve(response);
+            }
+          })
+          .catch((error) => console.log('Error:', error));
+    });
+  }
+
 
   /**
  * Get an image

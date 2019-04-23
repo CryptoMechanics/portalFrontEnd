@@ -60,8 +60,6 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
         }
         .language-icon{
           position: absolute;
@@ -195,21 +193,20 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _isComplete() {
-    if (this.email && this._validatePassword(this.password) && this._validatePassword(this.repeat_password) && this.termsValue && this.password === this.repeat_password) {
+    if (this._validateEmail(this.email) && this._validatePassword(this.password) && this._validatePassword(this.repeat_password) && this.termsValue && this.password === this.repeat_password) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
   _signIn() {
     this.set('route.path', '/signin');
   }
   _join() {
-    if (this.email && this.password && this.repeat_password && this.termsValue && this.password === this.repeat_password) {
+    if (this._isComplete()) {
+      this.error = '';
       this.$.api.join(this.email, this.password, this.termsValue, this.optInValue)
           .then((response) => {
             if (response.data === false && response.error) {
@@ -223,6 +220,20 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
               this.set('route.path', '/sent');
             }
           });
+    } else {
+      this.error = '';
+      if (!this._validateEmail(this.email)) {
+        this.error = 'Invalid Email';
+      }
+      if (!this._validatePassword(this.password)) {
+        this.error = 'Invalid Password';
+      }
+      if (this.password !== this.repeat_password) {
+        this.error = 'Password dont match';
+      }
+      if (!this.termsValue) {
+        this.error = 'You must agree to the terms & Privacy Policy';
+      }
     }
   }
 } window.customElements.define('wbi-join', WbiJoin);

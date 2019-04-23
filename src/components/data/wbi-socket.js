@@ -62,7 +62,6 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
           type: 'CHANGE_IMAGESTATUS',
           imagestatus: response,
         });
-        localStorage.setItem('imagestatus', response);
       });
       this.socket.on('disconnect', () => {
         console.log('DISCONNECTED');
