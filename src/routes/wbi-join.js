@@ -223,16 +223,16 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     } else {
       this.error = '';
       if (!this._validateEmail(this.email)) {
-        this.error = 'Invalid Email';
+        this.error = 'Invalid Email address.';
       }
       if (!this._validatePassword(this.password)) {
-        this.error = 'Invalid Password';
+        this.error = 'Password is not strong enough - it must contain at least one uppercase letter, one lowercase letter, and one digit or symbol.';
       }
       if (this.password !== this.repeat_password) {
-        this.error = 'Password dont match';
+        this.error = 'Passwords do not match.';
       }
       if (!this.termsValue) {
-        this.error = 'You must agree to the terms & Privacy Policy';
+        this.error = 'You must agree to the Terms and Privacy Policy.';
       }
     }
   }
