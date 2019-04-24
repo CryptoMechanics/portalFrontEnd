@@ -135,6 +135,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
+      route: {
+        type: Object,
+        observer: '_routeChanged',
+      },
     };
   }
 
@@ -144,6 +148,11 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+    };
+  }
+  _routeChanged() {
+    if (this.route.path.split('/')[2] === 'jwtexpired') {
+      this.error = 'You have been logged out';
     };
   }
   _validateEmail(email) {

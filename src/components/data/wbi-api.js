@@ -43,7 +43,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -74,7 +74,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -107,7 +107,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -138,7 +138,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -169,7 +169,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -201,7 +201,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -232,7 +232,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -266,7 +266,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -299,7 +299,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -328,7 +328,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -364,7 +364,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               this.dispatchAction({
                 type: 'CHANGE_IMAGESTATUS',
@@ -407,7 +407,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -437,7 +437,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               this.dispatchAction({
                 type: 'CHANGE_IMAGESTATUS',
@@ -469,7 +469,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }
@@ -497,7 +497,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .then((response) => {
           if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
             localStorage.clear();
-            this.set('route.path', '/signin');
+            this.set('route.path', '/signin/jwtexpired');
           } else {
             resolve(response);
           }
@@ -528,7 +528,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         .then((response) => {
           if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
             localStorage.clear();
-            this.set('route.path', '/signin');
+            this.set('route.path', '/signin/jwtexpired');
           } else {
             resolve(response);
           }
@@ -561,7 +561,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
               localStorage.clear();
-              this.set('route.path', '/signin');
+              this.set('route.path', '/signin/jwtexpired');
             } else {
               resolve(response);
             }

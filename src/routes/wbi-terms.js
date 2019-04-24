@@ -46,7 +46,6 @@ class WbiTerms extends ReduxMixin(PolymerElement) {
         }
         li strong {
           margin: 24px 0;
-          display: block;
           color: #001D6F;
           font-weight: 700;
           font-size: 17px;
