@@ -4,6 +4,7 @@ import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/layouts/wbi-center.js';
+import '../components/wbi-footer.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -40,10 +41,25 @@ class WbiPrivacy extends ReduxMixin(PolymerElement) {
         .card{
           max-width: none;
           margin: 24px;
+          font-size: 16px;
+          line-height: 24px;
         }
         li strong {
-          margin: 24px;
+          margin: 24px 0;
           display: block;
+          color: #001D6F;
+          font-weight: 700;
+          font-size: 17px;
+        }
+        h1 {
+          font-weight: 300;
+        }
+        a {
+          color: #001D6F;
+        }
+        ul {
+          list-style-type: none;
+          padding: 0;
         }
         @media only screen and (max-width: 600px) {
           .card {
@@ -55,6 +71,7 @@ class WbiPrivacy extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
+        <h1>Privacy</h1>
             <ol>
         <li><strong>Introduction</strong>
             <ol>
@@ -235,6 +252,7 @@ class WbiPrivacy extends ReduxMixin(PolymerElement) {
             </ol>
         </div>
       </wbi-center>
+      <wbi-footer></wbi-footer>
     `;
   }
 

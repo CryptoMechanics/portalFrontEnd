@@ -4,6 +4,7 @@ import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/layouts/wbi-center.js';
+import '../components/wbi-footer.js';
 
 import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
@@ -40,13 +41,21 @@ class WbiTerms extends ReduxMixin(PolymerElement) {
         .card{
           max-width: none;
           margin: 24px;
+          font-size: 16px;
+          line-height: 24px;
         }
         li strong {
           margin: 24px 0;
           display: block;
+          color: #001D6F;
+          font-weight: 700;
+          font-size: 17px;
+        }
+        h1 {
+          font-weight: 300;
         }
         a {
-          color: #7DCF84;
+          color: #001D6F;
         }
         ul {
           list-style-type: none;
@@ -62,6 +71,7 @@ class WbiTerms extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
+          <h1>User Terms</h1>
           <p>As a user of the WORBLI ecosystem, you will be subject to certain terms of use based on your status and activities. These are:</p>
           <ul>
               <li><strong>Platform User</strong> – all users will sign up to the WORBLI Platform. This is essentially the first step in your WORBLI journey. This is where you find out about the WORBLI Network, WORBLI Developer Support and WORBLI Tokens, etc. Here you can read and post content, interact with other WORBLI users and ask questions of WORBLI directly. In order to be a Platform User, you are only required to provide us with your name and contact details. Your use of the WORBLI Platform is governed by the <a href="/platformterms">Platform Terms</a>, which <em>only</em> set out standard rights and obligations around your use of the WORBLI Platform. At this stage, apart from your name and email, we are not seeking to collect any further identification information nor will we use it for any purpose other than the limited purpose stated in our <a href="/platformterms">Platform Terms</a> and <a href="/privacy">Privacy Policy</a> (both set out below).</li>
@@ -73,6 +83,7 @@ class WbiTerms extends ReduxMixin(PolymerElement) {
           <p>In time, we may adapt and update aspects of the <a href="/platformterms">Platform Terms</a>, <a href="/networkterms">Network Terms</a>, <a href="/developerterms">Developer Terms</a></strong> and/or our <a href="/privacy">Privacy Policy</a> in order to deal with changes to our operations or as required by law. These changes will always be posted to the WORBLI Portal and we will do our best to notify you of the same. Rest assured, no changes will be applicable to you until they have been made available on the WORBLI Portal.</p>
         </div>
       </wbi-center>
+      <wbi-footer></wbi-footer>
     `;
   }
 
