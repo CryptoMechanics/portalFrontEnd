@@ -122,7 +122,6 @@ class WbiUploader extends PolymerElement {
 
   _showAddImageBg() {
     if (!this.preview) {
-      console.log('SHOW ADD IMAGE');
       this.updateStyles({'--background-image': `url("./images/plus.png")`});
     }
   }
@@ -147,7 +146,7 @@ class WbiUploader extends PolymerElement {
   }
   _delete(e) {
     this.preview = false;
-    this.updateStyles({'--background-image': `none`});
+    this.updateStyles({'--background-image': `url("./images/plus.png")`});
     this.shadowRoot.querySelector(`#form`).reset();
     localStorage.removeItem(`${this.country}_${this.fileName}`);
     this.$.api.deleteImage(`${this.country}_${this.fileName}`)

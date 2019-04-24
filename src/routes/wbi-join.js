@@ -70,6 +70,9 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         .error {
           padding: 12px 12px;
         }
+        a {
+          color: #A3D398;
+        }
         @media only screen and (max-width: 600px) {
           .card {
             border-radius: 0px;
@@ -91,7 +94,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <label for="repeat_password">[[txt.repeatPassword]]</label>
           <input type="password" name="repeat_password" id="repeat_password" value="{{repeat_password::input}}" on-keyup="_repeatPassword">
           <label for="agree">
-          <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">[[txt.agreeTheTerms]]</label>
+          <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">I agree to the <a href="/terms/">Terms and Privacy Policy</a></label>
           <label for="optIn">
           <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}" on-change="_optInCheckbox">[[txt.optInMarketing]]</label>
           <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
