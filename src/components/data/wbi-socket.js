@@ -32,9 +32,10 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
     super.ready();
     this._connect();
   }
+
   _connect() {
     this.jwt = localStorage.getItem('jwt');
-    this.socket = io('https://dev-api.worbli.io/', {query: `jwt=${this.jwt}`});
+    this.socket = io(this.env.socketUrl, {query: `jwt=${this.jwt}`});
     this.socket.on('connect', () => {
       this.socket.on('status', (response) => {
         this.dispatchAction({
