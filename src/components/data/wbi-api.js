@@ -348,10 +348,16 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @return {object} arrays showsg what uploaded and whats missing
  */
   uploadImage(file, fileType) {
+    let deviceId = localStorage.getItem('deviceId');
+    if (!deviceId) {
+      deviceId = Math.floor(Math.random() * 1000000000);
+      localStorage.setItem('deviceId', deviceId);
+    }
+    const fileName = `${deviceId}_${fileType}`;
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
       const formData = new FormData();
-      formData.append(fileType, file);
+      formData.append(fileName, file, deviceId);
       const url = `${this.env.apiUrl}/identity/image/`;
       fetch(url, {
         method: 'POST',
