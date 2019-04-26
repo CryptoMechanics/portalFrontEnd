@@ -34,14 +34,23 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
   }
 
   _connect() {
-    console.log(window.location.hostname);
+    const key = window.location.hostname.split('.')[0];
+    let socketUrl = '';
+    if (key === 'dev' || key === '127') {
+      socketUrl = 'https://dev-api.worbli.io/';
+    } else if (key === 'uat') {
+      socketUrl = 'https://uat-api.worbli.io/';
+    } else if (key === 'www') {
+      socketUrl = 'https://api.worbli.io/';
+    };
     this.jwt = localStorage.getItem('jwt');
-    this.socket = io(this.env.socketUrl, {
+    this.socket = io(socketUrl, {
       query: `jwt=${this.jwt}`,
       transports: ['websocket', 'xhr-polling'],
-      autoConnect: false,
+      autoConnect: true,
     });
     this.socket.on('connect', () => {
+      console.log('connected');
       this.socket.on('status', (response) => {
         this.dispatchAction({
           type: 'CHANGE_STATUS',

@@ -17,6 +17,21 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      apiUrl: {
+        type: String,
+      },
+    };
+  }
+
+  ready() {
+    super.ready();
+    const key = window.location.hostname.split('.')[0];
+    if (key === 'dev' || key === '127') {
+      this.apiUrl = 'https://dev-api.worbli.io/api/v3';
+    } else if (key === 'uat') {
+      this.apiUrl = 'https://uat-api.worbli.io/api/v3';
+    } else if (key === 'www') {
+      this.apiUrl = 'https://api.worbli.io/api/v3';
     };
   }
 
@@ -30,7 +45,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   join(email, password, agreedTerms, agreedMarketing) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/visitor/join/`;
+      const url = `${this.apiUrl}/visitor/join/`;
       const data = {email, password, agreedTerms, agreedMarketing};
       fetch(url, {
         method: 'POST',
@@ -61,7 +76,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   resend(email) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/user/resendverify/`;
+      const url = `${this.apiUrl}/user/resendverify/`;
       const data = {email};
       fetch(url, {
         method: 'PUT',
@@ -94,7 +109,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   signIn(email, password) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/visitor/signin/`;
+      const url = `${this.apiUrl}/visitor/signin/`;
       const data = {email, password};
       fetch(url, {
         method: 'POST',
@@ -125,7 +140,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   forgotPassword(email) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/visitor/forgot/`;
+      const url = `${this.apiUrl}/visitor/forgot/`;
       const data = {email};
       fetch(url, {
         method: 'POST',
@@ -156,7 +171,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   verify(token) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/user/verify/`;
+      const url = `${this.apiUrl}/user/verify/`;
       const data = {token};
       fetch(url, {
         method: 'POST',
@@ -188,7 +203,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   setPassword(password, token) {
     return new Promise((resolve, reject) => {
-      const url = `${this.env.apiUrl}/user/password/`;
+      const url = `${this.apiUrl}/user/password/`;
       const data = {password, token};
       fetch(url, {
         method: 'PUT',
@@ -221,7 +236,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   checkAccountName(accountName) {
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
-      const url = `${this.env.apiUrl}/network/check/${accountName}`;
+      const url = `${this.apiUrl}/network/check/${accountName}`;
       fetch(url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
@@ -254,7 +269,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
       const data = {accountName, publicKeyOwner, publicKeyActive};
-      const url = `${this.env.apiUrl}/network/account/`;
+      const url = `${this.apiUrl}/network/account/`;
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -286,7 +301,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   profile(password, newPassword) {
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
-      const url = `${this.env.apiUrl}/user/profile/`;
+      const url = `${this.apiUrl}/user/profile/`;
       const data = {password, newPassword};
       fetch(url, {
         method: 'POST',
@@ -317,7 +332,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   getEmail() {
     return new Promise((resolve, reject) => {
       const jwt = localStorage.getItem('jwt');
-      const url = `${this.env.apiUrl}/user/profile/`;
+      const url = `${this.apiUrl}/user/profile/`;
       fetch(url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}`},
@@ -358,7 +373,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
       const token = localStorage.getItem('jwt');
       const formData = new FormData();
       formData.append(fileName, file, deviceId);
-      const url = `${this.env.apiUrl}/identity/image/`;
+      const url = `${this.apiUrl}/identity/image/`;
       fetch(url, {
         method: 'POST',
         body: formData,
@@ -401,7 +416,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
       const data = {country, firstName, middleName, lastName, day, month, year, gender};
-      const url = `${this.env.apiUrl}/identity/application/`;
+      const url = `${this.apiUrl}/identity/application/`;
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -432,7 +447,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   deleteImage(fileType) {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
-      const url = `${this.env.apiUrl}/identity/image/${fileType}`;
+      const url = `${this.apiUrl}/identity/image/${fileType}`;
       fetch(url, {
         method: 'DELETE',
         headers: {'Authorization': `Bearer ${token}`},
@@ -464,7 +479,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   deleteAll() {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
-      const url = `${this.env.apiUrl}/identity/identityimages/`;
+      const url = `${this.apiUrl}/identity/identityimages/`;
       fetch(url, {
         method: 'DELETE',
         headers: {'Authorization': `Bearer ${token}`},
@@ -491,7 +506,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   getImage(fileType) {
     const token = localStorage.getItem('jwt');
-    const url = `${this.env.apiUrl}/kyc/img/`;
+    const url = `${this.apiUrl}/kyc/img/`;
     fetch(url, {
       method: 'GET',
       body: fileType,
@@ -522,7 +537,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   kycApplication(country, nameFirst, nameLast, dob, gender) {
     const token = localStorage.getItem('jwt');
     const data = {country, nameFirst, nameLast, dob, gender};
-    const url = `${this.env.apiUrl}/kyc/application/`;
+    const url = `${this.apiUrl}/kyc/application/`;
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -555,7 +570,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
       const files = JSON.stringify(fileArray);
       const token = localStorage.getItem('jwt');
       const data = {number, country, files, message};
-      const url = `${this.env.apiUrl}/mobile/sms/`;
+      const url = `${this.apiUrl}/mobile/sms/`;
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -586,7 +601,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   getStatus() {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('jwt');
-      const url = `${this.env.apiUrl}/user/state/`;
+      const url = `${this.apiUrl}/user/state/`;
       fetch(url, {
         method: 'GET',
         headers: {'Authorization': `Bearer ${token}`},
@@ -609,7 +624,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   swapToken(shortcode) {
     return new Promise((resolve, reject) => {
       const data = {shortcode};
-      const url = `${this.env.apiUrl}/mobile/shortcode/`;
+      const url = `${this.apiUrl}/mobile/shortcode/`;
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
