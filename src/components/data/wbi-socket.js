@@ -37,8 +37,8 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
     this.jwt = localStorage.getItem('jwt');
     this.socket = io(this.env.socketUrl, {
       query: `jwt=${this.jwt}`,
-      upgrade: false,
-      transports: ['websocket'],
+      transports: ['websocket', 'xhr-polling'],
+      autoConnect: false,
     });
     this.socket.on('connect', () => {
       this.socket.on('status', (response) => {
