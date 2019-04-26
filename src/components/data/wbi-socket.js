@@ -34,6 +34,7 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
   }
 
   _connect() {
+    console.log(window.location.hostname);
     this.jwt = localStorage.getItem('jwt');
     this.socket = io(this.env.socketUrl, {
       query: `jwt=${this.jwt}`,
