@@ -76,12 +76,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .uploadContainer{
           display: flex;
+          flex-wrap: wrap;
         }
         .error {
           padding: 12px 12px;
         } 
-
-
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
