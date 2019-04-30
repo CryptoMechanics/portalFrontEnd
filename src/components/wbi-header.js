@@ -53,9 +53,26 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
           width: 17px;
           margin-right: 8px;
         }
+        .mobile-menu{
+          display: none;
+        }
+        .mobile-menu img{
+          display: none;
+        }
         @media only screen and (max-width: 768px) {
           .main-nav {
             display: none;
+          }
+          .mobile-menu{
+            display: block;
+            text-align: right;
+          }
+          .mobile-menu img{
+            display: inline;
+            margin: 17px;
+            opacity: 0.5;
+            transform: scale(0.8);
+            cursor: pointer;
           }
           .logout {
             display: none;
@@ -86,6 +103,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
             <li><a on-click="_logout"><img src="./images/logout-icon.svg" style="position: relative; top: 3px;">Logout</a></li>
             <li><a on-click="_language"><img src="./images/language-icon.svg" style="position: relative; top: 4px;">English</a></li>
           </ul>
+        </div>
+        <div class="mobile-menu">
+          <img src="./images/menu-icon.png" on-click='_settings'>
         </div>
       </div>
     `;
