@@ -45,6 +45,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         }
         .logo {
           margin-top: 16px;
+          margin-left: 12px;
           height: 25px;
           margin-right: 36px;
           cursor: pointer;

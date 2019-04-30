@@ -15,14 +15,15 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
           background-color: var(--header-background-color);
           box-shadow: inset 0 1px 0 var(--header-background-color), 0 1px 0px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05);
           z-index: 8888;
+          margin: 12px;
         }
         .footer {
           display: flex;
           max-width: 1200px;
-          margin: 0 auto;
+          padding: 0 auto;
         }
         div {
-          margin-top: 24px;
+          margin: 24px 12px;
           flex: 1;
         }
         .social{
