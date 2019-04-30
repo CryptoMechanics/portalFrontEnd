@@ -40,7 +40,7 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       socketUrl = 'https://dev-api.worbli.io/';
     } else if (key === 'uat') {
       socketUrl = 'https://uat-api.worbli.io/';
-    } else if (key === 'www') {
+    } else if (key === 'www' || key === 'portal') {
       socketUrl = 'https://api.worbli.io/';
     };
     this.jwt = localStorage.getItem('jwt');

@@ -28,6 +28,7 @@ class WbiSocial extends ReduxMixin(PolymerElement) {
         }
         ul li {
           display:inline;
+          margin-right: 5px;
         }
         ul {
           display: flex;
