@@ -38,6 +38,7 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
           }
           .footer div{
             min-width: 350px;
+            margin: 10px;
           }
         }
       </style>
