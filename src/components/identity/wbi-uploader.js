@@ -110,6 +110,11 @@ class WbiUploader extends PolymerElement {
 
   ready() {
     super.ready();
+    window.addEventListener('clean', () => {
+      if (this.fileName != 'selfie') {
+        this._removePreview();
+      };
+    });
     setInterval(() => {
       const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
       if (savedImage) {
@@ -143,6 +148,12 @@ class WbiUploader extends PolymerElement {
     const files = dt.files;
     console.log(files);
     // TODO: send this to upload
+  }
+  _removePreview() {
+    this.preview = false;
+    this.updateStyles({'--background-image': `url("./images/plus.png")`});
+    this.shadowRoot.querySelector(`#form`).reset();
+    localStorage.removeItem(`${this.country}_${this.fileName}`);
   }
   _delete(e) {
     this.preview = false;
