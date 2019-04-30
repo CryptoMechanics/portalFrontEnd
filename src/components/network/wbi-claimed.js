@@ -21,18 +21,18 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
 
       </style>
       <div>Your WORBLI blockchain account has been created</div>
-      <p>Check it out at <a href="http://worbli.bloks.io" target="_blank">worbli.bloks.io</a></p>
+      <p>Check it out at <a href="http://worbli.bloks.io/account/[[accountName]]" target="_blank">worbli.bloks.io</a></p>
     `;
   }
 
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       mode: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       color: {
@@ -42,6 +42,10 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       env: {
         type: Object,
         readOnly: true,
+      },
+      accountName: {
+        type: String,
+        observer: '_accountName',
       },
     };
   }
@@ -53,5 +57,8 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+  _accountName() {
+    this.accountName = localStorage.getItem('accountName');
   }
 } window.customElements.define('wbi-claimed', WbiClaimed);

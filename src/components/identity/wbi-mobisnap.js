@@ -200,6 +200,7 @@ class WbiMobisnap extends PolymerElement {
   }
 
   _upload() {
+    this.selfieError = '';
     localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
@@ -226,7 +227,6 @@ class WbiMobisnap extends PolymerElement {
   }
 
   _capture() {
-    console.log('Capture');
     this.updateStyles({'--capture-display': 'none'});
     this.updateStyles({'--retake-display': 'block'});
     this.updateStyles({'--video-display': 'none'});
