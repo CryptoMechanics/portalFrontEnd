@@ -572,7 +572,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this._isComplete();
   }
   _mobile() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', country: this.country, fileArray: this.fileArray}}));
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile'}}));
   }
   _gender(e) {
     this._isComplete();

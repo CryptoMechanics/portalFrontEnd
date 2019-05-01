@@ -60,7 +60,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
         
       <template is="dom-if" if="{{mobile}}">
           <div class="modal" on-click="_clickModal">
-            <wbi-mobile file-array="[[fileArray]]" country="[[country]]" closenow="{{closenow}}"></wbi-mobile>   
+            <wbi-mobile closenow="{{closenow}}"></wbi-mobile>   
           </div>
         </template>
 
@@ -85,9 +85,6 @@ class WbiModal extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
-      },
-      country: {
-        type: String,
       },
       color: {
         type: Object,
@@ -134,8 +131,6 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     window.addEventListener('modal', (e) => {
       this.language = e.detail.language;
       this.fileName = e.detail.fileName;
-      this.fileArray = e.detail.fileArray;
-      this.country = e.detail.country;
       this._show(e.detail.action);
     });
     window.addEventListener('hideModal', () => {
