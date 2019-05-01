@@ -28,22 +28,45 @@ class WbiId extends ReduxMixin(PolymerElement) {
           max-width: 360px;
           margin: 21px 0;
         }
+        label {
+          width: 100%;
+          display: block;
+          min-height: 50px;
+          border-radius: 3px;
+          background-color: #5284CE;
+          text-transform: uppercase;
+          color: white;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 50px;
+          cursor: pointer;
+        }
+        input {
+          width: 0.1px;
+          height: 0.1px;
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+          z-index: -1;
+        }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <div>
-        <template is="dom-if" if="{{allowAccess}}">
-          <h1>Allow camera access</h1>
-          <p>Enable your camera to continue verification</p>
-          <p>Click allow on the popup that will appear on the text screen</p>
-          <img src="./images/enable-cam.png">
-          <p>Why do I need to do this?</p>
-          <button on-click="_takeSelfie">Enable Camera</button>
+        <h1>Upload documents</h1>
+        <p>Select the document you want to take a photo of below</p>
+
+<form id="form">
+        <label for="selfie">Selfie
+          <input type="file" accept="image/*" id="selfie" on-change="_upload" capture>
+        </label>
+        <template is='dom-repeat' items='[[files]]'>
+          <label for="[[item.value]]">[[item.label]]
+            <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture>
+          </label>
         </template>
-        <template is="dom-if" if="{{selfie}}">
-          <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
-        </template>
-        <input type="file" accept="image/*" capture>
+</form>
+
       </div>
     `;
   }
@@ -96,9 +119,14 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this.token = this.route.__queryParams.token;
   }
 
+  _upload() {
+    console.log('upload');
+  }
+
   _swapToken() {
     const token = this.route.path.split('/')[2];
-    if (token) {
+    const jwt = localStorage.getItem('jwt');
+    if (token && !jwt) {
       this.$.api.swapToken(token)
           .then((response) => {
             console.log(response);

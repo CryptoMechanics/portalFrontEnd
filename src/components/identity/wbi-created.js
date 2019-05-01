@@ -685,6 +685,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
           : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
           this.fileArray.reverse();
+        })
+        .then(() => {
+          this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
         });
   }
 

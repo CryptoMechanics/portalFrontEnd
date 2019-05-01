@@ -559,6 +559,39 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
+ * Send Files and country to Mobile
+ * @param {string} country - guests country
+ * @param {string} fileArray - guests country
+ * @return {object} object
+ */
+  sendFilesToMobile(country, fileArray) {
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('jwt');
+      const data = {country, fileArray};
+      const url = `${this.apiUrl}/mobile/files/`;
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            if (response.data === false && response.error === 'Authentication failed: credentials wrong or missing.') {
+              localStorage.clear();
+              this.set('route.path', '/signin/jwtexpired');
+            } else {
+              resolve(response);
+            }
+          })
+          .catch((error) => {
+            console.log('Error:', error);
+          });
+    });
+  }
+
+  /**
  * Send Shortcode
  * @param {string} number - guests country
  * @param {string} country - guests country
@@ -566,11 +599,10 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {string} message - array of files needed
  * @return {object} object
  */
-  sendShortcode(number, country, fileArray, message) {
+  sendShortcode(number) {
     return new Promise((resolve, reject) => {
-      const files = JSON.stringify(fileArray);
       const token = localStorage.getItem('jwt');
-      const data = {number, country, files, message};
+      const data = {number};
       const url = `${this.apiUrl}/mobile/sms/`;
       fetch(url, {
         method: 'POST',
