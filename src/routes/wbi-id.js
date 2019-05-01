@@ -41,8 +41,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <button on-click="_takeSelfie">Enable Camera</button>
         </template>
         <template is="dom-if" if="{{selfie}}">
-        <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
+          <wbi-mobisnap file-name="[[country]]_selfie"></wbi-mobisnap>
         </template>
+        <input type="file" accept="image/*" capture>
       </div>
     `;
   }
@@ -100,9 +101,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
     if (token) {
       this.$.api.swapToken(token)
           .then((response) => {
+            console.log(response);
             if (response && response.data === false && response.error) {
               this.country = localStorage.getItem('country');
-              this.files = JSON.parse(localStorage.getItem('file'));
+              this.files = JSON.parse(localStorage.getItem('files'));
               this.jwt = localStorage.getItem('jwt');
             } else if (response && response.data === true) {
               localStorage.setItem('country', response.country);
