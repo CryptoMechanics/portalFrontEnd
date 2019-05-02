@@ -141,13 +141,13 @@ class WbiId extends ReduxMixin(PolymerElement) {
   }
 
   _mobiledocs() {
-    this.country = this.mobiledocs.country;
-    this.files = this.mobiledocs.files;
-    this.set('files', this.mobiledocs.files);
+    this.country = his.mobiledocs.country;
+    this.files = JSON.parse(this.mobiledocs.files);
+    this.set('files', JSON.parse(this.mobiledocs.files));
     this.$.repeat.render();
     console.log(this.mobiledocs);
     console.log(this.mobiledocs.country);
-    console.log(this.mobiledocs.files);
+    console.log(JSON.parse(this.mobiledocs.files));
   }
 
   _findSelfie() {
