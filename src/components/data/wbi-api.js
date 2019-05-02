@@ -566,8 +566,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   sendFilesToMobile(country, fileArray) {
     return new Promise((resolve, reject) => {
+      const files = fileArray;
       const token = localStorage.getItem('jwt');
-      const data = {country, fileArray};
+      const data = {country, files};
       const url = `${this.apiUrl}/mobile/files/`;
       fetch(url, {
         method: 'POST',
@@ -664,6 +665,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         headers: {'Content-Type': 'application/json'},
       })
           .then((response) => {
+            console.log(response);
             return response.json();
           })
           .then((response) => {
