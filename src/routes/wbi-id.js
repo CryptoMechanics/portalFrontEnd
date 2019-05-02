@@ -141,7 +141,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
   }
 
   _mobiledocs() {
-    this.country = his.mobiledocs.country;
+    this.country = this.mobiledocs.country;
     this.files = JSON.parse(this.mobiledocs.files);
     this.set('files', JSON.parse(this.mobiledocs.files));
     this.$.repeat.render();
