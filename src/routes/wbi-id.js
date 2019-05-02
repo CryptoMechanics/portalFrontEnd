@@ -145,6 +145,8 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this.files = JSON.parse(this.mobiledocs.files);
     this.set('files', JSON.parse(this.mobiledocs.files));
     this.$.repeat.render();
+    localStorage.setItem('files', JSON.stringify(this.files));
+    localStorage.setItem('country', this.country);
     console.log(this.mobiledocs);
     console.log(this.mobiledocs.country);
     console.log(JSON.parse(this.mobiledocs.files));
