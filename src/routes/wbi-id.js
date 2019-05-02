@@ -113,6 +113,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
+      mobiledocs: {
+        type: Array,
+        observer: '_mobiledocs',
+      },
     };
   }
 
@@ -121,6 +125,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
       language: state.language,
       color: state.color,
       env: state.env,
+      mobiledocs: state.mobiledocs,
     };
   }
 
@@ -133,6 +138,16 @@ class WbiId extends ReduxMixin(PolymerElement) {
   _routeChanged() {
     this.token = this.route.__queryParams.token;
     this._findSelfie();
+  }
+
+  _mobiledocs() {
+    this.country = this.mobiledocs.country;
+    this.files = this.mobiledocs.files;
+    this.set('files', this.mobiledocs.files);
+    this.$.repeat.render();
+    console.log(this.mobiledocs);
+    console.log(this.mobiledocs.country);
+    console.log(this.mobiledocs.files);
   }
 
   _findSelfie() {
