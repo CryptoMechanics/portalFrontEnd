@@ -5,6 +5,7 @@ import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/identity/wbi-mobisnap.js';
 import store from '../global/store.js';
+import '../components/data/wbi-socket.js';
 const ReduxMixin = createMixin(store);
 
 class WbiId extends ReduxMixin(PolymerElement) {
@@ -50,6 +51,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           z-index: -1;
         }
       </style>
+      <wbi-socket></wbi-socket>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <div>
