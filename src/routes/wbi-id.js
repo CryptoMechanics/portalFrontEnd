@@ -4,6 +4,7 @@ import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/identity/wbi-mobisnap.js';
+import '../components/loading/ball-spin3x.js';
 import store from '../global/store.js';
 import '../components/data/wbi-socket.js';
 const ReduxMixin = createMixin(store);
@@ -50,37 +51,61 @@ class WbiId extends ReduxMixin(PolymerElement) {
           position: absolute;
           z-index: -1;
         }
+        .cover-all {
+          background-color: #F9F9F9;
+          position:fixed;
+          left:0px;
+          right: 0px;
+          top:0px;
+          bottom:0px;
+          z-index:1000;
+        }
+        ball-spin3x {
+          width: 120px;
+          height: 120px;
+          margin: 0 auto;
+          display: inline-block;
+        }
       </style>
       <wbi-socket></wbi-socket>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <div>
-      <template is="dom-if" if="{{!completed}}">
-        <h1>Upload documents</h1>
-        <p>Select the document you want to take a photo of below</p>
-      </template>
 
-      <template is="dom-if" if="{{completed}}">
-        <h1>All Done!</h1>
-        <p>Return to the desktop to complete your application</p>
-      </template>
-
-      <form id="form">
-        <template is="dom-if" if="{{selfie}}">
-          <label for="selfie">Selfie
-            <input type="file" accept="image/*" id="selfie" on-change="_upload" capture>
-          </label>
+        <template is="dom-if" if="{{loading}}">
+          <div class="cover-all">
+            <h1>Uploading Image</h1>
+            <ball-spin3x spinsize="la-2x"></ball-spin3x>
+          </div>
         </template>
-        <template is='dom-repeat' items='[[files]]' id="repeat">
-          <label for="[[item.value]]">[[item.label]]
-            <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture>
-          </label>
-        </template>
-      </form>
 
-      <template is="dom-if" if="{{selfieError}}">
-        <div class="error">[[selfieError]]</div>
-      </template>
+        <template is="dom-if" if="{{!completed}}">
+          <h1>Upload documents</h1>
+          <p>Select the document you want to take a photo of below</p>
+        </template>
+
+        <template is="dom-if" if="{{completed}}">
+          <h1>All Done!</h1>
+          <p>Return to the desktop to complete your application</p>
+        </template>
+
+        <form id="form">
+          <template is="dom-if" if="{{selfie}}">
+            <label for="selfie">Selfie
+              <input type="file" accept="image/*" id="selfie" on-change="_upload" capture="user">
+            </label>
+          </template>
+          <template is='dom-repeat' items='[[files]]' id="repeat">
+            <label for="[[item.value]]">[[item.label]]
+              <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+            </label>
+          </template>
+        </form>
+
+        <template is="dom-if" if="{{selfieError}}">
+          <div class="error">[[selfieError]]</div>
+        </template>
+
 
       </div>
     `;
@@ -110,6 +135,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
         value: true,
       },
       completed: {
+        type: Boolean,
+        value: false,
+      },
+      loading: {
         type: Boolean,
         value: false,
       },
@@ -163,6 +192,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
   }
 
   _upload(e) {
+    this.loading = true;
     this.selfieError = '';
     if (e && e.target && e.target.id) {
       const target = e.target.id;
@@ -197,6 +227,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
                   console.log(response);
                   if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
                     this.completed = response.completed;
+                    this.loading = false;
                     if (target === 'selfie') {
                       localStorage.setItem('selfieComplete', true);
                       this.selfie = false;
@@ -207,7 +238,12 @@ class WbiId extends ReduxMixin(PolymerElement) {
                           fileArray.splice(i, 1);
                         }
                       }
-                      localStorage.setItem('files', JSON.stringify(fileArray));
+                      if (fileArray && fileArray.length > 0) {
+                        localStorage.setItem('files', JSON.stringify(fileArray));
+                      } else {
+                        localStorage.removeItem('files');
+                        this.completed = true;
+                      }
                       this.files = fileArray;
                       this.set('files', fileArray);
                       this.$.repeat.render();
@@ -265,7 +301,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
             }
             if (!this.files) {
               this.allowAccess = false;
-              console.log('your done');
+              this.completed = true;
             }
           });
     }
