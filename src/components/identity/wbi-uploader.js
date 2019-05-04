@@ -147,6 +147,7 @@ class WbiUploader extends PolymerElement {
     const dt = e.dataTransfer;
     const files = dt.files;
     console.log(files);
+    this._uploadfile(files);
     // TODO: send this to upload
   }
   _removePreview() {
@@ -217,6 +218,53 @@ class WbiUploader extends PolymerElement {
         };
         reader.readAsDataURL(file);
       }
+    }
+  }
+  _uploadfile(file) {
+    if (file.type.match(/image.*/)) {
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const image = new Image();
+        image.onload = (imageEvent) => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 800;
+          let width = image.width;
+          let height = image.height;
+          if (width > height) {
+            if (width > maxSize) {
+              height *= maxSize / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width *= maxSize / height;
+              height = maxSize;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg');
+          localStorage.setItem(`${this.country}_${target}`, dataUrl);
+          this.updateStyles({'--background-image': `url("${dataUrl}")`});
+          this.preview = true;
+          const resizedImage = this._dataURLToBlob(dataUrl);
+          this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
+              .then((response) => {
+                console.log(response);
+                console.log(response.rejectedDocuments);
+                console.log(response.rejectedDocuments.length);
+                if (response.rejectedDocuments.length === 0) {
+                  this.completed = response.completed;
+                } else {
+                  this._delete(target);
+                  this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+                };
+              });
+        };
+        image.src = readerEvent.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 

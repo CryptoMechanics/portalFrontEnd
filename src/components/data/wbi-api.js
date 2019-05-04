@@ -665,7 +665,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         headers: {'Content-Type': 'application/json'},
       })
           .then((response) => {
+            console.log('SWAP TOKEN START');
             console.log(response);
+            console.log('SWAP TOKEN END');
             return response.json();
           })
           .then((response) => {
