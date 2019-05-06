@@ -48,7 +48,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.png" alt="Worbli">
+          <img src="./images/worbli.png" alt="[[txt.worbli]]">
           <hr>
           <h2>[[txt.forgotPassword]]</h2>
           <p>[[txt.forgotPasswordIntro]]</p>
@@ -67,6 +67,10 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   static get properties() {
     return {
       env: {
+        type: Object,
+        readOnly: true,
+      },
+      txt: {
         type: Object,
         readOnly: true,
       },
@@ -150,7 +154,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
             }
           });
     } else {
-      this.error = 'Invalid Password';
+      this.error = this.txt.invalidPassword;
     }
   }
 } window.customElements.define('wbi-forgot', WbiForgot);

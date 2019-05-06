@@ -1,8 +1,13 @@
+import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../../translations/languages.js';
 import '../../css/shared-styles.js';
 import '../../components/data/wbi-api.js';
 
-class WbiCamsnap extends PolymerElement {
+import store from '../../global/store.js';
+const ReduxMixin = createMixin(store);
+
+class WbiCamsnap extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -97,7 +102,7 @@ class WbiCamsnap extends PolymerElement {
       </template>
       
       <template is="dom-if" if="{{!showVid}}">
-        <button type="button" on-click="_getCam" class="openCamera">Enable camera and take a picture</button>
+        <button type="button" on-click="_getCam" class="openCamera">[[txt.enableCameraTakePicture]]</button>
       </template>
     `;
   }
@@ -105,8 +110,9 @@ class WbiCamsnap extends PolymerElement {
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: Text,
@@ -148,6 +154,15 @@ class WbiCamsnap extends PolymerElement {
         notify: true,
         reflectToAttribue: true,
       },
+    };
+  }
+
+  static mapStateToProps(state, element) {
+    return {
+      language: state.language,
+      mode: state.mode,
+      color: state.color,
+      env: state.env,
     };
   }
 
@@ -220,5 +235,8 @@ class WbiCamsnap extends PolymerElement {
       uInt8Array[i] = raw.charCodeAt(i);
     }
     return new Blob([uInt8Array], {type: contentType});
+  }
+  _language(e) {
+    this.txt = translations[this.language];
   }
 } window.customElements.define('wbi-camsnap', WbiCamsnap);

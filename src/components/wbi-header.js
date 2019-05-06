@@ -1,5 +1,6 @@
 import {createMixin} from '../../node_modules/polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import store from '../global/store.js';
 import '../css/shared-styles.js';
@@ -77,6 +78,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
           }
           .logout {
             display: none;
+            text-transform: capitalize;
           }
           .logo {
             margin-left: 12px;
@@ -94,15 +96,15 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         <img src="./images/worbli.png" class="logo" on-click="_settings">
         <div class="main-nav">
           <ul>
-            <li><a href="/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">My profile</a></li>
-            <li><a href="/identity/"><img src="./images/identity-icon.svg" style="position: relative; top: 2px;">Identity</a></li>
-            <li><a href="/network/"><img src="./images/network-icon.svg" style="position: relative; top: 5px;">Network Account</a></li>
+            <li><a href="/profile/"><img src="./images/profile-icon.svg" style="position: relative; top: 4px;">[[txt.myProfile]]</a></li>
+            <li><a href="/identity/"><img src="./images/identity-icon.svg" style="position: relative; top: 2px;">[[txt.identity]]</a></li>
+            <li><a href="/network/"><img src="./images/network-icon.svg" style="position: relative; top: 5px;">[[txt.networkAccount]]</a></li>
           </ul>
         </div>
         <div class="logout">
           <ul>
-            <li><a on-click="_logout"><img src="./images/logout-icon.svg" style="position: relative; top: 3px;">Logout</a></li>
-            <li><a on-click="_language"><img src="./images/language-icon.svg" style="position: relative; top: 4px;">English</a></li>
+            <li><a on-click="_logout"><img src="./images/logout-icon.svg" style="position: relative; top: 3px;">[[txt.logout]]</a></li>
+            <li><a on-click="_language"><img src="./images/language-icon.svg" style="position: relative; top: 4px;">[[txt.language]]</a></li>
           </ul>
         </div>
         <div class="mobile-menu">
@@ -115,8 +117,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: Text,
@@ -149,7 +152,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
     localStorage.clear();
     this.set('route.path', '/signin/');
   }
-  _language() {
-
+  _language(e) {
+    this.txt = translations[this.language];
   }
 } window.customElements.define('wbi-header', WbiHeader);

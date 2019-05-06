@@ -1,12 +1,14 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/identity/wbi-mobisnap.js';
 import '../components/loading/ball-spin3x.js';
-import store from '../global/store.js';
 import '../components/data/wbi-socket.js';
+
+import store from '../global/store.js';
 const ReduxMixin = createMixin(store);
 
 class WbiId extends ReduxMixin(PolymerElement) {
@@ -74,24 +76,24 @@ class WbiId extends ReduxMixin(PolymerElement) {
 
         <template is="dom-if" if="{{loading}}">
           <div class="cover-all">
-            <h1>Uploading Image</h1>
+            <h1>[[txt.uploadingImage]]</h1>
             <ball-spin3x spinsize="la-2x"></ball-spin3x>
           </div>
         </template>
 
         <template is="dom-if" if="{{!completed}}">
-          <h1>Upload documents</h1>
-          <p>Select the document you want to take a photo of below</p>
+          <h1>[[txt.uploadDocuments]]</h1>
+          <p>[[txt.SelectTheDocumentBelow]]</p>
         </template>
 
         <template is="dom-if" if="{{completed}}">
-          <h1>All Done!</h1>
-          <p>Return to the desktop to complete your application</p>
+          <h1>[[txt.allDone]]</h1>
+          <p>[[txt.returnToTheDesktopToComplete]]</p>
         </template>
 
         <form id="form">
           <template is="dom-if" if="{{selfie}}">
-            <label for="selfie">Selfie
+            <label for="selfie">[[txt.selfie]]
               <input type="file" accept="image/*" id="selfie" on-change="_upload" capture="user">
             </label>
           </template>
@@ -146,6 +148,11 @@ class WbiId extends ReduxMixin(PolymerElement) {
         type: Array,
         observer: '_mobiledocs',
       },
+      language: {
+        type: String,
+        readOnly: true,
+        observer: '_language',
+      },
     };
   }
 
@@ -164,6 +171,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this._findSelfie();
   }
 
+  _language(e) {
+    this.txt = translations[this.language];
+  }
   _routeChanged() {
     this.token = this.route.__queryParams.token;
     this._findSelfie();
@@ -250,7 +260,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
                     }
                   } else {
                     this._delete(target);
-                    this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+                    this.selfieError = this.txt.faceDetectionFailed;
                   };
                 });
           };

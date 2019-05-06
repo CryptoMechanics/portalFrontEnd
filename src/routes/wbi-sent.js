@@ -42,13 +42,13 @@ class WbiSent extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.png" alt="Worbli">
+          <img src="./images/worbli.png" alt="[[txt.worbli]]">
           <hr>
           <h2>[[txt.sentEmail]]</h2>
           <template is="dom-if" if="{{email}}">
             <p>[[txt.checkYourEmail]] <strong>[[email]]</strong></p>
             <template is="dom-if" if="{{!forgot}}">
-              <button type="button" class="green-bg" on-click="_resend">Resend Verification Email</button>
+              <button type="button" class="green-bg" on-click="_resend">[[txt.resendVerificationEmail]]</button>
             </template>
             <template is="dom-if" if="{{error}}">
               <p class="error">[[error]]</p>

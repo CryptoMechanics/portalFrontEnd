@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/wbi-header.js';
@@ -66,17 +67,17 @@ class WbiHome extends ReduxMixin(PolymerElement) {
       
         <a href="/profile/" class="block">
           <div class="disk"><img src="./images/profile-header-icon.svg"></div>
-          <div class="title">My profile</div>
+          <div class="title">[[txt.myProfile]]</div>
           <div class="next"><img src="/images/next.svg"></div>
         </a>
         <a href="/identity/" class="block">
           <div class="disk"><img src="/images/identity-header-icon.svg"></div>
-          <div class="title">Identity</div>
+          <div class="title">[[txt.identity]]</div>
           <div class="next"><img src="/images/next.svg"></div>
         </a>
         <a href="/network/" class="block">
           <div class="disk"><img src="/images/network-header-icon.svg"></div>
-          <div class="title">Network account</div>
+          <div class="title">[[txt.networkAccount]]</div>
           <div class="next"><img src="/images/next.svg"></div>
         </a>
 
@@ -103,6 +104,11 @@ class WbiHome extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      language: {
+        type: String,
+        readOnly: true,
+        observer: '_language',
+      },
     };
   }
 
@@ -117,5 +123,8 @@ class WbiHome extends ReduxMixin(PolymerElement) {
 
   _set() {
     this.set('route.path', '/home');
+  }
+  _language(e) {
+    this.txt = translations[this.language];
   }
 } window.customElements.define('wbi-home', WbiHome);

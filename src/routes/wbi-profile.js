@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 import '../components/wbi-header.js';
@@ -50,24 +51,24 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       <wbi-header></wbi-header>
       <div class="card">
       <div class="header">
-          <img src="./images/profile-header-icon.svg"><h1>My profile</h1>
+          <img src="./images/profile-header-icon.svg"><h1>[[txt.myProfile]]</h1>
         </div>
         <hr>
 
 
-          <label for="email">Email address</label>
+          <label for="email">[[txt.emailAddress]]</label>
           <input type="text" name="email" id="email" value="{{email::input}}" readonly>
-          <label for="password">Password</label>
+          <label for="password">[[txt.password]]</label>
           <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password">
-          <label for="newPassword">New password</label>
+          <label for="newPassword">[[txt.newPassword]]</label>
           <input type="password" name="newPassword" id="newPassword" value="{{newPassword::input}}" on-keyup="_newPassword">
-          <label for="confirmNewPassword">Confirm new password</label>
+          <label for="confirmNewPassword">[[txt.confirmNewPassword]]</label>
           <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="{{confirmNewPassword::input}}" on-keyup="_confirmNewPassword">
           <template is="dom-if" if="{{!loading}}">
-            <button type="button" class="green-bg" on-click="_save">Save Changes</button><br>
+            <button type="button" class="green-bg" on-click="_save">[[txt.saveChanges]]</button><br>
           </template>
           <template is="dom-if" if="{{loading}}">
-            <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+            <button type="button" class="green-bg"><ball-spin></ball-spin>[[txt.loading]]</button><br>
           </template>
           <template is="dom-if" if="{{error}}">
             <p class="error">[[error]]</p>
@@ -89,6 +90,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -145,6 +147,9 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           });
     }
     this._routeChanged();
+  }
+  _language(e) {
+    this.txt = translations[this.language];
   }
   _routeChanged() {
     this.password = '';
@@ -204,11 +209,11 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           });
     } else {
       if (!this._validatePassword(this.password)) {
-        this.error = 'Invalid password.';
+        this.error = this.txt.invalidPassword;
       } else if (!this._validatePassword(this.newPassword)) {
-        this.error = 'Password is not strong enough - it must contain at least one uppercase letter, one lowercase letter, and one digit or symbol.';
+        this.error = this.txt.passwordIsNotStrongEnough;
       } else if (this.newPassword !== this.confirmNewPassword) {
-        this.error = 'Passwords do not match.';
+        this.error = this.txt.passwordsDoNotMatch;
       }
     }
   }

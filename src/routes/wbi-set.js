@@ -56,6 +56,7 @@ class WbiSet extends ReduxMixin(PolymerElement) {
         }
         .bottom li {
           list-style: none;
+          text-transform: capitalize;
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
@@ -84,21 +85,21 @@ class WbiSet extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.png" alt="Worbli">
+          <img src="./images/worbli.png" alt="[[txt.worbli]]">
           <hr>
           <h2>Set new password</h2>
           <label for="password">[[txt.password]]</label>
           <input type="password" name="password" id="password" value="{{password::input}}" on-keyup="_password" on-paste="_password">
-          <label for="password">Confirm password</label>
+          <label for="password">[[txt.confirmPassword]]</label>
           <input type="password" name="confirmPassword" id="confirmPassword" value="{{confirmPassword::input}}" on-keyup="_confirmPassword" on-paste="_confirmPassword">
-          <button type="button" class="green-bg" on-click="_setPassword">Set new password & login</button>
+          <button type="button" class="green-bg" on-click="_setPassword">[[txt.setNewPasswordLogin]]</button>
           <template is="dom-if" if="[[error]]">
             <div class="error">
               <p>[[error]]</p>
             </div>
           </template>
           <div class="bottom">
-            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="Change Language">English</li></ul>
+            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="[[txt.changeLanguage]]">[[txt.language]]</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>
