@@ -118,10 +118,6 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
-      txt: {
-        type: Object,
-        readOnly: true,
-      },
       language: {
         type: String,
         readOnly: true,
