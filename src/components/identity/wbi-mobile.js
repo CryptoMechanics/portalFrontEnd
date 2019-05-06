@@ -332,13 +332,13 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           if (response.data === true) {
             const key = window.location.hostname.split('.')[0];
             let linkUrl = '';
-            if (key === 'dev' || key === '127') {
-              linkUrl = 'https://dev-api.worbli.io/';
-            } else if (key === 'uat') {
-              linkUrl = 'https://uat-api.worbli.io/';
-            } else if (key === 'www' || key === 'portal') {
-              linkUrl = 'https://api.worbli.io/';
-            };
+            if (key === '127') {
+              linkUrl = 'http://127.0.0.1:8888/';
+            } else if (key === 'dev') {
+              linkUrl = 'https://dev.worbli.io/';
+            } else if (key === 'portal') {
+              linkUrl = 'https://portal.worbli.io/';
+            }
             this.shortcode = `${linkUrl}id/${response.shortcode}`;
             this.text = `${linkUrl}id/${response.shortcode}`;
             this.closeNow = true;
