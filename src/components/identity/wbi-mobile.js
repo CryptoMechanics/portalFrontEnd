@@ -1,6 +1,7 @@
 import {createMixin} from 'polymer-redux';
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
+import '@polymer/app-route/app-location.js';
 import '../../css/shared-styles.js';
 import '../data/wbi-api.js';
 
@@ -18,6 +19,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           pointer-events: var(--pointer-event, none);
         }
       </style>
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <template is="dom-if" if="{{!start}}">
         <h2>Continue verification on your mobile</h2>
@@ -302,12 +304,6 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     };
   }
 
-  ready() {
-    super.ready();
-    setTimeout(() => {
-      this.shadowRoot.querySelector('#code').focus();
-    }, 10);
-  }
   _code(e) {
     this._isComplete();
     if (e.keyCode === 13) {
@@ -334,7 +330,17 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     this.$.api.sendShortcode(cleanNumber)
         .then((response) => {
           if (response.data === true) {
-            this.shortcode = `https://worbli.io/id/${response.shortcode}`;
+            const key = window.location.hostname.split('.')[0];
+            let linkUrl = '';
+            if (key === 'dev' || key === '127') {
+              linkUrl = 'https://dev-api.worbli.io/';
+            } else if (key === 'uat') {
+              linkUrl = 'https://uat-api.worbli.io/';
+            } else if (key === 'www' || key === 'portal') {
+              linkUrl = 'https://api.worbli.io/';
+            };
+            this.shortcode = `${linkUrl}id/${response.shortcode}`;
+            this.text = `${linkUrl}id/${response.shortcode}`;
             this.closeNow = true;
           } else if (response.data = false && response.error) {
             this.error = error;
@@ -346,6 +352,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
   }
   _letsStart() {
     this.start = true;
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#code').focus();
+    }, 10);
   }
   _fallbackCopyTextToClipboard() {
     const textArea = document.createElement('textarea');
