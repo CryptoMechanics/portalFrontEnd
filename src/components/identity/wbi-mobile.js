@@ -130,7 +130,6 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
             <option data-countryCode="IS" value="354">Iceland (+354)</option>
             <option data-countryCode="IN" value="91">India (+91)</option>
             <option data-countryCode="ID" value="62">Indonesia (+62)</option>
-            <option data-countryCode="IR" value="98">Iran (+98)</option>
             <option data-countryCode="IQ" value="964">Iraq (+964)</option>
             <option data-countryCode="IE" value="353">Ireland (+353)</option>
             <option data-countryCode="IL" value="972">Israel (+972)</option>
