@@ -176,7 +176,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     const dt = e.dataTransfer;
     const files = dt.files;
     console.log(files);
-    this._uploadfile(files);
+    this._uploadfile(files[0]);
     // TODO: send this to upload
   }
   _removePreview() {
@@ -274,11 +274,11 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           canvas.height = height;
           canvas.getContext('2d').drawImage(image, 0, 0, width, height);
           const dataUrl = canvas.toDataURL('image/jpeg');
-          localStorage.setItem(`${this.country}_${target}`, dataUrl);
+          localStorage.setItem(`${this.country}_${this.fileName}`, dataUrl);
           this.updateStyles({'--background-image': `url("${dataUrl}")`});
           this.preview = true;
           const resizedImage = this._dataURLToBlob(dataUrl);
-          this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
+          this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
               .then((response) => {
                 console.log(response);
                 console.log(response.rejectedDocuments);
