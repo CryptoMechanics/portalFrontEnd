@@ -687,6 +687,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           this.fileArray.reverse();
         })
         .then(() => {
+          console.log('=== SEND FILES TO MOBILE ===');
           this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
         });
   }
@@ -699,6 +700,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _deleteAll() {
+    console.log('=== DELTE IMAGES ===');
     this.$.api.deleteAll()
         .then((response) => {
           if (response && response.data === false && response.error) {

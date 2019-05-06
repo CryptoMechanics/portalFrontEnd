@@ -478,7 +478,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  */
   deleteAll() {
     return new Promise((resolve, reject) => {
-      console.log('A request to Delete All was sent to /identity/identityimages/ ');
       const token = localStorage.getItem('jwt');
       const url = `${this.apiUrl}/identity/identityimages/`;
       fetch(url, {

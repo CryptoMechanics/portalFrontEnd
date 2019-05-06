@@ -1,8 +1,12 @@
+import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '../../components/data/wbi-api.js';
 import '../../css/shared-styles.js';
 
-class WbiUploader extends PolymerElement {
+import store from '../../global/store.js';
+const ReduxMixin = createMixin(store);
+
+class WbiUploader extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -105,6 +109,16 @@ class WbiUploader extends PolymerElement {
         type: Boolean,
         value: false,
       },
+      mobiledocs: {
+        type: Object,
+        observer: '_mobiledocs',
+      },
+    };
+  }
+
+  static mapStateToProps(state, element) {
+    return {
+      mobiledocs: state.mobiledocs,
     };
   }
 
@@ -123,6 +137,21 @@ class WbiUploader extends PolymerElement {
         this.preview = true;
       }
     }, 1000);
+  }
+
+  _mobiledocs() {
+    const fileStatusArray = JSON.parse(this.mobiledocs.files);
+    for (let i = 0; i < fileStatusArray.length; i++) {
+      if (fileStatusArray[i].uploaded === true) {
+        const thisDeviceId = localStorage.getItem('deviceId');
+        if (thisDeviceId !== fileStatusArray[i].deviceId && this.fileName === fileStatusArray[i].value) {
+          console.log('-------');
+          console.log('this file was uploaded on mobile:');
+          console.log(fileStatusArray[i]);
+          this.updateStyles({'--background-image': `./images/fromMobile.png`});
+        }
+      };
+    }
   }
 
   _showAddImageBg() {

@@ -72,15 +72,18 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
         }
       });
       this.socket.on('imageStatus', (response) => {
-        console.log('==== IMAGE UPDATE FROM SOCKET ====');
+        console.log('==== imageStatus START ====');
+        console.log(response);
+        console.log('==== imageStatus END ====');
         this.dispatchAction({
           type: 'CHANGE_IMAGESTATUS',
           imagestatus: response,
         });
       });
       this.socket.on('mobileDocuments', (response) => {
-        console.log('==== mobileDocuments ====');
+        console.log('==== mobileDocuments START ====');
         console.log(response);
+        console.log('==== mobileDocuments END ====');
         this.dispatchAction({
           type: 'CHANGE_MOBILEDOCS',
           mobiledocs: response.documents,
