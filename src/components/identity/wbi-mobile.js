@@ -15,8 +15,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
+        }
+        .error {
+          padding: 12px 12px;
         }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
@@ -265,9 +266,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           <p class="error">[[error]]</p>
         </template>
         <template is="dom-if" if="[[shortcode]]">
-        <p>Copy link instead</p>
-        <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
-        <button class="green-bg" on-click="_copyToClipboard">Copy</button>
+          <p>Copy link instead</p>
+          <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
+          <button class="green-bg" on-click="_copyToClipboard">Copy</button>
         </template>
       </template>
     `;
@@ -280,6 +281,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         readOnly: true,
       },
       country: {
+        type: String,
+      },
+      error: {
         type: String,
       },
       start: {
@@ -313,47 +317,56 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     this._isComplete();
   }
   _isComplete() {
-    if (this.code && this.number) {
+    const number = `+${this.code}${this.number}`;
+    const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
+    if (this.code && this.number && this._validateMobile(cleanNumber)) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
   _sendLink() {
     const number = `+${this.code}${this.number}`;
     const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
-    this.$.api.sendShortcode(cleanNumber)
-        .then((response) => {
-          if (response.data === true) {
-            const key = window.location.hostname.split('.')[0];
-            let linkUrl = '';
-            if (key === '127') {
-              linkUrl = 'http://127.0.0.1:8888/';
-            } else if (key === 'dev') {
-              linkUrl = 'https://dev.worbli.io/';
-            } else if (key === 'portal') {
-              linkUrl = 'https://portal.worbli.io/';
+    if (this._isComplete()) {
+      this.error = '';
+      this.$.api.sendShortcode(cleanNumber)
+          .then((response) => {
+            if (response.data === true) {
+              const key = window.location.hostname.split('.')[0];
+              let linkUrl = '';
+              if (key === '127') {
+                linkUrl = 'http://127.0.0.1:8888/';
+              } else if (key === 'dev') {
+                linkUrl = 'https://dev.worbli.io/';
+              } else if (key === 'portal') {
+                linkUrl = 'https://portal.worbli.io/';
+              }
+              this.shortcode = `${linkUrl}id/${response.shortcode}`;
+              this.text = `${linkUrl}id/${response.shortcode}`;
+              this.closeNow = true;
+            } else if (response.data = false && response.error) {
+              this.error = error;
             }
-            this.shortcode = `${linkUrl}id/${response.shortcode}`;
-            this.text = `${linkUrl}id/${response.shortcode}`;
-            this.closeNow = true;
-          } else if (response.data = false && response.error) {
+          })
+          .catch((error) => {
             this.error = error;
-          }
-        })
-        .catch((error) => {
-          this.error = error;
-        });
+          });
+    } else {
+      this.error = 'Invalid phone number.';
+    }
   }
   _letsStart() {
     this.start = true;
     setTimeout(() => {
       this.shadowRoot.querySelector('#code').focus();
     }, 10);
+  }
+  _validateMobile(number) {
+    const re = /^\+[0-9]{7,15}$/;
+    return re.test(number);
   }
   _fallbackCopyTextToClipboard() {
     const textArea = document.createElement('textarea');
