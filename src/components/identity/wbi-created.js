@@ -704,7 +704,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _deleteAll() {
-    console.log('=== DELTE IMAGES ===');
+    console.log('=== DELETE IMAGES ===');
     this.$.api.deleteAll()
         .then((response) => {
           if (response && response.data === false && response.error) {

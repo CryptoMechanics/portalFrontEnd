@@ -61,13 +61,20 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         .mobile-menu img{
           display: none;
         }
+        .language{
+          display: none;
+        }
+        .language img {
+          height: 17px;
+          width: 17px;
+        }
         @media only screen and (max-width: 768px) {
           .main-nav {
             display: none;
           }
           .mobile-menu{
             display: block;
-            text-align: right;
+            max-width: 65px;
           }
           .mobile-menu img{
             display: inline;
@@ -81,11 +88,22 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
             text-transform: capitalize;
           }
           .logo {
-            margin-left: 12px;
+            margin: 0 auto;
+            margin-top: 17px;
           }
           :host {
             position: relative;
             top: -1px;
+          }
+          .language{
+            display: inline;
+            max-width: 80px;
+            padding-top: 15px;
+          }
+          .language img {
+            position: relative;
+            top: 3px;
+            left: -3px;
           }
         }
 
@@ -93,6 +111,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-socket></wbi-socket>
       <div class="header">
+        <div class="mobile-menu" on-click='_mobimenu'>
+          <img src="./images/menu-icon.png" >
+        </div>
         <img src="./images/worbli.png" class="logo" on-click="_settings">
         <div class="main-nav">
           <ul>
@@ -107,8 +128,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
             <li><a on-click="_language"><img src="./images/language-icon.svg" style="position: relative; top: 4px;">[[txt.language]]</a></li>
           </ul>
         </div>
-        <div class="mobile-menu">
-          <img src="./images/menu-icon.png" on-click='_settings'>
+        <div class="language">
+          <img src="./images/language-icon.svg">
+            English
         </div>
       </div>
     `;
@@ -144,7 +166,9 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-
+  _mobimenu() {
+    this.dispatchEvent(new CustomEvent('mobimenu', {bubbles: true, composed: true}));
+  }
   _settings() {
     this.set('route.path', '/');
   }
