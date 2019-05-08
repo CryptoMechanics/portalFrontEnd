@@ -80,15 +80,6 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
           imagestatus: response,
         });
       });
-      this.socket.on('mobileDocuments', (response) => {
-        console.log('==== mobileDocuments START ====');
-        console.log(response);
-        console.log('==== mobileDocuments END ====');
-        this.dispatchAction({
-          type: 'CHANGE_MOBILEDOCS',
-          mobiledocs: response.documents,
-        });
-      });
       this.socket.on('disconnect', () => {
         console.log('DISCONNECTED');
       });

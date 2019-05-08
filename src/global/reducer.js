@@ -36,10 +36,6 @@ export default (state = initial, action) => {
       return Object.assign({}, state, {
         imagestatus: action.imagestatus,
       });
-    case 'CHANGE_MOBILEDOCS':
-      return Object.assign({}, state, {
-        mobiledocs: action.mobiledocs,
-      });
     default:
       return state;
   }
