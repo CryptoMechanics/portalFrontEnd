@@ -69,7 +69,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: inline-block;
         }
       </style>
-      <wbi-socket></wbi-socket>
+      <template is="dom-if" if="{{socket}}">
+        <wbi-socket></wbi-socket>
+      </template>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <div>
@@ -92,11 +94,6 @@ class WbiId extends ReduxMixin(PolymerElement) {
         </template>
 
         <form id="form">
-          <template is="dom-if" if="{{selfie}}">
-            <label for="selfie">[[txt.selfie]]
-              <input type="file" accept="image/*" id="selfie" on-change="_upload" capture="user">
-            </label>
-          </template>
           <template is='dom-repeat' items='[[files]]' id="repeat">
             <label for="[[item.value]]">[[item.label]]
               <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
@@ -123,6 +120,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: true,
       },
+      socket: {
+        type: Boolean,
+        value: false,
+      },
       country: {
         type: String,
       },
@@ -144,9 +145,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
-      mobiledocs: {
-        type: Array,
-        observer: '_mobiledocs',
+      imagestatus: {
+        type: Object,
+        observer: '_imagestatus',
       },
       language: {
         type: String,
@@ -161,45 +162,46 @@ class WbiId extends ReduxMixin(PolymerElement) {
       language: state.language,
       color: state.color,
       env: state.env,
-      mobiledocs: state.mobiledocs,
+      imagestatus: state.imagestatus,
     };
   }
 
   ready() {
     super.ready();
-    this._swapToken();
-    this._findSelfie();
+    const token = this.route.path.split('/')[2];
+    const jwt = localStorage.getItem('jwt');
+    if (token && !jwt) {
+      this.$.api.swapToken(token)
+          .then((response) => {
+            localStorage.setItem('jwt', response.jwt);
+            this.socket = true;
+            this.set('route.path', '/id/');
+          });
+    } else if (!token && jwt) {
+      this.socket = true;
+    }
   }
 
   _language(e) {
     this.txt = translations[this.language];
   }
-  _routeChanged() {
-    this.token = this.route.__queryParams.token;
-    this._findSelfie();
+  _imagestatus() {
+    console.log('this.imagestatus');
+    console.log(this.imagestatus);
+    this.country = this.imagestatus.country;
+    this.files = JSON.parse(this.imagestatus.files);
   }
-
-  _mobiledocs() {
-    this.country = this.mobiledocs.country;
-    this.files = JSON.parse(this.mobiledocs.files);
-    this.set('files', JSON.parse(this.mobiledocs.files));
-    this.$.repeat.render();
-    localStorage.setItem('files', JSON.stringify(this.files));
-    localStorage.setItem('country', this.country);
-    console.log(this.mobiledocs);
-    console.log(this.mobiledocs.country);
-    console.log(JSON.parse(this.mobiledocs.files));
-  }
-
-  _findSelfie() {
-    this.country = localStorage.getItem('country');
-    this.files = JSON.parse(localStorage.getItem('files'));
-    if (localStorage.getItem('selfieComplete')) {
-      this.selfie = false;
-    } else {
-      this.selfie = true;
-    }
-  }
+  // _mobiledocs() {
+  //   this.country = this.mobiledocs.country;
+  //   this.files = JSON.parse(this.mobiledocs.files);
+  //   this.set('files', JSON.parse(this.mobiledocs.files));
+  //   this.$.repeat.render();
+  //   localStorage.setItem('files', JSON.stringify(this.files));
+  //   localStorage.setItem('country', this.country);
+  //   console.log(this.mobiledocs);
+  //   console.log(this.mobiledocs.country);
+  //   console.log(JSON.parse(this.mobiledocs.files));
+  // }
 
   _upload(e) {
     this.loading = true;
@@ -234,7 +236,6 @@ class WbiId extends ReduxMixin(PolymerElement) {
             const resizedImage = this._dataURLToBlob(dataUrl);
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
-                  console.log(response);
                   if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
                     this.completed = response.completed;
                     this.loading = false;
@@ -288,32 +289,5 @@ class WbiId extends ReduxMixin(PolymerElement) {
       uInt8Array[i] = raw.charCodeAt(i);
     }
     return new Blob([uInt8Array], {type: contentType});
-  }
-
-  _swapToken() {
-    const token = this.route.path.split('/')[2];
-    const files = localStorage.getItem('files');
-    if (token && !files) {
-      this.$.api.swapToken(token)
-          .then((response) => {
-            console.log(response);
-            if (response && response.data === false && response.error) {
-              this.country = localStorage.getItem('country');
-              this.files = JSON.parse(localStorage.getItem('files'));
-              this.jwt = localStorage.getItem('jwt');
-            } else if (response && response.data === true) {
-              localStorage.setItem('country', response.country);
-              localStorage.setItem('files', response.files);
-              localStorage.setItem('jwt', response.jwt);
-              this.country = response.country;
-              this.files = JSON.parse(response.files);
-              this.jwt = response.jwt;
-            }
-            if (!this.files) {
-              this.allowAccess = false;
-              this.completed = true;
-            }
-          });
-    }
   }
 } window.customElements.define('wbi-id', WbiId);

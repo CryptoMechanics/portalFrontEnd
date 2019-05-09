@@ -387,10 +387,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
               localStorage.clear();
               this.set('route.path', '/signin/jwtexpired');
             } else {
-              this.dispatchAction({
-                type: 'CHANGE_IMAGESTATUS',
-                imagestatus: response,
-              });
               resolve(response);
             }
           })
@@ -460,10 +456,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
               localStorage.clear();
               this.set('route.path', '/signin/jwtexpired');
             } else {
-              this.dispatchAction({
-                type: 'CHANGE_IMAGESTATUS',
-                imagestatus: response,
-              });
               resolve(response);
             }
           })
@@ -664,9 +656,6 @@ class WbiApi extends ReduxMixin(PolymerElement) {
         headers: {'Content-Type': 'application/json'},
       })
           .then((response) => {
-            console.log('SWAP TOKEN START');
-            console.log(response);
-            console.log('SWAP TOKEN END');
             return response.json();
           })
           .then((response) => {

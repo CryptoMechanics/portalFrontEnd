@@ -109,16 +109,16 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
-      mobiledocs: {
+      imagestatus: {
         type: Object,
-        observer: '_mobiledocs',
+        observer: '_imagestatus',
       },
     };
   }
 
   static mapStateToProps(state, element) {
     return {
-      mobiledocs: state.mobiledocs,
+      imagestatus: state.imagestatus,
     };
   }
 
@@ -139,19 +139,18 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     }, 1000);
   }
 
-  _mobiledocs() {
-    const fileStatusArray = JSON.parse(this.mobiledocs.files);
-    for (let i = 0; i < fileStatusArray.length; i++) {
-      if (fileStatusArray[i].uploaded === true) {
-        const thisDeviceId = localStorage.getItem('deviceId');
-        if (thisDeviceId !== fileStatusArray[i].deviceId && this.fileName === fileStatusArray[i].value) {
-          console.log('-------');
-          console.log('this file was uploaded on mobile:');
-          console.log(fileStatusArray[i]);
-          this.updateStyles({'--background-image': `url("./images/fromMobile.png")`});
-          this.preview = true;
-        }
-      };
+  _imagestatus() {
+    if (this.imagestatus && this.imagestatus.files) {
+      const fileStatusArray = JSON.parse(this.imagestatus.files);
+      for (let i = 0; i < fileStatusArray.length; i++) {
+        if (fileStatusArray[i].uploaded === true) {
+          const thisDeviceId = localStorage.getItem('deviceId');
+          if (thisDeviceId !== fileStatusArray[i].deviceId && this.fileName === fileStatusArray[i].value) {
+            this.updateStyles({'--background-image': `url("./images/fromMobile.png")`});
+            this.preview = true;
+          }
+        };
+      }
     }
   }
 
@@ -176,9 +175,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     e.stopPropagation();
     const dt = e.dataTransfer;
     const files = dt.files;
-    console.log(files);
     this._uploadfile(files[0]);
-    // TODO: send this to upload
   }
   _removePreview() {
     this.preview = false;
@@ -191,11 +188,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     this.updateStyles({'--background-image': `url("./images/plus.png")`});
     this.shadowRoot.querySelector(`#form`).reset();
     localStorage.removeItem(`${this.country}_${this.fileName}`);
-    this.$.api.deleteImage(`${this.country}_${this.fileName}`)
-        .then((response) => {
-          console.log('Delete response');
-          console.log(response);
-        });
+    this.$.api.deleteImage(`${this.country}_${this.fileName}`);
   }
   _upload(e) {
     this.selfieError = '';
@@ -230,19 +223,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
-            console.log(resizedImage);
-            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
-                .then((response) => {
-                  console.log(response);
-                  console.log(response.rejectedDocuments);
-                  console.log(response.rejectedDocuments.length);
-                  if (response.rejectedDocuments.length === 0) {
-                    this.completed = response.completed;
-                  } else {
-                    this._delete(target);
-                    this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
-                  };
-                });
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`);
           };
           image.src = readerEvent.target.result;
         };
@@ -296,51 +277,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
       };
       reader.readAsDataURL(file);
     }
-  }
-
-  _getOrientation(file) {
-    // this._getOrientation(file)
-    // .then((orientation) => {
-    //   alert('orientation: ' + orientation);
-    // });
-    // https://medium.com/wassa/handle-image-rotation-on-mobile-266b7bd5a1e6
-    // https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const view = new DataView(e.target.result);
-        if (view.getUint16(0, false) != 0xFFD8) {
-          resolve(-2);
-        }
-        const length = view.byteLength;
-        let offset = 2;
-        while (offset < length) {
-          if (view.getUint16(offset+2, false) <= 8) resolve(-1);
-          const marker = view.getUint16(offset, false);
-          offset += 2;
-          if (marker == 0xFFE1) {
-            if (view.getUint32(offset += 2, false) != 0x45786966) {
-              resolve(-1);
-            }
-            const little = view.getUint16(offset += 6, false) == 0x4949;
-            offset += view.getUint32(offset + 4, little);
-            const tags = view.getUint16(offset, little);
-            offset += 2;
-            for (let i = 0; i < tags; i++) {
-              if (view.getUint16(offset + (i * 12), little) == 0x0112) {
-                resolve(view.getUint16(offset + (i * 12) + 8, little));
-              }
-            }
-          } else if ((marker & 0xFF00) != 0xFF00) {
-            break;
-          } else {
-            offset += view.getUint16(offset, false);
-          }
-        }
-        resolve(-1);
-      };
-      reader.readAsArrayBuffer(file);
-    });
   }
 
   _dataURLToBlob(dataURL) {
