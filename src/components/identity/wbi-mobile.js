@@ -343,6 +343,8 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
                 linkUrl = 'https://dev.worbli.io/';
               } else if (key === 'portal') {
                 linkUrl = 'https://portal.worbli.io/';
+              } else if (key === 'uat') {
+                linkUrl = 'https://uat.worbli.io/';
               }
               this.shortcode = `${linkUrl}id/${response.shortcode}`;
               this.text = `${linkUrl}id/${response.shortcode}`;
