@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 import '../css/shared-styles.js';
 
@@ -39,7 +40,7 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       <wbi-header></wbi-header>
       <div class="card">
       <div class="header">
-          <img src="./images/network-header-icon.svg"><h1>Network Account</h1>
+          <img src="./images/network-header-icon.svg"><h1>[[txt.networkAccount]]</h1>
         </div>
         <hr>
         <template is="dom-if" if="{{noaccess}}"> 
@@ -65,6 +66,7 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -109,10 +111,10 @@ class WbiNetwork extends ReduxMixin(PolymerElement) {
       network: state.network,
     };
   }
-
+  _language(e) {
+    this.txt = translations[this.language];
+  }
   _status() {
-    console.log(this.status);
-    console.log(this.network);
     if (this.status === 'approved' && this.network === 'available') {
       this.access = true;
       this.noaccess = false;

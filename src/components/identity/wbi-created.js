@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../../translations/languages.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../data/wbi-api.js';
@@ -76,18 +77,17 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .uploadContainer{
           display: flex;
+          flex-wrap: wrap;
         }
         .error {
           padding: 12px 12px;
         } 
-
-
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
-        <label for='Country'>Select Country</label>
+        <label for='Country'>[[txt.selectCountry]]</label>
         <select value='{{country::input}}' on-change="_country" class="country">
-          <option value="" id="">Select...</option>
+          <option value="" id="">[[txt.select]]</option>
           <option id="AFG" value="AFG">Afghanistan</option>
           <option id="ALB" value="ALB">Albania</option>
           <option id="DZA" value="DZA">Algeria</option>
@@ -300,19 +300,19 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="{{radioArray}}">       
         <hr/>
 
-        <label for='firstName'>First Name</label>
+        <label for='firstName'>[[txt.firstName]]</label>
         <input type='text' name='firstName' id='firstName' value='{{firstName::input}}' on-keyup="_firstName"><br>
 
-        <label for='middleName'>Middle Name</label>
+        <label for='middleName'>[[txt.middleName]]</label>
         <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName"><br>
         <small>Optional</small>
 
-        <label for='lastName' class="lastNameLabel">Last Name</label>
+        <label for='lastName' class="lastNameLabel">[[txt.lastName]]</label>
         <input type='text' name='lastName' id='lastName' value='{{lastName::input}}' on-keyup="_lastName"><br>
 
-        <label for='dob'>Date of birth</label>
+        <label for='dob'>[[txt.dateOfBirth]]</label>
         <select name='day' id='day' value='{{day::input}}' on-change="_day">
-          <option value='Day'>Day</option>
+          <option value='Day'>[[txt.day]]</option>
           <option value='1'>1</option>
           <option value='2'>2</option>
           <option value='3'>3</option>
@@ -346,7 +346,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           <option value='31'>31</option>
         </select>
         <select name='month' id='month' value='{{month::input}}' on-change="_month">
-          <option value='Month'>Month</option>
+          <option value='Month'>[[txt.month]]</option>
           <option value='1'>January</option>
           <option value='2'>Febuary</option>
           <option value='3'>March</option>
@@ -361,7 +361,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           <option value='12'>Decemeber</option>
         </select>
         <select name='year' id='year' value='{{year::input}}' on-change="_year">
-          <option value='Year'>Year</option>
+          <option value='Year'>[[txt.year]]</option>
           <option value="2019">2019</option>
           <option value="2018">2018</option>
           <option value="2017">2017</option>
@@ -455,17 +455,17 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         </select><br>
 
 
-        <label for='gender'>Gender</label>
+        <label for='gender'>[[txt.gender]]</label>
         <select name='gender' id='gender' value='{{gender::input}}' on-change="_gender">
-        <option value=''>Select...</option>
+        <option value=''>[[txt.select]]</option>
           <option value='Male'>Male</option>
           <option value='Female'>Female</option>
         </select>
         <hr/>
 
       
-          <h1 class="upload-docs">Upload documents</h1>
-          <p>Select the type of Identity document you wish to upload</p>
+          <h1 class="upload-docs">[[txt.uploadDocuments]]</h1>
+          <p>[[txt.selectIdentityDocumentToUpload]]</p>
             <p class='radio_group'>            
             <template is='dom-repeat' items='[[radioArray]]'>         
               <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
@@ -475,11 +475,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
-            <!-- <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button> -->
-            <!-- <small>Optional</small> -->
+              <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button>
+              <small>[[txt.optional]]</small>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
-                <wbi-uploader file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
+                <wbi-uploader id="[[item.value]]" file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
               </template>
             </div>
             <wbi-uploader file-name="selfie" label="selfie" country="[[country]]"></wbi-uploader>
@@ -504,6 +504,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -565,16 +566,17 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       imagestatus: state.imagestatus,
     };
   }
-
+  _language(e) {
+    this.txt = translations[this.language];
+  }
   _imageStatus() {
-    console.log('----- REDUX RESPONSE START -------');
     this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
     this.completed = this.imagestatus.completed;
     this._isComplete();
   }
   _mobile() {
-    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile', country: this.country, fileArray: this.fileArray}}));
+    this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile'}}));
   }
   _gender(e) {
     this._isComplete();
@@ -626,16 +628,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _isComplete() {
-    console.log('----- CHECK START Do we have eveything we need? ----');
-    console.log('country', this.country == true);
-    console.log('firstName', this.firstName == true);
-    console.log('lastNamet', this.lastName == true);
-    console.log('day', this.day == true);
-    console.log('month', this.month == true);
-    console.log('year', this.year == true);
-    console.log('gender', this.gender == true);
-    console.log('images completed', this.completed == true);
-    console.log('----- CHECK END IF ALL ARE TRUE SHOW GREEN BUTTON ----');
     if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       return true;
@@ -673,28 +665,41 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           });
     } else {
       if (!this.country) {
-        this.error = 'Please select your country.';
+        this.error = this.txt.pleaseSelectYourCountry;
       } else if (!this.firstName) {
-        this.error = 'Please enter your first name.';
+        this.error = this.txt.pleaseEnterYourFirstName;
       } else if (!this.lastName) {
-        this.error = 'Please enter your last name.';
+        this.error = this.txt.pleaseEnterYourLastName;
       } else if (!this.day || !this.month || !this.year) {
-        this.error = 'Please select your date of birth.';
+        this.error = this.txt.pleaseSelectYourDateOfBirth;
       } else if (!this.gender) {
-        this.error = 'Please select your sex.';
+        this.error = this.txt.pleaseSelectYourSex;
       } else if (!this.completed) {
-        this.error = 'Please upload all the required images.';
+        this.error = this.txt.pleaseUploadAllTheRequiredImages;
       }
     }
   }
   _makeFileUpload(e) {
     this._deleteAll();
-    this.fileArray = [];
-    this.selectedDoc = e.model.__data.item.value;
-    const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
-    needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
-    : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
-    this.fileArray.reverse();
+    this._cleanUp()
+        .then(() => {
+          this.fileArray = [];
+          this.selectedDoc = e.model.__data.item.value;
+          const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
+          needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
+          : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
+          this.fileArray.reverse();
+        })
+        .then(() => {
+          this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
+        });
+  }
+
+  _cleanUp() {
+    return new Promise((resolve, reject) => {
+      this.dispatchEvent(new CustomEvent('clean', {bubbles: true, composed: true}));
+      resolve();
+    });
   }
 
   _deleteAll() {

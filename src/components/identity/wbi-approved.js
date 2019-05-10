@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../../translations/languages.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 
@@ -34,8 +35,8 @@ class WbiApproved extends ReduxMixin(PolymerElement) {
           margin-left: 12px;
         }
       </style>
-      <p class="green-alert">Your identity has been verified.</p>
-      <div class="status">Status: <span>Approved</span></div>
+      <p class="green-alert">[[txt.identityHasBeenVerified]]</p>
+      <div class="status">Status: <span>[[txt.approved]]</span></div>
     `;
   }
 
@@ -57,6 +58,11 @@ class WbiApproved extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
+      language: {
+        type: String,
+        readOnly: true,
+        observer: '_language',
+      },
     };
   }
 
@@ -67,5 +73,8 @@ class WbiApproved extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+  _language(e) {
+    this.txt = translations[this.language];
   }
 } window.customElements.define('wbi-approved', WbiApproved);

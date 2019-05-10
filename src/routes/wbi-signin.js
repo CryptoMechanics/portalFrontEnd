@@ -56,6 +56,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         }
         .bottom li {
           list-style: none;
+          text-transform: capitalize;
         }
         .green-bg {
           margin: auto;
@@ -83,7 +84,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-          <img src="./images/worbli.png" alt="Worbli">
+          <img src="./images/worbli.png" alt="[[txt.worbli]]">
           <hr>
           <h2>[[txt.signIn]]</h2>
           <label for="email">[[txt.emailAddress]]</label>
@@ -99,7 +100,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             </div>
           </template>
           <div class="bottom">
-            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="Change Language">English</li></ul>
+            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="[[txt.changeLanguage]]">[[txt.language]]</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>
@@ -135,6 +136,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
+      route: {
+        type: Object,
+        observer: '_routeChanged',
+      },
     };
   }
 
@@ -144,6 +149,11 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       mode: state.mode,
       color: state.color,
       env: state.env,
+    };
+  }
+  _routeChanged() {
+    if (this.route.path.split('/')[2] === 'jwtexpired') {
+      this.error = this.txt.youHaveBeenLoggedOut;
     };
   }
   _validateEmail(email) {
@@ -217,9 +227,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
     } else {
       this.error = '';
       if (!this._validateEmail(this.email)) {
-        this.error = 'Invalid Email address.';
+        this.error = this.txt.invalidEmailAddress;
       } else if (!this._validatePassword(this.password) ) {
-        this.error = 'Invalid Password.';
+        this.error = this.txt.invalidPassword;
       }
     }
   }

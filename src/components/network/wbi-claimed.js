@@ -2,6 +2,7 @@ import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
+import '../../components/data/wbi-api.js';
 
 const ReduxMixin = createMixin(store);
 class WbiClaimed extends ReduxMixin(PolymerElement) {
@@ -20,19 +21,20 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
         }
 
       </style>
+      <wbi-api id='api'></wbi-api>
       <div>Your WORBLI blockchain account has been created</div>
-      <p>Check it out at <a href="http://worbli.bloks.io" target="_blank">worbli.bloks.io</a></p>
+      <p>Check it out at <a href="http://worbli.bloks.io/account/[[accountName]]" target="_blank">worbli.bloks.io</a></p>
     `;
   }
 
   static get properties() {
     return {
       language: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       mode: {
-        type: Text,
+        type: String,
         readOnly: true,
       },
       color: {
@@ -42,6 +44,10 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       env: {
         type: Object,
         readOnly: true,
+      },
+      accountName: {
+        type: String,
+        observer: '_accountName',
       },
     };
   }
@@ -53,5 +59,16 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
     };
+  }
+  _accountName() {
+    if (localStorage.getItem('accountName')) {
+      this.accountName = localStorage.getItem('accountName');
+    } else {
+      this.$.api.getStatus()
+          .then((response) => {
+            this.accountName = response.worbliAccountName;
+            localStorage.setItem('accountName', this.accountName);
+          });
+    }
   }
 } window.customElements.define('wbi-claimed', WbiClaimed);

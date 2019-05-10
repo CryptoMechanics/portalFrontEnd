@@ -6,6 +6,7 @@ import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import './components/wbi-modal.js';
+import './components/wbi-mobinav.js';
 
 import store from './global/store.js';
 const ReduxMixin = createMixin(store);
@@ -25,6 +26,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
       <wbi-modal></wbi-modal>
+      <wbi-mobinav></wbi-mobinav>
       <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
         <wbi-signin name="signin"></wbi-signin>
         <wbi-join name="join"></wbi-join>
@@ -38,6 +40,11 @@ class AppShell extends ReduxMixin(PolymerElement) {
         <wbi-network name="network"></wbi-network>
         <wbi-profile name="profile"></wbi-profile>
         <wbi-id name="id"></wbi-id>
+        <wbi-terms name="terms"></wbi-terms>
+        <wbi-platformterms name="platformterms"></wbi-platformterms>
+        <wbi-networkterms name="networkterms"></wbi-networkterms>
+        <wbi-developerterms name="developerterms"></wbi-developerterms>
+        <wbi-privacy name="privacy"></wbi-privacy>
       </iron-pages>
     `;
   }
@@ -80,7 +87,24 @@ class AppShell extends ReduxMixin(PolymerElement) {
       this.page = 'home';
     } else if (!page && !jwt) {
       this.set('route.path', '/signin/');
-    } else if (['signin', 'join', 'forgot', 'sent', 'set', 'verify', 'home', 'identity', 'network', 'profile', 'id'].indexOf(page) !== -1) {
+    } else if ([
+      'signin',
+      'join',
+      'forgot',
+      'sent',
+      'set',
+      'verify',
+      'home',
+      'identity',
+      'network',
+      'profile',
+      'id',
+      'terms',
+      'platformterms',
+      'networkterms',
+      'developerterms',
+      'privacy',
+    ].indexOf(page) !== -1) {
       this.page = page;
       if (this.page === 'home' && !jwt || this.page == 'identity' && !jwt || this.page === 'network' && !jwt|| this.page === 'profile' && !jwt) {
         this.set('route.path', '/signin/');
@@ -125,6 +149,21 @@ class AppShell extends ReduxMixin(PolymerElement) {
         break;
       case 'id':
         import('./routes/wbi-id.js');
+        break;
+      case 'terms':
+        import('./routes/wbi-terms.js');
+        break;
+      case 'platformterms':
+        import('./routes/wbi-platformterms.js');
+        break;
+      case 'networkterms':
+        import('./routes/wbi-networkterms.js');
+        break;
+      case 'developerterms':
+        import('./routes/wbi-developerterms.js');
+        break;
+      case 'privacy':
+        import('./routes/wbi-privacy.js');
         break;
       case 'error':
         import('./routes/wbi-error.js');

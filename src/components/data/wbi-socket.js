@@ -32,10 +32,25 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
     super.ready();
     this._connect();
   }
+
   _connect() {
+    const key = window.location.hostname.split('.')[0];
+    let socketUrl = '';
+    if (key === 'dev' || key === '127') {
+      socketUrl = 'https://dev-api.worbli.io/';
+    } else if (key === 'uat') {
+      socketUrl = 'https://uat-api.worbli.io/';
+    } else if (key === 'www' || key === 'portal') {
+      socketUrl = 'https://api.worbli.io/';
+    };
     this.jwt = localStorage.getItem('jwt');
-    this.socket = io('https://uat-api.worbli.io/', {query: `jwt=${this.jwt}`});
+    this.socket = io(socketUrl, {
+      query: `jwt=${this.jwt}`,
+      transports: ['websocket', 'xhr-polling'],
+      autoConnect: true,
+    });
     this.socket.on('connect', () => {
+      console.log('connected');
       this.socket.on('status', (response) => {
         this.dispatchAction({
           type: 'CHANGE_STATUS',
@@ -57,7 +72,6 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
         }
       });
       this.socket.on('imageStatus', (response) => {
-        console.log('==== IMAGE UPDATE FROM SOCKET ====');
         this.dispatchAction({
           type: 'CHANGE_IMAGESTATUS',
           imagestatus: response,

@@ -21,7 +21,6 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         width: 100%;
         box-sizing: border-box;  
       }
-
       a, button {
         cursor: pointer;
       }

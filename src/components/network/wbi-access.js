@@ -149,6 +149,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
                 type: 'CHANGE_NETWORK',
                 network: 'claimed',
               });
+              localStorage.setItem('accountName', this.accountName);
               localStorage.setItem('network', 'claimed');
             }
           });
@@ -173,10 +174,15 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
     if (this._validateAccountName(this.accountName)) {
       this.$.api.checkAccountName(this.accountName)
           .then((response) => {
+            if (response.error) {
+              this.error = response.error;
+            }
             if (response.data === false) {
               this.checkedAccountName = true;
+              this._isComplete();
             } else {
               this.checkedAccountName = false;
+              this._isComplete();
             }
           });
     }

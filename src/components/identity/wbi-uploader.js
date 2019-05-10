@@ -1,8 +1,12 @@
+import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '../../components/data/wbi-api.js';
 import '../../css/shared-styles.js';
 
-class WbiUploader extends PolymerElement {
+import store from '../../global/store.js';
+const ReduxMixin = createMixin(store);
+
+class WbiUploader extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -105,11 +109,26 @@ class WbiUploader extends PolymerElement {
         type: Boolean,
         value: false,
       },
+      imagestatus: {
+        type: Object,
+        observer: '_imagestatus',
+      },
+    };
+  }
+
+  static mapStateToProps(state, element) {
+    return {
+      imagestatus: state.imagestatus,
     };
   }
 
   ready() {
     super.ready();
+    window.addEventListener('clean', () => {
+      if (this.fileName != 'selfie') {
+        this._removePreview();
+      };
+    });
     setInterval(() => {
       const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
       if (savedImage) {
@@ -120,9 +139,24 @@ class WbiUploader extends PolymerElement {
     }, 1000);
   }
 
+  _imagestatus() {
+    console.log(this.imagestatus);
+    if (this.imagestatus && this.imagestatus.files) {
+      const fileStatusArray = JSON.parse(this.imagestatus.files);
+      for (let i = 0; i < fileStatusArray.length; i++) {
+        if (fileStatusArray[i].uploaded === true) {
+          const thisDeviceId = localStorage.getItem('deviceId');
+          if (thisDeviceId !== fileStatusArray[i].deviceId && this.fileName === fileStatusArray[i].value) {
+            this.updateStyles({'--background-image': `url("./images/fromMobile.png")`});
+            this.preview = true;
+          }
+        };
+      }
+    }
+  }
+
   _showAddImageBg() {
     if (!this.preview) {
-      console.log('SHOW ADD IMAGE');
       this.updateStyles({'--background-image': `url("./images/plus.png")`});
     }
   }
@@ -142,22 +176,22 @@ class WbiUploader extends PolymerElement {
     e.stopPropagation();
     const dt = e.dataTransfer;
     const files = dt.files;
-    console.log(files);
-    // TODO: send this to upload
+    this._uploadfile(files[0]);
+  }
+  _removePreview() {
+    this.preview = false;
+    this.updateStyles({'--background-image': `url("./images/plus.png")`});
+    this.shadowRoot.querySelector(`#form`).reset();
+    localStorage.removeItem(`${this.country}_${this.fileName}`);
   }
   _delete(e) {
     this.preview = false;
-    this.updateStyles({'--background-image': `none`});
+    this.updateStyles({'--background-image': `url("./images/plus.png")`});
     this.shadowRoot.querySelector(`#form`).reset();
     localStorage.removeItem(`${this.country}_${this.fileName}`);
-    this.$.api.deleteImage(`${this.country}_${this.fileName}`)
-        .then((response) => {
-          console.log('Delete response');
-          console.log(response);
-        });
+    this.$.api.deleteImage(`${this.country}_${this.fileName}`);
   }
   _upload(e) {
-    // TODO: Split this function out for drag and drop
     this.selfieError = '';
     if (e && e.target && e.target.id) {
       const target = e.target.id;
@@ -190,23 +224,59 @@ class WbiUploader extends PolymerElement {
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
-                .then((response) => {
-                  console.log(response);
-                  console.log(response.rejectedDocuments);
-                  console.log(response.rejectedDocuments.length);
-                  if (response.rejectedDocuments.length === 0) {
-                    this.completed = response.completed;
-                  } else {
-                    this._delete(target);
-                    this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
-                  };
-                });
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`);
           };
           image.src = readerEvent.target.result;
         };
         reader.readAsDataURL(file);
       }
+    }
+  }
+  _uploadfile(file) {
+    if (file.type.match(/image.*/)) {
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const image = new Image();
+        image.onload = (imageEvent) => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 800;
+          let width = image.width;
+          let height = image.height;
+          if (width > height) {
+            if (width > maxSize) {
+              height *= maxSize / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width *= maxSize / height;
+              height = maxSize;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg');
+          localStorage.setItem(`${this.country}_${this.fileName}`, dataUrl);
+          this.updateStyles({'--background-image': `url("${dataUrl}")`});
+          this.preview = true;
+          const resizedImage = this._dataURLToBlob(dataUrl);
+          this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
+              .then((response) => {
+                console.log(response);
+                console.log(response.rejectedDocuments);
+                console.log(response.rejectedDocuments.length);
+                if (response.rejectedDocuments.length === 0) {
+                  this.completed = response.completed;
+                } else {
+                  this._delete(target);
+                  this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+                };
+              });
+        };
+        image.src = readerEvent.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 

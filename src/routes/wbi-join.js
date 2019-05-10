@@ -57,6 +57,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         }
         .bottom li {
           list-style: none;
+          text-transform: capitalize;
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
@@ -70,6 +71,9 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         .error {
           padding: 12px 12px;
         }
+        a {
+          color: #A3D398;
+        }
         @media only screen and (max-width: 600px) {
           .card {
             border-radius: 0px;
@@ -81,7 +85,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <wbi-center>
         <div class="card">
-        <img src="./images/worbli.png" alt="Worbli">
+        <img src="./images/worbli.png" alt="[[txt.worbli]]">
           <hr>
           <h2>[[txt.join]]</h2>
           <label for="email">[[txt.emailAddress]]</label>
@@ -91,7 +95,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <label for="repeat_password">[[txt.repeatPassword]]</label>
           <input type="password" name="repeat_password" id="repeat_password" value="{{repeat_password::input}}" on-keyup="_repeatPassword">
           <label for="agree">
-          <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">[[txt.agreeTheTerms]]</label>
+          <input type="checkbox" name="terms" id="terms" value="{{terms::input}}" on-change="_termsCheckbox">[[txt.iAgreeToThe]] <a href="/terms/" target="_blank">[[txt.termsAndPrivacyPolicy]]</a></label>
           <label for="optIn">
           <input type="checkbox" name="optIn" id="optIn" value="{{optIn::input}}" on-change="_optInCheckbox">[[txt.optInMarketing]]</label>
           <button type="button" class="green-bg" on-click="_join">[[txt.join]]</button>
@@ -100,7 +104,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
             <p class="error">[[error]]</p>
           </template>
           <div class="bottom">
-            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="Change Language">English</li></ul>
+            <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="[[Change Language]]">[[txt.language]]</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
           </div>
         </div>
@@ -223,16 +227,16 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
     } else {
       this.error = '';
       if (!this._validateEmail(this.email)) {
-        this.error = 'Invalid Email address.';
+        this.error = this.txt.invalidEmailAddress;
       }
       if (!this._validatePassword(this.password)) {
-        this.error = 'Password is not strong enough - it must contain at least one uppercase letter, one lowercase letter, and one digit or symbol.';
+        this.error = this.txt.passwordIsNotStrongEnough;
       }
       if (this.password !== this.repeat_password) {
-        this.error = 'Passwords do not match.';
+        this.error = this.txt.passwordsDoNotMatch;
       }
       if (!this.termsValue) {
-        this.error = 'You must agree to the Terms and Privacy Policy.';
+        this.error = this.txt.mustAgreeToTerms;
       }
     }
   }

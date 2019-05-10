@@ -1,6 +1,7 @@
 import {createMixin} from 'polymer-redux';
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import store from '../../global/store.js';
+import '@polymer/app-route/app-location.js';
 import '../../css/shared-styles.js';
 import '../data/wbi-api.js';
 
@@ -14,10 +15,12 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         }
         .green-bg{
           background-color: var(--active-color, #BDC1C6);
-          cursor: var(--cursor-type, default);
-          pointer-events: var(--pointer-event, none);
+        }
+        .error {
+          padding: 12px 12px;
         }
       </style>
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <template is="dom-if" if="{{!start}}">
         <h2>Continue verification on your mobile</h2>
@@ -128,7 +131,6 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
             <option data-countryCode="IS" value="354">Iceland (+354)</option>
             <option data-countryCode="IN" value="91">India (+91)</option>
             <option data-countryCode="ID" value="62">Indonesia (+62)</option>
-            <option data-countryCode="IR" value="98">Iran (+98)</option>
             <option data-countryCode="IQ" value="964">Iraq (+964)</option>
             <option data-countryCode="IE" value="353">Ireland (+353)</option>
             <option data-countryCode="IL" value="972">Israel (+972)</option>
@@ -264,9 +266,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           <p class="error">[[error]]</p>
         </template>
         <template is="dom-if" if="[[shortcode]]">
-        <p>Copy link instead</p>
-        <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
-        <button class="green-bg" on-click="_copyToClipboard">Copy</button>
+          <p>Copy link instead</p>
+          <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
+          <button class="green-bg" on-click="_copyToClipboard">Copy</button>
         </template>
       </template>
     `;
@@ -279,6 +281,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         readOnly: true,
       },
       country: {
+        type: String,
+      },
+      error: {
         type: String,
       },
       start: {
@@ -302,12 +307,6 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     };
   }
 
-  ready() {
-    super.ready();
-    setTimeout(() => {
-      this.shadowRoot.querySelector('#code').focus();
-    }, 10);
-  }
   _code(e) {
     this._isComplete();
     if (e.keyCode === 13) {
@@ -318,35 +317,56 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     this._isComplete();
   }
   _isComplete() {
-    if (this.code && this.number) {
+    const number = `+${this.code}${this.number}`;
+    const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
+    if (this.code && this.number && this._validateMobile(cleanNumber)) {
       this.updateStyles({'--active-color': '#92CC7F'});
-      this.updateStyles({'--cursor-type': 'pointer'});
-      this.updateStyles({'--pointer-event': 'auto'});
+      return true;
     } else {
       this.updateStyles({'--active-color': '#BDC1C6'});
-      this.updateStyles({'--cursor-type': 'default'});
-      this.updateStyles({'--pointer-event': 'none'});
+      return false;
     }
   }
   _sendLink() {
     const number = `+${this.code}${this.number}`;
-    const cleanNumber = number.replace(/\s/g, '');
-    const message = 'WORBLI: Tap this link to upload your photos:';
-    this.$.api.sendShortcode(cleanNumber, this.country, this.fileArray, message)
-        .then((response) => {
-          if (response.data === true) {
-            this.shortcode = `https://worbli.io/id/${response.shortcode}`;
-            this.closeNow = true;
-          } else if (response.data = false && response.error) {
+    const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
+    if (this._isComplete()) {
+      this.error = '';
+      this.$.api.sendShortcode(cleanNumber)
+          .then((response) => {
+            if (response.data === true) {
+              const key = window.location.hostname.split('.')[0];
+              let linkUrl = '';
+              if (key === '127') {
+                linkUrl = 'http://127.0.0.1:8888/';
+              } else if (key === 'dev') {
+                linkUrl = 'https://dev.worbli.io/';
+              } else if (key === 'portal') {
+                linkUrl = 'https://portal.worbli.io/';
+              }
+              this.shortcode = `${linkUrl}id/${response.shortcode}`;
+              this.text = `${linkUrl}id/${response.shortcode}`;
+              this.closeNow = true;
+            } else if (response.data = false && response.error) {
+              this.error = error;
+            }
+          })
+          .catch((error) => {
             this.error = error;
-          }
-        })
-        .catch((error) => {
-          this.error = error;
-        });
+          });
+    } else {
+      this.error = 'Invalid phone number.';
+    }
   }
   _letsStart() {
     this.start = true;
+    setTimeout(() => {
+      this.shadowRoot.querySelector('#code').focus();
+    }, 10);
+  }
+  _validateMobile(number) {
+    const re = /^\+[0-9]{7,15}$/;
+    return re.test(number);
   }
   _fallbackCopyTextToClipboard() {
     const textArea = document.createElement('textarea');
