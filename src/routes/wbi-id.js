@@ -32,18 +32,35 @@ class WbiId extends ReduxMixin(PolymerElement) {
           max-width: 360px;
           margin: 21px 0;
         }
-        label {
+        .blue {
           width: 100%;
           display: block;
           min-height: 50px;
           border-radius: 3px;
-          background-color: #5284CE;
+          background-color: #BCC1C5;
           text-transform: uppercase;
           color: white;
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 600;
           line-height: 50px;
           cursor: pointer;
+          text-align: left;
+          padding-left: 12px;
+        }
+        .green {
+          width: 100%;
+          display: block;
+          min-height: 50px;
+          border-radius: 3px;
+          background-color: #7DD084;
+          text-transform: uppercase;
+          color: white;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 50px;
+          cursor: pointer;
+          text-align: left;
+          padding-left: 12px;
         }
         input {
           width: 0.1px;
@@ -68,6 +85,34 @@ class WbiId extends ReduxMixin(PolymerElement) {
           margin: 0 auto;
           display: inline-block;
         }
+        .error {
+          padding: 12px 12px;
+          margin-left: 0px;
+          margin-right: 0px;
+          text-transform: capitalize;
+          text-align: left;
+          border: 0;
+          background: 0;
+          position: relative;
+          top: -25px;
+          left: -10px;
+        }
+        .icon {
+          height: 25px;
+          margin: 0;
+          width: 25px;
+          position: fixed;
+          right: 40px;
+          margin-top: 12px;
+        }
+        .logo {
+          width: 80px;
+          height: 25px;
+        }
+        .logocontainer {
+          display: block;
+          height: 60px;
+        }
       </style>
       <template is="dom-if" if="{{socket}}">
         <wbi-socket></wbi-socket>
@@ -75,7 +120,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <wbi-api id='api'></wbi-api>
       <div>
-
+      
         <template is="dom-if" if="{{loading}}">
           <div class="cover-all">
             <h1>[[txt.uploadingImage]]</h1>
@@ -84,6 +129,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
         </template>
 
         <template is="dom-if" if="{{!completed}}">
+          <div class="logocontainer"><img src="./images/worbli.png" class="logo" class="logo"></div>
           <h1>[[txt.uploadDocuments]]</h1>
           <p>[[txt.SelectTheDocumentBelow]]</p>
         </template>
@@ -95,9 +141,24 @@ class WbiId extends ReduxMixin(PolymerElement) {
 
         <form id="form">
           <template is='dom-repeat' items='[[files]]' id="repeat">
-            <label for="[[item.value]]">[[item.label]]
-              <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
-            </label>
+            
+            <template is="dom-if" if="{{!item.uploaded}}">
+              <label for="[[item.value]]" class="blue">[[item.label]]
+                <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+                <img src="./images/upload.svg" class="icon">
+              </label>
+            </template>
+
+            <template is="dom-if" if="{{item.uploaded}}">
+              <label for="[[item.value]]" class="green">[[item.label]]
+                <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+                <img src="./images/done.svg" class="icon">
+              </label>
+            </template>
+            
+            <template is="dom-if" if="{{item.error}}">
+              <div class="error">[[item.error]]</div>
+            </template>
           </template>
         </form>
 
@@ -170,7 +231,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
     super.ready();
     const token = this.route.path.split('/')[2];
     const jwt = localStorage.getItem('jwt');
-    if (token && !jwt) {
+    if (token) {
       this.$.api.swapToken(token)
           .then((response) => {
             localStorage.setItem('jwt', response.jwt);
@@ -236,33 +297,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
             const resizedImage = this._dataURLToBlob(dataUrl);
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
-                  if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
-                    this.completed = response.completed;
-                    this.loading = false;
-                    if (target === 'selfie') {
-                      localStorage.setItem('selfieComplete', true);
-                      this.selfie = false;
-                    } else {
-                      const fileArray = this.files;
-                      for (let i = 0; i < fileArray.length; i++) {
-                        if ( fileArray[i].value === target) {
-                          fileArray.splice(i, 1);
-                        }
-                      }
-                      if (fileArray && fileArray.length > 0) {
-                        localStorage.setItem('files', JSON.stringify(fileArray));
-                      } else {
-                        localStorage.removeItem('files');
-                        this.completed = true;
-                      }
-                      this.files = fileArray;
-                      this.set('files', fileArray);
-                      this.$.repeat.render();
-                    }
-                  } else {
-                    this._delete(target);
-                    this.selfieError = this.txt.faceDetectionFailed;
-                  };
+                  this.loading = false;
                 });
           };
           image.src = readerEvent.target.result;
