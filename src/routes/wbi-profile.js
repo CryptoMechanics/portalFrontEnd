@@ -155,6 +155,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
     this.password = '';
     this.newPassword = '';
     this.confirmNewPassword = '';
+    this._isComplete();
   }
   _validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
