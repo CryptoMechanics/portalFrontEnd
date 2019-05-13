@@ -82,6 +82,12 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         .error {
           padding: 12px 12px;
         } 
+        ball-spin{
+          display: inline-block;
+          margin-right: 6px;
+          position: relative;
+          top: 2px;
+        }
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
@@ -488,7 +494,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
           </template>
           <template is="dom-if" if="{{loading}}">
-            <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+            <button type="button" class="green-bg"><ball-spin></ball-spin>[[txt.loading]]</button><br>
           </template>
         </template>
         <template is="dom-if" if="{{error}}">
