@@ -347,18 +347,18 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         </select>
         <select name='month' id='month' value='{{month::input}}' on-change="_month">
           <option value='Month'>[[txt.month]]</option>
-          <option value='1'>January</option>
-          <option value='2'>Febuary</option>
-          <option value='3'>March</option>
-          <option value='4'>April</option>
-          <option value='5'>May</option>
-          <option value='6'>June</option>
-          <option value='7'>July</option>
-          <option value='8'>August</option>
-          <option value='9'>September</option>
-          <option value='10'>October</option>
-          <option value='11'>November</option>
-          <option value='12'>Decemeber</option>
+          <option value='1'>January (01)</option>
+          <option value='2'>Febuary (02)</option>
+          <option value='3'>March (03)</option>
+          <option value='4'>April (04)</option>
+          <option value='5'>May (05)</option>
+          <option value='6'>June (06)</option>
+          <option value='7'>July (07)</option>
+          <option value='8'>August (08)</option>
+          <option value='9'>September (09)</option>
+          <option value='10'>October (10)</option>
+          <option value='11'>November (11)</option>
+          <option value='12'>Decemeber (12)</option>
         </select>
         <select name='year' id='year' value='{{year::input}}' on-change="_year">
           <option value='Year'>[[txt.year]]</option>
