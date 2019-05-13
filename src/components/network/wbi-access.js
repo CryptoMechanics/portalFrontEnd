@@ -180,7 +180,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       this.$.api.checkAccountName(this.accountName)
           .then((response) => {
             if (response.error) {
-              this.error = response.error;
+              this.error = JSON.stringify(response.error);
             }
             if (response.data === false) {
               this.checkedAccountName = true;
