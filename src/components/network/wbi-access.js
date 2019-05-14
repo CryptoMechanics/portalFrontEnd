@@ -190,6 +190,9 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
               this._isComplete();
             }
           });
+    } else {
+      this.checkedAccountName = false;
+      this._isComplete();
     }
   }
   _validateAccountName(name) {
