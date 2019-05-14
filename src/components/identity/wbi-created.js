@@ -633,9 +633,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   _noMiddleName(e) {
     const noMiddleName = this.shadowRoot.querySelector('#noMiddleName').checked;
     if (noMiddleName) {
-      console.log(noMiddleName);
       this.updateStyles({'--no-middlename': 0.4});
       this.updateStyles({'--pointer-event': 'none'});
+      this.shadowRoot.querySelector('#middleName').value = '';
     } else {
       this.updateStyles({'--no-middlename': 1});
       this.updateStyles({'--pointer-event': 'auto'});

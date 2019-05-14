@@ -70,10 +70,6 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
         type: Object,
         readOnly: true,
       },
-      txt: {
-        type: Object,
-        readOnly: true,
-      },
       language: {
         type: String,
         readOnly: true,
@@ -133,6 +129,8 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   }
 
   _language(e) {
+    console.log(translations);
+    console.log(this.language);
     this.txt = translations[this.language];
   }
   _signIn() {
