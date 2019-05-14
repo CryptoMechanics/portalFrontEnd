@@ -86,7 +86,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           display: inline-block;
           margin-right: 6px;
           position: relative;
-          top: 2px;
+          top: 4px;
+        }
+        .noMiddleName {
+          margin-top: 3px;
         }
       </style>
       <wbi-api id='api'></wbi-api>
@@ -310,8 +313,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         <input type='text' name='firstName' id='firstName' value='{{firstName::input}}' on-keyup="_firstName"><br>
 
         <label for='middleName'>[[txt.middleName]]</label>
-        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName"><br>
-        <small>Optional</small>
+        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName">
+      
+        
+        <label for='noMiddleName' class="noMiddleName"><input type="checkbox" on-change="_noMiddleName" name="test" id='noMiddleName' value='{{noMiddleName::input}}'/>I don't have a middle name</label><br>
+        
 
         <label for='lastName' class="lastNameLabel">[[txt.lastName]]</label>
         <input type='text' name='lastName' id='lastName' value='{{lastName::input}}' on-keyup="_lastName"><br>
@@ -620,6 +626,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.shadowRoot.querySelector('#lastName').focus();
     }
   }
+  _noMiddleName(e) {
+    this._isComplete();
+  }
   _firstName(e) {
     this._isComplete();
     if (e.keyCode === 13) {
@@ -635,7 +644,13 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _isComplete() {
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
+    let middleNameCheck = '';
+    if (this.middleName || this.noMiddleName) {
+      middleNameCheck = true;
+    } else {
+      middleNameCheck = false;
+    }
+    if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       return true;
     } else {
@@ -646,6 +661,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
   _submit() {
     this.error = '';
+    if (!this.middleName || !this.noMiddleName) {
+      this.error = 'Enter a middle name or check the box titled I don\'t have a middle name';
+    }
     if (this._isComplete()) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
