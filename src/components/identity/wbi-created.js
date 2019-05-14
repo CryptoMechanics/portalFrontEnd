@@ -675,7 +675,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   _submit() {
     this.error = '';
     if (!this.middleName || !this.noMiddleName) {
-      this.error = 'Enter a middle name or check the box titled I don\'t have a middle name';
+      this.error = 'Please enter your middle name. If you don\'t have a middle name on your identity document, you can check the box next to the Middle Name field.';
     }
     if (this._isComplete()) {
       this.loading = true;
