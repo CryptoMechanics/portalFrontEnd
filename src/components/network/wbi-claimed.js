@@ -47,7 +47,6 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       },
       accountName: {
         type: String,
-        observer: '_accountName',
       },
     };
   }
@@ -60,12 +59,15 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-  _accountName() {
-    if (localStorage.getItem('accountName')) {
+  ready() {
+    super.ready();
+    const accountName = localStorage.getItem('accountName');
+    if (accountName) {
       this.accountName = localStorage.getItem('accountName');
     } else {
       this.$.api.getStatus()
           .then((response) => {
+            console.log(response.worbliAccountName);
             this.accountName = response.worbliAccountName;
             localStorage.setItem('accountName', this.accountName);
           });
