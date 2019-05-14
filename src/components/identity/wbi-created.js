@@ -627,6 +627,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }
   }
   _country(e) {
+    this.fileArray = '';
     this._isComplete();
     this._makeRadioButtons();
     setTimeout(() => {
