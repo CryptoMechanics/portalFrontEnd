@@ -28,9 +28,8 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           <div class="left">
           </div>
           <div class="right">
-            <div>We'll SMS a secure link to your mobile (no app download required)</div><br/>
-            <div>We'll walk you through taking the photos</div><br/>
-            <div>Return to your computer to complete your verification</div><br/>
+            <div>We'll SMS a secure link to your mobile (no app download required).</div><br/>
+            <div>You can take photos of your identity documents using your mobile camera.</div><br/>
           </div>
         </div>
         <button on-click="_letsStart">Lets Start</button>
@@ -38,7 +37,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
 
       <template is="dom-if" if="{{start}}">
         <h2>Get your secure link</h2>
-        <p>We will send a one-time secure link to your mobile</p>
+        <p>We will send a one-time secure link to your mobile.</p>
         <select name="countryCode" id="code" value='{{code::input}}' on-change="_code">
           <option Selected>Select...</option>
           <option data-countryCode="GB" value="44">UK (+44)</option>
@@ -266,7 +265,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           <p class="error">[[error]]</p>
         </template>
         <template is="dom-if" if="[[shortcode]]">
-          <p>Copy link instead</p>
+          <p>If you have trouble receiving the SMS, please use the following link in your mobile</p>
           <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
           <button class="green-bg" on-click="_copyToClipboard">Copy</button>
         </template>
@@ -350,7 +349,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
               this.text = `${linkUrl}id/${response.shortcode}`;
               this.closeNow = true;
             } else if (response.data = false && response.error) {
-              this.error = error;
+              this.error = response.error;
             }
           })
           .catch((error) => {

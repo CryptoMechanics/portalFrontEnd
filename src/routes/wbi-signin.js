@@ -33,7 +33,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           font-size: 14px;
           display: inline-block;
           text-align: left;
-          height: 24px;
+          height: 48px;
           line-height: 24px;
           color: #92CC7F;
           margin: 2px 0 24px;

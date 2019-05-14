@@ -1,5 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {translations} from '../../translations/languages.js';
 import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 import '../../components/data/wbi-api.js';
@@ -30,30 +31,33 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
           display: block;
           padding-bottom: 12px;
         } 
-
+        ball-spin{
+          display: inline-block;
+          margin-right: 6px;
+          position: relative;
+          top: 2px;
+        }
       </style>
       <wbi-api id='api'></wbi-api>
-      <h2>Name</h2>
-        <label>Worbli Network Account</label>
+      <h2>[[txt.name]]</h2>
+        <label>[[txt.worbliNetworkAccount]]</label>
         <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName" on-paste="_accountName">
-        <small class="small">
-          Choose your desired Worbli account name. </br>
-          (6-12 characters, must start with a letter and can only contain letters and numbers 1-5)
+        <small class="small">[[txt.chooseWorbliAccountName]]</br>[[txt.acountCriterea]]
         </small>
       <hr>
-      <h2>Keys</h2>
-        <label>Owner Public Key</label>
+      <h2>[[txt.keys]]</h2>
+        <label>[[txt.ownerPublicKey]]</label>
         <input type="text" name="ownerPublicKey" id="ownerPublicKey" value="{{ownerPublicKey::input}}" on-keyup="_ownerPublicKey" on-paste="_ownerPublicKey"></br>
 
-        <label>Active Public Key</label>
+        <label>[[txt.activePublicKey]]</label>
         <input type="text" name="activePublicKey" id="activePublicKey" value="{{activePublicKey::input}}" on-keyup="_activePublicKey" on-paste="_activePublicKey"></br>
-        <a href="">Not sure what public keys are?</br>Check out our FAQ on how to generate a public key with Scatter.</a>
+        <a href="">[[txt.whatPublicKeysAre]]</br>[[txt.faqPublicKeys]]</a>
         
         <template is="dom-if" if="{{!loading}}">
-          <button class="green-bg" on-click="_submit">Apply for account</button>
+          <button class="green-bg" on-click="_submit">[[txt.applyForAccount]]</button>
         </template>
         <template is="dom-if" if="{{loading}}">
-          <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+          <button type="button" class="green-bg"><ball-spin></ball-spin>[[txt.loading]]</button><br>
         </template>
         <template is="dom-if" if="{{error}}">
           <p class="error">[[error]]</p>
@@ -66,6 +70,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       language: {
         type: String,
         readOnly: true,
+        observer: '_language',
       },
       mode: {
         type: String,
@@ -175,7 +180,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       this.$.api.checkAccountName(this.accountName)
           .then((response) => {
             if (response.error) {
-              this.error = response.error;
+              this.error = JSON.stringify(response.error);
             }
             if (response.data === false) {
               this.checkedAccountName = true;
@@ -185,6 +190,9 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
               this._isComplete();
             }
           });
+    } else {
+      this.checkedAccountName = false;
+      this._isComplete();
     }
   }
   _validateAccountName(name) {
@@ -195,5 +203,8 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   _validatePublicKey(key) {
     const re = /^EOS[A-Za-z0-9]{50}$/;
     return re.test(key);
+  }
+  _language(e) {
+    this.txt = translations[this.language];
   }
 } window.customElements.define('wbi-access', WbiAccess);

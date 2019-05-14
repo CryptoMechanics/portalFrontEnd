@@ -82,6 +82,19 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         .error {
           padding: 12px 12px;
         } 
+        ball-spin{
+          display: inline-block;
+          margin-right: 6px;
+          position: relative;
+          top: 4px;
+        }
+        .noMiddleName {
+          margin-top: 3px;
+        }
+        .middle-name {
+          opacity: var(--no-middlename, 1);
+          pointer-events: var(--pointer-event, auto);
+        }
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
@@ -303,9 +316,12 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         <label for='firstName'>[[txt.firstName]]</label>
         <input type='text' name='firstName' id='firstName' value='{{firstName::input}}' on-keyup="_firstName"><br>
 
-        <label for='middleName'>[[txt.middleName]]</label>
-        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName"><br>
-        <small>Optional</small>
+        <label for='middleName' class="middle-name">[[txt.middleName]]</label>
+        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName" class="middle-name">
+      
+        
+        <label for='noMiddleName' class="noMiddleName"><input type="checkbox" on-change="_noMiddleName" name="test" id='noMiddleName'/>I don't have a middle name</label><br>
+        
 
         <label for='lastName' class="lastNameLabel">[[txt.lastName]]</label>
         <input type='text' name='lastName' id='lastName' value='{{lastName::input}}' on-keyup="_lastName"><br>
@@ -347,18 +363,18 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         </select>
         <select name='month' id='month' value='{{month::input}}' on-change="_month">
           <option value='Month'>[[txt.month]]</option>
-          <option value='1'>January</option>
-          <option value='2'>Febuary</option>
-          <option value='3'>March</option>
-          <option value='4'>April</option>
-          <option value='5'>May</option>
-          <option value='6'>June</option>
-          <option value='7'>July</option>
-          <option value='8'>August</option>
-          <option value='9'>September</option>
-          <option value='10'>October</option>
-          <option value='11'>November</option>
-          <option value='12'>Decemeber</option>
+          <option value='1'>January (01)</option>
+          <option value='2'>Febuary (02)</option>
+          <option value='3'>March (03)</option>
+          <option value='4'>April (04)</option>
+          <option value='5'>May (05)</option>
+          <option value='6'>June (06)</option>
+          <option value='7'>July (07)</option>
+          <option value='8'>August (08)</option>
+          <option value='9'>September (09)</option>
+          <option value='10'>October (10)</option>
+          <option value='11'>November (11)</option>
+          <option value='12'>Decemeber (12)</option>
         </select>
         <select name='year' id='year' value='{{year::input}}' on-change="_year">
           <option value='Year'>[[txt.year]]</option>
@@ -488,7 +504,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
           </template>
           <template is="dom-if" if="{{loading}}">
-            <button type="button" class="green-bg"><ball-spin></ball-spin>Loading</button><br>
+            <button type="button" class="green-bg"><ball-spin></ball-spin>[[txt.loading]]</button><br>
           </template>
         </template>
         <template is="dom-if" if="{{error}}">
@@ -614,6 +630,18 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.shadowRoot.querySelector('#lastName').focus();
     }
   }
+  _noMiddleName(e) {
+    const noMiddleName = this.shadowRoot.querySelector('#noMiddleName').checked;
+    if (noMiddleName) {
+      this.updateStyles({'--no-middlename': 0.4});
+      this.updateStyles({'--pointer-event': 'none'});
+      this.middleName = '';
+    } else {
+      this.updateStyles({'--no-middlename': 1});
+      this.updateStyles({'--pointer-event': 'auto'});
+    }
+    this._isComplete();
+  }
   _firstName(e) {
     this._isComplete();
     if (e.keyCode === 13) {
@@ -621,6 +649,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }
   }
   _country(e) {
+    this.fileArray = '';
     this._isComplete();
     this._makeRadioButtons();
     setTimeout(() => {
@@ -628,7 +657,13 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }, 0);
   }
   _isComplete() {
-    if (this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
+    let middleNameCheck = '';
+    if (this.middleName || this.noMiddleName) {
+      middleNameCheck = true;
+    } else {
+      middleNameCheck = false;
+    }
+    if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       return true;
     } else {
@@ -639,6 +674,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
   _submit() {
     this.error = '';
+    if (!this.middleName || !this.noMiddleName) {
+      this.error = 'Enter a middle name or check the box titled I don\'t have a middle name';
+    }
     if (this._isComplete()) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)

@@ -101,7 +101,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           height: 25px;
           margin: 0;
           width: 25px;
-          position: fixed;
+          position: absolute;
           right: 40px;
           margin-top: 12px;
         }
