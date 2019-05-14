@@ -91,6 +91,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         .noMiddleName {
           margin-top: 3px;
         }
+        .middle-name {
+          opacity: var(--no-middlename, 1);
+          pointer-events: var(--pointer-event, auto);
+        }
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
@@ -312,11 +316,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         <label for='firstName'>[[txt.firstName]]</label>
         <input type='text' name='firstName' id='firstName' value='{{firstName::input}}' on-keyup="_firstName"><br>
 
-        <label for='middleName'>[[txt.middleName]]</label>
-        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName">
+        <label for='middleName' class="middle-name">[[txt.middleName]]</label>
+        <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName" class="middle-name">
       
         
-        <label for='noMiddleName' class="noMiddleName"><input type="checkbox" on-change="_noMiddleName" name="test" id='noMiddleName' value='{{noMiddleName::input}}'/>I don't have a middle name</label><br>
+        <label for='noMiddleName' class="noMiddleName"><input type="checkbox" on-change="_noMiddleName" name="test" id='noMiddleName'/>I don't have a middle name</label><br>
         
 
         <label for='lastName' class="lastNameLabel">[[txt.lastName]]</label>
@@ -627,6 +631,15 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     }
   }
   _noMiddleName(e) {
+    const noMiddleName = this.shadowRoot.querySelector('#noMiddleName').checked;
+    if (noMiddleName) {
+      console.log(noMiddleName);
+      this.updateStyles({'--no-middlename': 0.4});
+      this.updateStyles({'--pointer-event': 'none'});
+    } else {
+      this.updateStyles({'--no-middlename': 1});
+      this.updateStyles({'--pointer-event': 'auto'});
+    }
     this._isComplete();
   }
   _firstName(e) {
