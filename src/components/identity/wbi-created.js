@@ -663,9 +663,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     } else {
       middleNameCheck = false;
     }
-    console.log(this.middleName);
-    console.log(this.noMiddleName);
-    console.log(middleNameCheck);
     if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#92CC7F'});
       return true;

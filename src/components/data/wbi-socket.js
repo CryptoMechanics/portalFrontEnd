@@ -50,7 +50,7 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       autoConnect: true,
     });
     this.socket.on('connect', () => {
-      console.log('connected');
+      console.log('CONNECTED');
       this.socket.on('status', (response) => {
         this.dispatchAction({
           type: 'CHANGE_STATUS',

@@ -129,8 +129,6 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   }
 
   _language(e) {
-    console.log(translations);
-    console.log(this.language);
     this.txt = translations[this.language];
   }
   _signIn() {

@@ -247,22 +247,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _imagestatus() {
-    console.log('this.imagestatus');
-    console.log(this.imagestatus);
     this.country = this.imagestatus.country;
     this.files = JSON.parse(this.imagestatus.files);
   }
-  // _mobiledocs() {
-  //   this.country = this.mobiledocs.country;
-  //   this.files = JSON.parse(this.mobiledocs.files);
-  //   this.set('files', JSON.parse(this.mobiledocs.files));
-  //   this.$.repeat.render();
-  //   localStorage.setItem('files', JSON.stringify(this.files));
-  //   localStorage.setItem('country', this.country);
-  //   console.log(this.mobiledocs);
-  //   console.log(this.mobiledocs.country);
-  //   console.log(JSON.parse(this.mobiledocs.files));
-  // }
 
   _upload(e) {
     this.loading = true;

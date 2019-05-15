@@ -124,6 +124,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
 
   ready() {
     super.ready();
+    this._removePreview();
     window.addEventListener('clean', () => {
       if (this.fileName != 'selfie') {
         this._removePreview();
@@ -140,7 +141,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
   }
 
   _imagestatus() {
-    console.log(this.imagestatus);
     if (this.imagestatus && this.imagestatus.files) {
       const fileStatusArray = JSON.parse(this.imagestatus.files);
       for (let i = 0; i < fileStatusArray.length; i++) {
@@ -263,9 +263,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           const resizedImage = this._dataURLToBlob(dataUrl);
           this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
               .then((response) => {
-                console.log(response);
-                console.log(response.rejectedDocuments);
-                console.log(response.rejectedDocuments.length);
                 if (response.rejectedDocuments.length === 0) {
                   this.completed = response.completed;
                 } else {
