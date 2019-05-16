@@ -17,7 +17,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           position: relative;
         }
         label {
-          border: 2px dashed #BDC1C6;
+          border: 2px dashed #50595E;
           display: block;
           min-height: 170px;
           max-width: 250px;

@@ -35,7 +35,7 @@ class WbiSet extends ReduxMixin(PolymerElement) {
           text-align: left;
           height: 24px;
           line-height: 24px;
-          color: #92CC7F;
+          color: #356327;
           margin-top: 12px;
         }
         .bottom{
@@ -49,7 +49,7 @@ class WbiSet extends ReduxMixin(PolymerElement) {
           padding: 0px;
         }
         .bottom a{
-          color: #92CC7F;
+          color: #356327;
           text-decoration: none;
           font-size: 14px;
           margin-top: 12px;
@@ -59,7 +59,7 @@ class WbiSet extends ReduxMixin(PolymerElement) {
           text-transform: capitalize;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
           cursor: var(--cursor-type, default);
           pointer-events: var(--pointer-event, none);
         }
@@ -175,11 +175,11 @@ class WbiSet extends ReduxMixin(PolymerElement) {
   }
   _isComplete() {
     if (this._validatePassword(this.password) && this._validatePassword(this.confirmPassword) && this.password === this.confirmPassword) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       this.updateStyles({'--cursor-type': 'pointer'});
       this.updateStyles({'--pointer-event': 'auto'});
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       this.updateStyles({'--cursor-type': 'default'});
       this.updateStyles({'--pointer-event': 'none'});
     }

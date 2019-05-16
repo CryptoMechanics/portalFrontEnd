@@ -35,7 +35,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           text-align: left;
           height: 48px;
           line-height: 24px;
-          color: #92CC7F;
+          color: #356327;
           margin: 2px 0 24px;
         }
         .bottom{
@@ -49,7 +49,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           padding: 0px;
         }
         .bottom a{
-          color: #92CC7F;
+          color: #356327;
           text-decoration: none;
           font-size: 14px;
           margin-top: 12px;
@@ -60,7 +60,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         }
         .green-bg {
           margin: auto;
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         .white-bg{
           cursor: pointer;
@@ -183,10 +183,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   }
   _isComplete() {
     if (this._validateEmail(this.email) && this._validatePassword(this.password)) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }

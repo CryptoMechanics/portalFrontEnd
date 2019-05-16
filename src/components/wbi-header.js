@@ -25,7 +25,7 @@ class WbiHeader extends ReduxMixin(PolymerElement) {
         }
         ul li a {
           font-size: 14px;
-          color: #7A7D85;
+          color: #50595E;
           line-height: 55px;
           line-height: 30px;
           margin-right: 24px;

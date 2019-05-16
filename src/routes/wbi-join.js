@@ -37,7 +37,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           margin-top: 12px;
         }
         .already a {
-          color: #92CC7F;
+          color: #356327;
         }
         .bottom{
           display: flex;
@@ -50,7 +50,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           padding: 0px;
         }
         .bottom a{
-          color: #92CC7F;
+          color: #356327;
           text-decoration: none;
           font-size: 14px;
           margin-top: 12px;
@@ -60,7 +60,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           text-transform: capitalize;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         .language-icon{
           position: absolute;
@@ -72,7 +72,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           padding: 12px 12px;
         }
         a {
-          color: #A3D398;
+          color: #31652A;
         }
         @media only screen and (max-width: 600px) {
           .card {
@@ -198,10 +198,10 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
   }
   _isComplete() {
     if (this._validateEmail(this.email) && this._validatePassword(this.password) && this._validatePassword(this.repeat_password) && this.termsValue && this.password === this.repeat_password) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }

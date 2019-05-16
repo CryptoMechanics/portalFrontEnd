@@ -22,7 +22,7 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
           display: flex;
           max-width: 1200px;
           padding: 0 auto;
-          opacity: 0.5;
+          opacity: 1;
         }
         div {
           margin: 24px 12px;

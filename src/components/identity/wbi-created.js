@@ -29,7 +29,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .inner-frame{
           background-color: #F8F8F8;
-          border: 1px solid #BDC1C6;
+          border: 1px solid #50595E;
           border-radius: 4px;
           padding: 30px;
           margin: 24px 0;
@@ -42,7 +42,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         h3 {
           text-transform: uppercase;
-          color: #92CC85;
+          color: #31652A;
           cursor: pointer;
         }
         .bullets {
@@ -50,7 +50,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           text-transform: capitalize;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         #day, #month, #year {
           max-width: 150px;
@@ -66,7 +66,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .outline_btn{
           background-color: white;
-          border: 1px solid #BDC1C6;
+          border: 1px solid #50595E;
           color: #838383;
           font-weight: 600;
           font-size: 13px;
@@ -664,10 +664,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       middleNameCheck = false;
     }
     if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }

@@ -365,6 +365,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   uploadImage(file, fileType) {
     let deviceId = localStorage.getItem('deviceId');
     if (!deviceId) {
+      console.log('setting new device id');
       deviceId = Math.floor(Math.random() * 1000000000);
       localStorage.setItem('deviceId', deviceId);
     }

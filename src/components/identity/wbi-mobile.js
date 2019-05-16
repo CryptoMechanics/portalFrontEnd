@@ -14,7 +14,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           background-color: white;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         .error {
           padding: 12px 12px;
@@ -319,10 +319,10 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     const number = `+${this.code}${this.number}`;
     const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
     if (this.code && this.number && this._validateMobile(cleanNumber)) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }

@@ -36,7 +36,7 @@ class WbiPlatformterms extends ReduxMixin(PolymerElement) {
           padding: 12px 0;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         .card{
           max-width: none;
