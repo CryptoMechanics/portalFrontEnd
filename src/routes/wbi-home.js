@@ -17,7 +17,7 @@ class WbiHome extends ReduxMixin(PolymerElement) {
           display: block;
         } 
         .block{
-          border: 1px solid #50595E;
+          border: 1px solid #BDC1C6;
           display: flex;
           margin-bottom: 12px;
           padding: 12px;
