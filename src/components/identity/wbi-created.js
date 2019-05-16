@@ -67,7 +67,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         .outline_btn{
           background-color: white;
           border: 1px solid #50595E;
-          color: #838383;
+          color: #4c4c4c;
           font-weight: 600;
           font-size: 13px;
           margin: 40px 0 20px 0;
