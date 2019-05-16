@@ -27,6 +27,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           background-repeat: no-repeat;
           background-position: center; 
           text-transform: capitalize;
+          cursor: pointer;
         }
         .delete {
           display: block;
@@ -37,7 +38,8 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           cursor: pointer;
           background-image: url("./images/delete.png");
           background-repeat: no-repeat;
-          background-position: center; 
+          background-position: center;
+          cursor: pointer;
         }
         input {
           width: 0.1px;
