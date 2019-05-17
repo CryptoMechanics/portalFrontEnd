@@ -592,6 +592,15 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this._isComplete();
   }
   _mobile() {
+    this.$.api.getShortcode()
+        .then((response) => {
+          if (response.data === true) {
+            this.dispatchAction({
+              type: 'CHANGE_SHORTCODE',
+              shortcode: response.shortcode,
+            });
+          }
+        });
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile'}}));
   }
   _gender(e) {

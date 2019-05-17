@@ -36,6 +36,10 @@ export default (state = initial, action) => {
       return Object.assign({}, state, {
         imagestatus: action.imagestatus,
       });
+    case 'CHANGE_SHORTCODE':
+      return Object.assign({}, state, {
+        shortcode: action.shortcode,
+      });
     default:
       return state;
   }
