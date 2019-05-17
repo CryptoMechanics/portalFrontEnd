@@ -6,6 +6,7 @@ import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/identity/wbi-mobisnap.js';
 import '../components/loading/ball-spin3x.js';
+import '../components/loading/ball-spin1x.js';
 import '../components/data/wbi-socket.js';
 
 import store from '../global/store.js';
@@ -113,6 +114,12 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: block;
           height: 60px;
         }
+
+        .init-container {
+          display: flex;
+          justify-content: center;
+        }
+        
       </style>
       <template is="dom-if" if="{{socket}}">
         <wbi-socket></wbi-socket>
@@ -132,6 +139,12 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <div class="logocontainer"><img src="./images/worbli.png" class="logo" class="logo"></div>
           <h1>[[txt.uploadDocuments]]</h1>
           <p>[[txt.SelectTheDocumentBelow]]</p>
+        </template>
+
+        <template is="dom-if" if="{{init}}">
+          <div class="init-container">
+            <ball-spin1x class="init" spinsize="la-2x"></ball-spin1x>
+          </div>
         </template>
 
         <template is="dom-if" if="{{completed}}">
@@ -178,6 +191,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
         readOnly: true,
       },
       allowAccess: {
+        type: Boolean,
+        value: true,
+      },
+      init: {
         type: Boolean,
         value: true,
       },
@@ -249,6 +266,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
   _imagestatus() {
     this.country = this.imagestatus.country;
     this.files = JSON.parse(this.imagestatus.files);
+    if (this.files) {
+      this.init = false;
+    }
   }
 
   _upload(e) {
