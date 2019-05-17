@@ -491,8 +491,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
+            <template is="dom-if" if="{{!ismobile}}">  
               <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button>
               <small>[[txt.optional]]</small>
+            </template>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
                 <wbi-uploader id="[[item.value]]" file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
@@ -524,6 +526,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       },
       mode: {
         type: String,
+        readOnly: true,
+      },
+      ismobile: {
+        type: Boolean,
         readOnly: true,
       },
       color: {
@@ -580,6 +586,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
       imagestatus: state.imagestatus,
+      ismobile: state.ismobile,
     };
   }
   _language(e) {

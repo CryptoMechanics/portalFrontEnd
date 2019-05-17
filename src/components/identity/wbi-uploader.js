@@ -81,7 +81,9 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="{{selfieError}}">  
           <p class="error">[[selfieError]]</p>
         </template>
-        <p on-click="_openModal" class="webcam"><img src="./images/webCam.png" class="webcam-image">Use Webcam</p>
+        <template is="dom-if" if="{{!ismobile}}">  
+          <p on-click="_openModal" class="webcam"><img src="./images/webCam.png" class="webcam-image">Use Webcam</p>
+        </template>
       </form>
     `;
   }
@@ -115,12 +117,17 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
         type: Object,
         observer: '_imagestatus',
       },
+      ismobile: {
+        type: Boolean,
+        readOnly: true,
+      },
     };
   }
 
   static mapStateToProps(state, element) {
     return {
       imagestatus: state.imagestatus,
+      ismobile: state.ismobile,
     };
   }
 

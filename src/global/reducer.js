@@ -4,6 +4,7 @@ const network = localStorage.getItem('network') || 'available';
 import {env} from '../../env.js';
 
 const initial = {
+  ismobile: false,
   network: network,
   status: status,
   language: savedLanguage,
@@ -39,6 +40,10 @@ export default (state = initial, action) => {
     case 'CHANGE_SHORTCODE':
       return Object.assign({}, state, {
         shortcode: action.shortcode,
+      });
+    case 'CHANGE_ISMOBILE':
+      return Object.assign({}, state, {
+        ismobile: action.ismobile,
       });
     default:
       return state;

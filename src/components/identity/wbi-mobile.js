@@ -284,6 +284,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
       },
       shortcode: {
         type: String,
+        readOnly: true,
         observer: '_formShortcode',
       },
       error: {
