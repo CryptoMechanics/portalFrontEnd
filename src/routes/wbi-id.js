@@ -28,6 +28,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
           color: #63656F;
           margin: 44px 0;
         }
+        p {
+          margin-bottom: 74px;
+        }
         img {
           width: 100%;
           max-width: 360px;
@@ -38,7 +41,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: block;
           min-height: 50px;
           border-radius: 3px;
-          background-color: #BCC1C5;
+          background-color: #50595E;
           text-transform: uppercase;
           color: white;
           font-size: 14px;
@@ -53,7 +56,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: block;
           min-height: 50px;
           border-radius: 3px;
-          background-color: #7DD084;
+          background-color: #356327;
           text-transform: uppercase;
           color: white;
           font-size: 14px;
