@@ -733,27 +733,16 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       }
     }
   }
+
   _makeFileUpload(e) {
     this._deleteAll();
-    this._cleanUp()
-        .then(() => {
-          this.fileArray = [];
-          this.selectedDoc = e.model.__data.item.value;
-          const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
+    this.fileArray = [];
+    this.selectedDoc = e.model.__data.item.value;
+    const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
           needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
           : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
           this.fileArray.reverse();
-        })
-        .then(() => {
           this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
-        });
-  }
-
-  _cleanUp() {
-    return new Promise((resolve, reject) => {
-      this.dispatchEvent(new CustomEvent('clean', {bubbles: true, composed: true}));
-      resolve();
-    });
   }
 
   _deleteAll() {

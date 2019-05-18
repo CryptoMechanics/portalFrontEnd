@@ -133,33 +133,32 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
 
   ready() {
     super.ready();
-    this._removePreview();
-    window.addEventListener('clean', () => {
-      if (this.fileName != 'selfie') {
-        this._removePreview();
-      };
-    });
-    setInterval(() => {
-      const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
-      if (savedImage) {
-        this.updateStyles({'--background-image': `url("${savedImage}")`});
-        this.completed = true;
-        this.preview = true;
-      }
-    }, 1000);
+    console.log(this.fileName);
   }
 
   _imagestatus() {
     if (this.imagestatus && this.imagestatus.files) {
       const fileStatusArray = JSON.parse(this.imagestatus.files);
+      const thisDeviceId = parseInt(localStorage.getItem('deviceId'));
       for (let i = 0; i < fileStatusArray.length; i++) {
-        if (fileStatusArray[i].uploaded === true) {
-          const thisDeviceId = localStorage.getItem('deviceId');
-          if (thisDeviceId !== fileStatusArray[i].deviceId && this.fileName === fileStatusArray[i].value) {
+        if (fileStatusArray[i].uploaded === true && this.fileName === fileStatusArray[i].value) {
+          if (thisDeviceId !== fileStatusArray[i].deviceId) {
             this.updateStyles({'--background-image': `url("./images/fromMobile.png")`});
             this.preview = true;
+          } else {
+            const savedImage = localStorage.getItem(`${this.imagestatus.country}_${fileStatusArray[i].value}`);
+            if (savedImage) {
+              this.updateStyles({'--background-image': `url("${savedImage}")`});
+              this.preview = true;
+            } else {
+              this.updateStyles({'--background-image': `url("./images/plus.png")`});
+              this.preview = false;
+            }
           }
-        };
+        } else if (fileStatusArray[i].uploaded === false && this.fileName === fileStatusArray[i].value) {
+          this.updateStyles({'--background-image': `url("./images/plus.png")`});
+          this.preview = false;
+        }
       }
     }
   }
@@ -186,12 +185,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     const dt = e.dataTransfer;
     const files = dt.files;
     this._uploadfile(files[0]);
-  }
-  _removePreview() {
-    this.preview = false;
-    this.updateStyles({'--background-image': `url("./images/plus.png")`});
-    this.shadowRoot.querySelector(`#form`).reset();
-    localStorage.removeItem(`${this.country}_${this.fileName}`);
   }
   _delete(e) {
     this.preview = false;
