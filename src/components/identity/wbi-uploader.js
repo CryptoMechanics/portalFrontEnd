@@ -131,11 +131,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     };
   }
 
-  ready() {
-    super.ready();
-    console.log(this.fileName);
-  }
-
   _imagestatus() {
     if (this.imagestatus && this.imagestatus.files) {
       const fileStatusArray = JSON.parse(this.imagestatus.files);
