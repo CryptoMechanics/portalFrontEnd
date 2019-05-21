@@ -72,6 +72,8 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
         }
       });
       this.socket.on('imageStatus', (response) => {
+        console.log(`Socket response...`);
+        console.log(response);
         this.dispatchAction({
           type: 'CHANGE_IMAGESTATUS',
           imagestatus: response,

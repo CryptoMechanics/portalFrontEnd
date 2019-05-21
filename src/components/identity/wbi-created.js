@@ -668,9 +668,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this.fileArray = '';
     this._isComplete();
     this._makeRadioButtons();
+    console.log('Country Changed');
     setTimeout(() => {
       this.shadowRoot.querySelector('#firstName').focus();
-    }, 0);
+    }, 10);
   }
   _isComplete() {
     let middleNameCheck = '';
@@ -735,6 +736,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _makeFileUpload(e) {
+    console.log('Radio Selected');
     this._deleteAll();
     this.fileArray = [];
     this.selectedDoc = e.model.__data.item.value;
@@ -743,6 +745,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
           this.fileArray.reverse();
           this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
+          console.log(`Sending these files to api... ${JSON.stringify(this.fileArray)}`);
   }
 
   _deleteAll() {
