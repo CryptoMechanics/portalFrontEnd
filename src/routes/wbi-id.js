@@ -178,14 +178,13 @@ class WbiId extends ReduxMixin(PolymerElement) {
             <template is="dom-if" if="{{item.error}}">
               <div class="error">[[item.error]]</div>
             </template>
+
+            <template is="dom-if" if="{{selfieError}}">
+              <div class="error">[[selfieError]]</div>
+            </template>
+
           </template>
         </form>
-
-        <template is="dom-if" if="{{selfieError}}">
-          <div class="error">[[selfieError]]</div>
-        </template>
-
-
       </div>
     `;
   }
