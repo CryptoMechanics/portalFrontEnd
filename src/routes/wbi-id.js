@@ -142,6 +142,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <div class="logocontainer"><img src="./images/worbli.png" class="logo" class="logo"></div>
           <h1>[[txt.uploadDocuments]]</h1>
           <p>[[txt.SelectTheDocumentBelow]]</p>
+          <template is="dom-if" if="{{error}}">
+            <p>[[error]]</p>
+          </template>
         </template>
 
         <template is="dom-if" if="{{init}}">
@@ -254,9 +257,15 @@ class WbiId extends ReduxMixin(PolymerElement) {
     if (token) {
       this.$.api.swapToken(token)
           .then((response) => {
-            localStorage.setItem('jwt', response.jwt);
-            this.socket = true;
-            this.set('route.path', '/id/');
+            if (response.data === true) {
+              localStorage.setItem('jwt', response.jwt);
+              this.socket = true;
+              this.set('route.path', '/id/');
+              this.error = '';
+            } else {
+              this.init = false;
+              this.error = 'You have followed an expired link. Please return to the portal website and click on the UPLOAD PICTURES FROM MOBILE button to generate a new one.';
+            }
           });
     } else if (!token && jwt) {
       this.socket = true;
