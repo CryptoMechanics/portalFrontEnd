@@ -1,6 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import '../../components/data/wbi-api.js';
+import '../data/wbi-api.js';
 import '../../css/shared-styles.js';
 
 import store from '../../global/store.js';
@@ -221,7 +221,18 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`);
+            console.log('Sending image to API response');
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
+                .then((response) => {
+                  console.log('API response from /identity/image/');
+                  console.log(response);
+                  if (response.rejectedDocuments.length === 0) {
+                    this.completed = response.completed;
+                  } else {
+                    this._delete(target);
+                    this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+                  };
+                });
           };
           image.src = readerEvent.target.result;
         };
@@ -258,8 +269,11 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           this.updateStyles({'--background-image': `url("${dataUrl}")`});
           this.preview = true;
           const resizedImage = this._dataURLToBlob(dataUrl);
+          console.log('Sending image to API response');
           this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
               .then((response) => {
+                console.log('API response from /identity/image/');
+                console.log(response);
                 if (response.rejectedDocuments.length === 0) {
                   this.completed = response.completed;
                 } else {

@@ -593,7 +593,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _imageStatus() {
-    this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
     this.completed = this.imagestatus.completed;
     this._isComplete();

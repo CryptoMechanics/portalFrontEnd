@@ -174,7 +174,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
                 <img src="./images/done.svg" class="icon">
               </label>
             </template>
-            
+
             <template is="dom-if" if="{{item.error}}">
               <div class="error">[[item.error]]</div>
             </template>
