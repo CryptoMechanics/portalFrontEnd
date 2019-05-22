@@ -71,14 +71,17 @@ class Wbiverify extends ReduxMixin(PolymerElement) {
     this.set('route.path', '/signin/');
   }
   _route() {
-    this.$.api.verify(this.route.__queryParams.token)
-        .then((response) => {
-          if (response && response.data === false && response.err) {
-            this.error = response.err;
-          } else if (response && response.data === true) {
-            localStorage.setItem('jwt', response.jwt);
-            this.set('route.path', '/');
-          }
-        });
+    const token = this.route.__queryParams.token;
+    if (token) {
+      this.$.api.verify(token)
+          .then((response) => {
+            if (response && response.data === false && response.err) {
+              this.error = response.err;
+            } else if (response && response.data === true) {
+              localStorage.setItem('jwt', response.jwt);
+              this.set('route.path', '/');
+            }
+          });
+    }
   }
 } window.customElements.define('wbi-verify', Wbiverify);
