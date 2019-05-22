@@ -1,6 +1,6 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import '../../components/data/wbi-api.js';
+import '../data/wbi-api.js';
 import '../../css/shared-styles.js';
 
 import store from '../../global/store.js';
@@ -17,7 +17,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           position: relative;
         }
         label {
-          border: 2px dashed #BDC1C6;
+          border: 2px dashed #50595E;
           display: block;
           min-height: 170px;
           max-width: 250px;
@@ -27,6 +27,7 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           background-repeat: no-repeat;
           background-position: center; 
           text-transform: capitalize;
+          cursor: pointer;
         }
         .delete {
           display: block;
@@ -37,7 +38,8 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           cursor: pointer;
           background-image: url("./images/delete.png");
           background-repeat: no-repeat;
-          background-position: center; 
+          background-position: center;
+          cursor: pointer;
         }
         input {
           width: 0.1px;
@@ -79,7 +81,9 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="{{selfieError}}">  
           <p class="error">[[selfieError]]</p>
         </template>
-        <p on-click="_openModal" class="webcam"><img src="./images/webCam.png" class="webcam-image">Use Webcam</p>
+        <template is="dom-if" if="{{!ismobile}}">  
+          <p on-click="_openModal" class="webcam"><img src="./images/webCam.png" class="webcam-image">Use Webcam</p>
+        </template>
       </form>
     `;
   }
@@ -113,44 +117,43 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
         type: Object,
         observer: '_imagestatus',
       },
+      ismobile: {
+        type: Boolean,
+        readOnly: true,
+      },
     };
   }
 
   static mapStateToProps(state, element) {
     return {
       imagestatus: state.imagestatus,
+      ismobile: state.ismobile,
     };
   }
 
-  ready() {
-    super.ready();
-    window.addEventListener('clean', () => {
-      if (this.fileName != 'selfie') {
-        this._removePreview();
-      };
-    });
-    setInterval(() => {
-      const savedImage = localStorage.getItem(`${this.country}_${this.fileName}`);
-      if (savedImage) {
-        this.updateStyles({'--background-image': `url("${savedImage}")`});
-        this.completed = true;
-        this.preview = true;
-      }
-    }, 1000);
-  }
-
   _imagestatus() {
-    console.log(this.imagestatus);
     if (this.imagestatus && this.imagestatus.files) {
       const fileStatusArray = JSON.parse(this.imagestatus.files);
+      const thisDeviceId = parseInt(localStorage.getItem('deviceId'));
       for (let i = 0; i < fileStatusArray.length; i++) {
-        if (fileStatusArray[i].uploaded === true) {
-          const thisDeviceId = localStorage.getItem('deviceId');
-          if (thisDeviceId !== fileStatusArray[i].deviceId && this.fileName === fileStatusArray[i].value) {
+        if (fileStatusArray[i].uploaded === true && this.fileName === fileStatusArray[i].value) {
+          if (thisDeviceId !== fileStatusArray[i].deviceId) {
             this.updateStyles({'--background-image': `url("./images/fromMobile.png")`});
             this.preview = true;
+          } else {
+            const savedImage = localStorage.getItem(`${this.imagestatus.country}_${fileStatusArray[i].value}`);
+            if (savedImage) {
+              this.updateStyles({'--background-image': `url("${savedImage}")`});
+              this.preview = true;
+            } else {
+              this.updateStyles({'--background-image': `url("./images/plus.png")`});
+              this.preview = false;
+            }
           }
-        };
+        } else if (fileStatusArray[i].uploaded === false && this.fileName === fileStatusArray[i].value) {
+          this.updateStyles({'--background-image': `url("./images/plus.png")`});
+          this.preview = false;
+        }
       }
     }
   }
@@ -177,12 +180,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
     const dt = e.dataTransfer;
     const files = dt.files;
     this._uploadfile(files[0]);
-  }
-  _removePreview() {
-    this.preview = false;
-    this.updateStyles({'--background-image': `url("./images/plus.png")`});
-    this.shadowRoot.querySelector(`#form`).reset();
-    localStorage.removeItem(`${this.country}_${this.fileName}`);
   }
   _delete(e) {
     this.preview = false;
@@ -224,7 +221,18 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
-            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`);
+            console.log('Sending image to API response');
+            this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
+                .then((response) => {
+                  console.log('API response from /identity/image/');
+                  console.log(response);
+                  if (response.rejectedDocuments.length === 0) {
+                    this.completed = response.completed;
+                  } else {
+                    this._delete(target);
+                    this.selfieError = 'Face detection failed. Ensure that your face is clearly visible and that there are no other people in the background.';
+                  };
+                });
           };
           image.src = readerEvent.target.result;
         };
@@ -261,11 +269,11 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           this.updateStyles({'--background-image': `url("${dataUrl}")`});
           this.preview = true;
           const resizedImage = this._dataURLToBlob(dataUrl);
+          console.log('Sending image to API response');
           this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
               .then((response) => {
+                console.log('API response from /identity/image/');
                 console.log(response);
-                console.log(response.rejectedDocuments);
-                console.log(response.rejectedDocuments.length);
                 if (response.rejectedDocuments.length === 0) {
                   this.completed = response.completed;
                 } else {

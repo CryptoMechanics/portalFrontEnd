@@ -98,7 +98,9 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
           <button id="retake" on-click="_retake"><img src="/images/bin2.svg"></button>
           <button id="upload" on-click="_upload"><img src="/images/upload2.svg"></button>
         </div>
-        <p class="error">[[selfieError]]</p>
+        <template is="dom-if" if="{{selfieError}}">
+          <p class="error">[[selfieError]]</p>
+        </template>
       </template>
       
       <template is="dom-if" if="{{!showVid}}">

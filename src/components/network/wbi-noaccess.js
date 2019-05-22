@@ -20,9 +20,9 @@ class WbiNoaccess extends ReduxMixin(PolymerElement) {
           height: 47px;
           line-height: 46px;
           text-align: center;
-          border: 1px solid #AE464A;
+          border: 1px solid #863739;
           border-radius: 4px;
-          color: #AE464A;
+          color: #863739;
           font-size: 15px;
           font-weight: 400;
         }

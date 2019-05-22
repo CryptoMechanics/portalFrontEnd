@@ -21,15 +21,19 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
         .footer {
           display: flex;
           max-width: 1200px;
-          padding: 0 auto;
-          opacity: 0.5;
+          margin: 0 auto;
+          opacity: 1;
+          margin-top: 50px;
         }
-        div {
+        .item {
           margin: 24px 12px;
           flex: 1;
         }
         .social{
           flex: none;
+        }
+        .container {
+          margin: 0 auto;
         }
         @media only screen and (max-width: 600px) {
           .footer {
@@ -42,10 +46,12 @@ class WbiFooter extends ReduxMixin(PolymerElement) {
           }
         }
       </style>
-      <div class="footer">
-        <div>Ⓒ 2018 Worbli Pty Ltd. All rights reserved.</br> View our Terms and Privacy Policy</div>
-        <div>491B River Valley Road #15-01 Valley Point</br>Singapore 248373</div>
-        <div class="social"><wbi-social></wbi-social></div>
+      <div class="container">
+        <div class="footer">
+          <div class="item">Ⓒ 2018 Worbli Pty Ltd. All rights reserved.</br> View our Terms and Privacy Policy</div>
+          <div class="item">491B River Valley Road #15-01 Valley Point</br>Singapore 248373</div>
+          <div class="social item"><wbi-social></wbi-social></div>
+        </div>
       </div>
     `;
   }

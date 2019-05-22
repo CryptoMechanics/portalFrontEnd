@@ -36,7 +36,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
           padding: 12px 0;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         @media only screen and (max-width: 600px) {
           .card {
@@ -113,9 +113,9 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   }
   _isComplete() {
     if (this._validateEmail(this.email)) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
     }
   }
   _focusEmail() {
@@ -129,8 +129,6 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
   }
 
   _language(e) {
-    console.log(translations);
-    console.log(this.language);
     this.txt = translations[this.language];
   }
   _signIn() {

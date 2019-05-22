@@ -6,6 +6,7 @@ import '../css/shared-styles.js';
 import '../components/data/wbi-api.js';
 import '../components/identity/wbi-mobisnap.js';
 import '../components/loading/ball-spin3x.js';
+import '../components/loading/ball-spin1x.js';
 import '../components/data/wbi-socket.js';
 
 import store from '../global/store.js';
@@ -27,6 +28,9 @@ class WbiId extends ReduxMixin(PolymerElement) {
           color: #63656F;
           margin: 44px 0;
         }
+        p {
+          margin-bottom: 74px;
+        }
         img {
           width: 100%;
           max-width: 360px;
@@ -37,7 +41,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: block;
           min-height: 50px;
           border-radius: 3px;
-          background-color: #BCC1C5;
+          background-color: #50595E;
           text-transform: uppercase;
           color: white;
           font-size: 14px;
@@ -52,7 +56,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: block;
           min-height: 50px;
           border-radius: 3px;
-          background-color: #7DD084;
+          background-color: #356327;
           text-transform: uppercase;
           color: white;
           font-size: 14px;
@@ -113,6 +117,12 @@ class WbiId extends ReduxMixin(PolymerElement) {
           display: block;
           height: 60px;
         }
+
+        .init-container {
+          display: flex;
+          justify-content: center;
+        }
+        
       </style>
       <template is="dom-if" if="{{socket}}">
         <wbi-socket></wbi-socket>
@@ -132,6 +142,15 @@ class WbiId extends ReduxMixin(PolymerElement) {
           <div class="logocontainer"><img src="./images/worbli.png" class="logo" class="logo"></div>
           <h1>[[txt.uploadDocuments]]</h1>
           <p>[[txt.SelectTheDocumentBelow]]</p>
+          <template is="dom-if" if="{{error}}">
+            <p>[[error]]</p>
+          </template>
+        </template>
+
+        <template is="dom-if" if="{{init}}">
+          <div class="init-container">
+            <ball-spin1x class="init" spinsize="la-2x"></ball-spin1x>
+          </div>
         </template>
 
         <template is="dom-if" if="{{completed}}">
@@ -155,18 +174,17 @@ class WbiId extends ReduxMixin(PolymerElement) {
                 <img src="./images/done.svg" class="icon">
               </label>
             </template>
-            
+
             <template is="dom-if" if="{{item.error}}">
               <div class="error">[[item.error]]</div>
             </template>
+
+            <template is="dom-if" if="{{selfieError}}">
+              <div class="error">[[selfieError]]</div>
+            </template>
+
           </template>
         </form>
-
-        <template is="dom-if" if="{{selfieError}}">
-          <div class="error">[[selfieError]]</div>
-        </template>
-
-
       </div>
     `;
   }
@@ -178,6 +196,10 @@ class WbiId extends ReduxMixin(PolymerElement) {
         readOnly: true,
       },
       allowAccess: {
+        type: Boolean,
+        value: true,
+      },
+      init: {
         type: Boolean,
         value: true,
       },
@@ -234,9 +256,15 @@ class WbiId extends ReduxMixin(PolymerElement) {
     if (token) {
       this.$.api.swapToken(token)
           .then((response) => {
-            localStorage.setItem('jwt', response.jwt);
-            this.socket = true;
-            this.set('route.path', '/id/');
+            if (response.data === true) {
+              localStorage.setItem('jwt', response.jwt);
+              this.socket = true;
+              this.set('route.path', '/id/');
+              this.error = '';
+            } else {
+              this.init = false;
+              this.error = 'You have followed an expired link. Please return to the portal website and click on the UPLOAD PICTURES FROM MOBILE button to generate a new one.';
+            }
           });
     } else if (!token && jwt) {
       this.socket = true;
@@ -247,22 +275,12 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _imagestatus() {
-    console.log('this.imagestatus');
-    console.log(this.imagestatus);
     this.country = this.imagestatus.country;
     this.files = JSON.parse(this.imagestatus.files);
+    if (this.files) {
+      this.init = false;
+    }
   }
-  // _mobiledocs() {
-  //   this.country = this.mobiledocs.country;
-  //   this.files = JSON.parse(this.mobiledocs.files);
-  //   this.set('files', JSON.parse(this.mobiledocs.files));
-  //   this.$.repeat.render();
-  //   localStorage.setItem('files', JSON.stringify(this.files));
-  //   localStorage.setItem('country', this.country);
-  //   console.log(this.mobiledocs);
-  //   console.log(this.mobiledocs.country);
-  //   console.log(JSON.parse(this.mobiledocs.files));
-  // }
 
   _upload(e) {
     this.loading = true;

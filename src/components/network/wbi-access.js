@@ -18,10 +18,10 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
           z-index: 8888;
         }
         a {
-          color: #92CC7F;
+          color: #356327;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         .error {
           padding: 12px 12px;
@@ -133,10 +133,10 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   }
   _isComplete() {
     if (this.checkedAccountName && this._validatePublicKey(this.ownerPublicKey) && this._validatePublicKey(this.activePublicKey)) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }

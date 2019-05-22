@@ -14,7 +14,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
           background-color: white;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         .error {
           padding: 12px 12px;
@@ -264,9 +264,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="[[error]]">
           <p class="error">[[error]]</p>
         </template>
-        <template is="dom-if" if="[[shortcode]]">
+        <template is="dom-if" if="[[shortcodeLink]]">
           <p>If you have trouble receiving the SMS, please use the following link in your mobile</p>
-          <input type="text" name="shortcode" id="shortcode" value="{{shortcode::input}}" readonly>
+          <input type="text" name="shortcode" id="shortcode" value="{{shortcodeLink::input}}" readonly>
           <button class="green-bg" on-click="_copyToClipboard">Copy</button>
         </template>
       </template>
@@ -281,6 +281,11 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
       },
       country: {
         type: String,
+      },
+      shortcode: {
+        type: String,
+        readOnly: true,
+        observer: '_formShortcode',
       },
       error: {
         type: String,
@@ -303,7 +308,23 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
   static mapStateToProps(state, element) {
     return {
       language: state.language,
+      shortcode: state.shortcode,
     };
+  }
+  _formShortcode() {
+    const key = window.location.hostname.split('.')[0];
+    let linkUrl = '';
+    if (key === '127') {
+      linkUrl = 'http://127.0.0.1:8888/';
+    } else if (key === 'dev') {
+      linkUrl = 'https://dev.worbli.io/';
+    } else if (key === 'portal') {
+      linkUrl = 'https://portal.worbli.io/';
+    } else if (key === 'uat') {
+      linkUrl = 'https://uat.worbli.io/';
+    }
+    this.shortcodeLink = `${linkUrl}id/${this.shortcode}`;
+    this.text = `${linkUrl}id/${this.shortcode}`;
   }
 
   _code(e) {
@@ -319,10 +340,10 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     const number = `+${this.code}${this.number}`;
     const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
     if (this.code && this.number && this._validateMobile(cleanNumber)) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }
@@ -345,7 +366,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
               } else if (key === 'uat') {
                 linkUrl = 'https://uat.worbli.io/';
               }
-              this.shortcode = `${linkUrl}id/${response.shortcode}`;
+              this.shortcodeLink = `${linkUrl}id/${response.shortcode}`;
               this.text = `${linkUrl}id/${response.shortcode}`;
               this.closeNow = true;
             } else if (response.data = false && response.error) {

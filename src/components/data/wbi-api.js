@@ -365,6 +365,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   uploadImage(file, fileType) {
     let deviceId = localStorage.getItem('deviceId');
     if (!deviceId) {
+      console.log('setting new device id');
       deviceId = Math.floor(Math.random() * 1000000000);
       localStorage.setItem('deviceId', deviceId);
     }
@@ -642,7 +643,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   }
 
   /**
- * Get a users status
+ * swap token for shortcode
  * @param {string} shortcode - tyoe of file 'passport-front'
  * @return {object} arrays showsg what uploaded and whats missing
  */
@@ -664,6 +665,30 @@ class WbiApi extends ReduxMixin(PolymerElement) {
           .catch((error) => console.log('Error:', error));
     });
   }
+
+  /**
+ * swap token for shortcode
+ * @param {string} shortcode - tyoe of file 'passport-front'
+ * @return {object} arrays showsg what uploaded and whats missing
+ */
+  getShortcode() {
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('jwt');
+      const url = `${this.apiUrl}/mobile/shortcode/`;
+      fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => console.log('Error:', error));
+    });
+  }
+
 
   static mapStateToProps(state, element) {
     return {

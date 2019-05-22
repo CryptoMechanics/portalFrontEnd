@@ -67,7 +67,6 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
     } else {
       this.$.api.getStatus()
           .then((response) => {
-            console.log(response.worbliAccountName);
             this.accountName = response.worbliAccountName;
             localStorage.setItem('accountName', this.accountName);
           });

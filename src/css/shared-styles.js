@@ -11,7 +11,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       .card {
         margin: 24px;
         padding: 48px;
-        color: #757575;
+        color: #323538;
         border-radius: 5px;
         background-color: #fff;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -26,7 +26,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       }
       input[type=text], input[type=password] {
         background-color: #F8F8F8;
-        border: 1px solid #BEC1C5;
+        border: 1px solid #50595E;
         display: block;
         width: 100%;
         border-radius: 4px;
@@ -35,7 +35,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       }
       input[type=text]:focus, input[type=password]:focus {
         background-color: #F8F8F8;
-        border: 1px solid #92CC85;
+        border: 1px solid #31652A;
         display: block;
         width: 100%;
         border-radius: 4px;
@@ -44,7 +44,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       }
       input[type=checkbox] {
         background-color: #F8F8F8;
-        border: 1.5px solid #92CC85;
+        border: 1.5px solid #31652A;
         margin-right: 12px;
       }
 
@@ -58,7 +58,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         display: block;
         height: 1px;
         border: 0;
-        border-top: 1px solid #B1B2C4;
+        border-top: 1px solid #50595E;
         margin: 1em 0;
         padding: 0; 
       }
@@ -76,19 +76,19 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         margin-top: 18px;
       }
       .inactive-bg{
-        background-color: #BDC1C6;
+        background-color: #50595E;
       }
       .green-bg{
-        background-color: #92CC7F;
+        background-color: #356327;
       }
       .white-bg{
         background-color: #FFFFFF;
-        color: #92CC7F;
+        color: #356327;
       }
       select {
         height: 40px;
         background: #F8F8F8;
-        border: 1px solid #BDC1C6;
+        border: 1px solid #50595E;
         outline:0;
         width: 100%;
         margin-right: 6px;
@@ -98,11 +98,11 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         margin-bottom: 12px;
       }
       select:focus {
-        border: 1px solid #92CC85;
+        border: 1px solid #31652A;
       }
       .error {
         color: #AB4949;
-        border: 1px solid #FFC7C0;
+        border: 1px solid #AB4949;
         padding: 2px 12px;
         border-radius: 4px;
         background-color: #FEF4F2;

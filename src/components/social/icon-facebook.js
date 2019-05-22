@@ -44,7 +44,7 @@ class IconFacebook extends PolymerElement {
     return {
       color: {
         type: String,
-        value: '#757575',
+        value: '#50595E',
       },
       hoverColor: {
         type: String,

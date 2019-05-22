@@ -29,7 +29,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .inner-frame{
           background-color: #F8F8F8;
-          border: 1px solid #BDC1C6;
+          border: 1px solid #50595E;
           border-radius: 4px;
           padding: 30px;
           margin: 24px 0;
@@ -42,7 +42,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         h3 {
           text-transform: uppercase;
-          color: #92CC85;
+          color: #31652A;
           cursor: pointer;
         }
         .bullets {
@@ -50,7 +50,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           text-transform: capitalize;
         }
         .green-bg{
-          background-color: var(--active-color, #BDC1C6);
+          background-color: var(--active-color, #50595E);
         }
         #day, #month, #year {
           max-width: 150px;
@@ -66,8 +66,8 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .outline_btn{
           background-color: white;
-          border: 1px solid #BDC1C6;
-          color: #838383;
+          border: 1px solid #50595E;
+          color: #4c4c4c;
           font-weight: 600;
           font-size: 13px;
           margin: 40px 0 20px 0;
@@ -491,8 +491,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </p> 
             
           <template is="dom-if" if="{{fileArray}}">
+            <template is="dom-if" if="{{!ismobile}}">  
               <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button>
               <small>[[txt.optional]]</small>
+            </template>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
                 <wbi-uploader id="[[item.value]]" file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
@@ -524,6 +526,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       },
       mode: {
         type: String,
+        readOnly: true,
+      },
+      ismobile: {
+        type: Boolean,
         readOnly: true,
       },
       color: {
@@ -580,18 +586,27 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       color: state.color,
       env: state.env,
       imagestatus: state.imagestatus,
+      ismobile: state.ismobile,
     };
   }
   _language(e) {
     this.txt = translations[this.language];
   }
   _imageStatus() {
-    this.completed = this.imagestatus.completed;
     this.missing = this.imagestatus.missingDocuments;
     this.completed = this.imagestatus.completed;
     this._isComplete();
   }
   _mobile() {
+    this.$.api.getShortcode()
+        .then((response) => {
+          if (response.data === true) {
+            this.dispatchAction({
+              type: 'CHANGE_SHORTCODE',
+              shortcode: response.shortcode,
+            });
+          }
+        });
     this.dispatchEvent(new CustomEvent('modal', {bubbles: true, composed: true, detail: {action: 'mobile'}}));
   }
   _gender(e) {
@@ -652,9 +667,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this.fileArray = '';
     this._isComplete();
     this._makeRadioButtons();
+    console.log('Country Changed');
     setTimeout(() => {
       this.shadowRoot.querySelector('#firstName').focus();
-    }, 0);
+    }, 10);
   }
   _isComplete() {
     let middleNameCheck = '';
@@ -663,14 +679,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     } else {
       middleNameCheck = false;
     }
-    console.log(this.middleName);
-    console.log(this.noMiddleName);
-    console.log(middleNameCheck);
     if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
-      this.updateStyles({'--active-color': '#92CC7F'});
+      this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
-      this.updateStyles({'--active-color': '#BDC1C6'});
+      this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
   }
@@ -720,27 +733,18 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       }
     }
   }
+
   _makeFileUpload(e) {
+    console.log('Radio Selected');
     this._deleteAll();
-    this._cleanUp()
-        .then(() => {
-          this.fileArray = [];
-          this.selectedDoc = e.model.__data.item.value;
-          const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
+    this.fileArray = [];
+    this.selectedDoc = e.model.__data.item.value;
+    const needReverse = this.countrydocs.find((x) => x.code === this.country).accepted[0][this.selectedDoc];
           needReverse ? this.fileArray.push({value: `${this.selectedDoc}_reverse`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')} reverse`}, {value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`})
           : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
           this.fileArray.reverse();
-        })
-        .then(() => {
           this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
-        });
-  }
-
-  _cleanUp() {
-    return new Promise((resolve, reject) => {
-      this.dispatchEvent(new CustomEvent('clean', {bubbles: true, composed: true}));
-      resolve();
-    });
+          console.log(`Sending these files to api... ${JSON.stringify(this.fileArray)}`);
   }
 
   _deleteAll() {

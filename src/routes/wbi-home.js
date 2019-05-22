@@ -30,7 +30,7 @@ class WbiHome extends ReduxMixin(PolymerElement) {
         } 
         .title{
           flex:1;
-          color: #636670;
+          color: #50595E;
           font-size: 20px;
           line-height: 66px;
         } 

@@ -48,7 +48,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
           cursor: default;
           margin: 24px;
           padding: 40px;
-          color: #757575;
+          color: #50595E;
           border-radius: 3px;
           background-color: white;
           box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.14), 
