@@ -690,13 +690,21 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
   _submit() {
     this.error = '';
-    if (!this.middleName || !this.noMiddleName) {
-      this.error = 'Please enter your middle name. If you don\'t have a middle name on your identity document, you can check the box next to the Middle Name field.';
+    if (!this.middleName) {
+      console.log('There is no middle name');
+      if (!this.noMiddleName) {
+        console.log('The tick box was not ticked');
+        this.error = 'Please enter your middle name. If you don\'t have a middle name on your identity document, you can check the box next to the Middle Name field.';
+      }
     }
+
     if (this._isComplete()) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
+            if (response.data === false && response.error) {
+              this.error = response.error;
+            }
             this.loading = false;
             this.dispatchAction({
               type: 'CHANGE_STATUS',
@@ -744,7 +752,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           : this.fileArray.push({value: `${this.selectedDoc}`, label: `${this.selectedDoc.replace(/[_-]/g, ' ')}`});
           this.fileArray.reverse();
           this.$.api.sendFilesToMobile(this.country, JSON.stringify(this.fileArray));
-          console.log(`Sending these files to api... ${JSON.stringify(this.fileArray)}`);
   }
 
   _deleteAll() {

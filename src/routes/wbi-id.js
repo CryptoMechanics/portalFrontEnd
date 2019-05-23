@@ -275,11 +275,13 @@ class WbiId extends ReduxMixin(PolymerElement) {
     this.txt = translations[this.language];
   }
   _imagestatus() {
-    this.country = this.imagestatus.country;
-    this.files = JSON.parse(this.imagestatus.files);
-    if (this.files) {
-      this.init = false;
+    if (this.imagestatus.files) {
+      this.files = JSON.parse(this.imagestatus.files);
+      if (this.files) {
+        this.init = false;
+      }
     }
+    this.country = this.imagestatus.country;
   }
 
   _upload(e) {

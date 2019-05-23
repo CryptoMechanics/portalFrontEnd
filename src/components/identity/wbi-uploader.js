@@ -133,8 +133,11 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
 
   _imagestatus() {
     if (this.imagestatus && this.imagestatus.files) {
+      let thisDeviceId;
+      if (localStorage.getItem('deviceId')) {
+        thisDeviceId = parseInt(localStorage.getItem('deviceId'));
+      }
       const fileStatusArray = JSON.parse(this.imagestatus.files);
-      const thisDeviceId = parseInt(localStorage.getItem('deviceId'));
       for (let i = 0; i < fileStatusArray.length; i++) {
         if (fileStatusArray[i].uploaded === true && this.fileName === fileStatusArray[i].value) {
           if (thisDeviceId !== fileStatusArray[i].deviceId) {
