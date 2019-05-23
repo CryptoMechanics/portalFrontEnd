@@ -205,7 +205,10 @@ class WbiMobisnap extends PolymerElement {
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
           if (response && response.rejectedDocuments && response.rejectedDocuments.length === 0) {
-            const files = JSON.parse(localStorage.getItem('files'));
+            let files;
+            if (localStorage.getItem('files')) {
+              files = JSON.parse(localStorage.getItem('files'));
+            }
             if (files && files.length > 0) {
               const country = localStorage.getItem('country');
               this.fileName = `${country}_${files[0].value}`;
