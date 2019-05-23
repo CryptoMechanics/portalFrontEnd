@@ -702,6 +702,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
+            if (response.data === false && response.error) {
+              this.error = response.error;
+            }
             this.loading = false;
             this.dispatchAction({
               type: 'CHANGE_STATUS',
