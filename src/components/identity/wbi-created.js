@@ -689,35 +689,40 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _submit() {
+    let middleNameCheck = true;
     this.error = '';
     if (!this.middleName) {
       console.log('There is no middle name');
+      middleNameCheck = false;
       if (!this.noMiddleName) {
         console.log('The tick box was not ticked');
+        middleNameCheck = false;
         this.error = 'Please enter your middle name. If you don\'t have a middle name on your identity document, you can check the box next to the Middle Name field.';
       }
     }
 
-    if (this._isComplete()) {
+    if (this._isComplete() && middleNameCheck) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
             if (response.data === false && response.error) {
               this.error = response.error;
             }
-            this.loading = false;
-            this.dispatchAction({
-              type: 'CHANGE_STATUS',
-              status: 'pending',
-            });
-            const jwt = localStorage.getItem('jwt');
-            const network = localStorage.getItem('network');
-            const email = localStorage.getItem('email');
-            localStorage.clear();
-            localStorage.setItem('jwt', jwt);
-            localStorage.setItem('email', email);
-            localStorage.setItem('network', network);
-            localStorage.setItem('status', 'pending');
+            if (response.data === true) {
+              this.loading = false;
+              this.dispatchAction({
+                type: 'CHANGE_STATUS',
+                status: 'pending',
+              });
+              const jwt = localStorage.getItem('jwt');
+              const network = localStorage.getItem('network');
+              const email = localStorage.getItem('email');
+              localStorage.clear();
+              localStorage.setItem('jwt', jwt);
+              localStorage.setItem('email', email);
+              localStorage.setItem('network', network);
+              localStorage.setItem('status', 'pending');
+            }
           })
           .catch((error) => {
             this.dispatchAction({
