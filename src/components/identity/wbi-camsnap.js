@@ -189,6 +189,8 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
         .then((response) => {
           if (response.rejectedDocuments.length === 0) {
             this.closenow = true;
+            this._retake();
+            this.showVid = false;
           } else {
             this._retake();
             this.selfieError = 'Face detection failed. Ensure your face is clearly visible and no other people in the background.';
