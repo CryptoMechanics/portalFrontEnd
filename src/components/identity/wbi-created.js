@@ -667,7 +667,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this.fileArray = '';
     this._isComplete();
     this._makeRadioButtons();
-    console.log('Country Changed');
     setTimeout(() => {
       this.shadowRoot.querySelector('#firstName').focus();
     }, 10);
@@ -692,10 +691,8 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     let middleNameCheck = true;
     this.error = '';
     if (!this.middleName) {
-      console.log('There is no middle name');
       middleNameCheck = false;
       if (!this.noMiddleName) {
-        console.log('The tick box was not ticked');
         middleNameCheck = false;
         this.error = 'Please enter your middle name. If you don\'t have a middle name on your identity document, you can check the box next to the Middle Name field.';
       }
@@ -748,7 +745,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _makeFileUpload(e) {
-    console.log('Radio Selected');
     this._deleteAll();
     this.fileArray = [];
     this.selectedDoc = e.model.__data.item.value;

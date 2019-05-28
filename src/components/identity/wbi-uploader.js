@@ -137,8 +137,6 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
       if (localStorage.getItem('deviceId')) {
         thisDeviceId = parseInt(localStorage.getItem('deviceId'));
       }
-      console.log('this.imagestatus.files');
-      console.log(this.imagestatus.files);
       const fileStatusArray = JSON.parse(this.imagestatus.files);
       for (let i = 0; i < fileStatusArray.length; i++) {
         if (fileStatusArray[i].uploaded === true && this.fileName === fileStatusArray[i].value) {
@@ -226,11 +224,8 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
-            console.log('Sending image to API response');
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
-                  console.log('API response from /identity/image/');
-                  console.log(response);
                   if (response.rejectedDocuments.length === 0) {
                     this.completed = response.completed;
                   } else {
@@ -274,11 +269,8 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           this.updateStyles({'--background-image': `url("${dataUrl}")`});
           this.preview = true;
           const resizedImage = this._dataURLToBlob(dataUrl);
-          console.log('Sending image to API response');
           this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
               .then((response) => {
-                console.log('API response from /identity/image/');
-                console.log(response);
                 if (response.rejectedDocuments.length === 0) {
                   this.completed = response.completed;
                 } else {

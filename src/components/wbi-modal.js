@@ -160,9 +160,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
   }
 
   _closenow() {
-    console.log('fire A');
     if (this.closenow) {
-      console.log('fire B');
       this._hide();
     }
   }
