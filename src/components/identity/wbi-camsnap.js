@@ -170,6 +170,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
 
   _stopCam() {
     if (this.stopCam) {
+      this.showVid = false;
       this.stream.getTracks()[0].stop();
     }
   }
