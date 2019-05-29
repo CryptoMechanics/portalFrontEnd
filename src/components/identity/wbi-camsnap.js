@@ -62,7 +62,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
         }
         .content {
           position:relative;
-          width: 640px;
+          max-width: 640px;
           height: 480px;
           border-radius: 3px;
         }
@@ -76,8 +76,9 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
         }
         video {
           object-fit: cover;
-          width: 640px;
+          max-width: 640px;
           height: 480px;
+          width: 67vw;
         }
         .openCamera {
           width: 400px;
