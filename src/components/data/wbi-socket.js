@@ -54,11 +54,16 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
     this.socket.on('connect', () => {
       console.log('CONNECTED');
       this.socket.on('status', (response) => {
-        this.dispatchAction({
-          type: 'CHANGE_STATUS',
-          status: response.status.status,
-        });
-        localStorage.setItem('status', response.status.status);
+        if (response.data === false && response.error === 'invalid token') {
+          this.set('route.path', '/signin/jwtexpired');
+        } else if (response.data === true) {
+          this.dispatchAction({
+            type: 'CHANGE_STATUS',
+            status: response.status.status,
+          });
+          localStorage.setItem('status', response.status.status);
+        }
+
         if (!response.status.worbliAccountName) {
           this.dispatchAction({
             type: 'CHANGE_NETWORK',
