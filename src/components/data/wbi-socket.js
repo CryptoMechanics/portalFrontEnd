@@ -51,19 +51,14 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       transports: ['websocket', 'xhr-polling'],
       autoConnect: true,
     });
-    this.socket.on('connect', () => {
-      console.log('CONNECTED');
-      this.socket.on('status', (response) => {
-        if (response.data === false && response.error === 'invalid token') {
-          this.set('route.path', '/signin/jwtexpired');
-        } else if (response.data === true) {
-          this.dispatchAction({
-            type: 'CHANGE_STATUS',
-            status: response.status.status,
-          });
-          localStorage.setItem('status', response.status.status);
-        }
 
+    this.socket.on('connect', () => {
+      this.socket.on('status', (response) => {
+        this.dispatchAction({
+          type: 'CHANGE_STATUS',
+          status: response.status.status,
+        });
+        localStorage.setItem('status', response.status.status);
         if (!response.status.worbliAccountName) {
           this.dispatchAction({
             type: 'CHANGE_NETWORK',
@@ -88,6 +83,11 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       });
       this.socket.on('disconnect', () => {
         console.log('DISCONNECTED');
+      });
+      this.socket.on('ON_CONNECT', (response) => {
+        if (response.data === false && response.error === 'invalid token') {
+          this.set('route.path', '/signin/jwtexpired');
+        }
       });
     });
   }
