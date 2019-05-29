@@ -26,12 +26,15 @@ class WbiApi extends ReduxMixin(PolymerElement) {
   ready() {
     super.ready();
     const key = window.location.hostname.split('.')[0];
+    this.apiUrl = 'http://portal-api.localhost:9000/api/v3';
     if (key === 'dev' || key === '127') {
       this.apiUrl = 'https://dev-api.worbli.io/api/v3';
     } else if (key === 'uat') {
       this.apiUrl = 'https://uat-api.worbli.io/api/v3';
-    } else if (key === 'www') {
-      this.apiUrl = 'https://api.worbli.io/api/v3';
+    } else if (key === 'portal') {
+      this.apiUrl = 'https://portal-api.worbli.io/api/v3';
+    } else if (key === 'portal-stage') {
+      this.apiUrl = 'https://portal-stage-api.worbli.io/api/v3';
     };
   }
 

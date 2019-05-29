@@ -35,13 +35,15 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
 
   _connect() {
     const key = window.location.hostname.split('.')[0];
-    let socketUrl = '';
+    let socketUrl = 'http://portal-api.localhost:9000/';
     if (key === 'dev' || key === '127') {
       socketUrl = 'https://dev-api.worbli.io/';
     } else if (key === 'uat') {
       socketUrl = 'https://uat-api.worbli.io/';
-    } else if (key === 'www' || key === 'portal') {
-      socketUrl = 'https://api.worbli.io/';
+    } else if (key === 'portal') {
+      socketUrl = 'https://portal-api.worbli.io/';
+    } else if (key === 'portal-stage') {
+      this.apiUrl = 'https://portal-stage-api.worbli.io/';
     };
     this.jwt = localStorage.getItem('jwt');
     this.socket = io(socketUrl, {
