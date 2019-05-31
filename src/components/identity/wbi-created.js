@@ -675,6 +675,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     let middleNameCheck = '';
     if (this.middleName || this.noMiddleName) {
       middleNameCheck = true;
+      this.error = '';
     } else {
       middleNameCheck = false;
     }
