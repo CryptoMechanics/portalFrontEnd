@@ -312,17 +312,16 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     };
   }
   _formShortcode() {
-    const key = window.location.hostname.split('.')[0];
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    const port = window.location.port;
     let linkUrl = '';
-    if (key === '127') {
-      linkUrl = 'http://127.0.0.1:8888/';
-    } else if (key === 'dev') {
-      linkUrl = 'https://dev.worbli.io/';
-    } else if (key === 'portal') {
-      linkUrl = 'https://portal.worbli.io/';
-    } else if (key === 'uat') {
-      linkUrl = 'https://uat.worbli.io/';
+    if (port === 80 || port === 443) {
+      linkUrl = `${protocol}//${hostname}/`;
+    } else {
+      linkUrl = `${protocol}//${hostname}:${port}/`;
     }
+
     this.shortcodeLink = `${linkUrl}id/${this.shortcode}`;
     this.text = `${linkUrl}id/${this.shortcode}`;
   }
