@@ -316,7 +316,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     const protocol = window.location.protocol;
     const port = window.location.port;
     let linkUrl = '';
-    if (port === 80 || port === 443) {
+    if (!port) {
       linkUrl = `${protocol}//${hostname}/`;
     } else {
       linkUrl = `${protocol}//${hostname}:${port}/`;
