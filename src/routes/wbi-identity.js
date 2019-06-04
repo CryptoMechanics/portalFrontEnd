@@ -139,8 +139,6 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
     this.approved = false;
     this.rejected = false;
     this.error = false;
-    console.log('Identity status changed...');
-    console.log(this.status);
     switch (this.status) {
       case 'created':
         this.created = true;

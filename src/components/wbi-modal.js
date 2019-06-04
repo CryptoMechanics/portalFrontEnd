@@ -170,6 +170,7 @@ class WbiModal extends ReduxMixin(PolymerElement) {
     setTimeout(() => {
       this.updateStyles({'--opacity': 0});
       this.updateStyles({'--display-none-block': 'none'});
+      this.closenow = false;
     }, 1);
   }
 

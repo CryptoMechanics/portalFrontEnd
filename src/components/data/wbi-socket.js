@@ -35,13 +35,15 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
 
   _connect() {
     const key = window.location.hostname.split('.')[0];
-    let socketUrl = '';
+    let socketUrl = 'http://portal-api.localhost:9000/';
     if (key === 'dev' || key === '127') {
       socketUrl = 'https://dev-api.worbli.io/';
     } else if (key === 'uat') {
       socketUrl = 'https://uat-api.worbli.io/';
-    } else if (key === 'www' || key === 'portal') {
-      socketUrl = 'https://api.worbli.io/';
+    } else if (key === 'portal') {
+      socketUrl = 'https://portal-api.worbli.io/';
+    } else if (key === 'portal-stage') {
+      socketUrl = 'https://portal-api-stage.worbli.io/';
     };
     this.jwt = localStorage.getItem('jwt');
     this.socket = io(socketUrl, {
@@ -49,8 +51,8 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       transports: ['websocket', 'xhr-polling'],
       autoConnect: true,
     });
+
     this.socket.on('connect', () => {
-      console.log('CONNECTED');
       this.socket.on('status', (response) => {
         this.dispatchAction({
           type: 'CHANGE_STATUS',
@@ -81,6 +83,11 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       });
       this.socket.on('disconnect', () => {
         console.log('DISCONNECTED');
+      });
+      this.socket.on('ON_CONNECT', (response) => {
+        if (response.data === false && response.error === 'invalid token') {
+          this.set('route.path', '/signin/jwtexpired');
+        }
       });
     });
   }

@@ -224,11 +224,8 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
             this.updateStyles({'--background-image': `url("${dataUrl}")`});
             this.preview = true;
             const resizedImage = this._dataURLToBlob(dataUrl);
-            console.log('Sending image to API response');
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
-                  console.log('API response from /identity/image/');
-                  console.log(response);
                   if (response.rejectedDocuments.length === 0) {
                     this.completed = response.completed;
                   } else {
@@ -272,11 +269,8 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
           this.updateStyles({'--background-image': `url("${dataUrl}")`});
           this.preview = true;
           const resizedImage = this._dataURLToBlob(dataUrl);
-          console.log('Sending image to API response');
           this.$.api.uploadImage(resizedImage, `${this.country}_${this.fileName}`)
               .then((response) => {
-                console.log('API response from /identity/image/');
-                console.log(response);
                 if (response.rejectedDocuments.length === 0) {
                   this.completed = response.completed;
                 } else {

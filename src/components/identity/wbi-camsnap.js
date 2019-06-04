@@ -62,7 +62,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
         }
         .content {
           position:relative;
-          width: 640px;
+          max-width: 640px;
           height: 480px;
           border-radius: 3px;
         }
@@ -76,8 +76,9 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
         }
         video {
           object-fit: cover;
-          width: 640px;
+          max-width: 640px;
           height: 480px;
+          width: 67vw;
         }
         .openCamera {
           width: 400px;
@@ -170,6 +171,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
 
   _stopCam() {
     if (this.stopCam) {
+      this.showVid = false;
       this.stream.getTracks()[0].stop();
     }
   }
@@ -189,6 +191,8 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
         .then((response) => {
           if (response.rejectedDocuments.length === 0) {
             this.closenow = true;
+            this._retake();
+            this.showVid = false;
           } else {
             this._retake();
             this.selfieError = 'Face detection failed. Ensure your face is clearly visible and no other people in the background.';

@@ -81,6 +81,11 @@ class AppShell extends ReduxMixin(PolymerElement) {
     ];
   }
 
+  ready() {
+    super.ready();
+    console.log('--- Version 0.001 ---');
+  }
+
   _routePageChanged(page) {
     const jwt = localStorage.getItem('jwt');
     if (!page && jwt) {
