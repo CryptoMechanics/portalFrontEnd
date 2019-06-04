@@ -696,9 +696,13 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       if (!this.noMiddleName) {
         middleNameCheck = false;
         this.error = 'Please enter your middle name. If you don\'t have a middle name on your identity document, you can check the box next to the Middle Name field.';
+      } else {
+        middleNameCheck = true;
       }
     }
 
+    console.log(this._isComplete());
+    console.log(middleNameCheck);
     if (this._isComplete() && middleNameCheck) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
