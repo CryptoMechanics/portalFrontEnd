@@ -276,6 +276,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
   }
   _imagestatus() {
     if (this.imagestatus.files) {
+      this.completed = this.imagestatus.completed;
       this.files = JSON.parse(this.imagestatus.files);
       if (this.files) {
         this.init = false;
@@ -285,6 +286,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
   }
 
   _upload(e) {
+    console.log('uploading');
     this.loading = true;
     this.selfieError = '';
     if (e && e.target && e.target.id) {
