@@ -709,6 +709,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response.data === false && response.error) {
               this.error = response.error;
+              this.loading = false;
             }
             if (response.data === true) {
               this.loading = false;
@@ -727,6 +728,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             }
           })
           .catch((error) => {
+            this.loading = false;
             this.dispatchAction({
               type: 'CHANGE_STATUS',
               status: 'error',
