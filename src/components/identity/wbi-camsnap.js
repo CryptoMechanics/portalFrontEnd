@@ -186,6 +186,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
     this.showVid = true;
   }
   _upload() {
+    this.selfieError = '';
     localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
