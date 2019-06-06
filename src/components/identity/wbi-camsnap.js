@@ -171,6 +171,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
 
   _stopCam() {
     if (this.stopCam) {
+      this.selfieError = '';
       this.showVid = false;
       this.stream.getTracks()[0].stop();
     }
@@ -186,6 +187,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
     this.showVid = true;
   }
   _upload() {
+    this.selfieError = '';
     localStorage.setItem(this.fileName, this.base64);
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {

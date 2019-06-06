@@ -701,14 +701,13 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       }
     }
 
-    console.log(this._isComplete());
-    console.log(middleNameCheck);
     if (this._isComplete() && middleNameCheck) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
             if (response.data === false && response.error) {
               this.error = response.error;
+              this.loading = false;
             }
             if (response.data === true) {
               this.loading = false;
@@ -727,6 +726,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             }
           })
           .catch((error) => {
+            this.loading = false;
             this.dispatchAction({
               type: 'CHANGE_STATUS',
               status: 'error',
