@@ -701,8 +701,6 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       }
     }
 
-    console.log(this._isComplete());
-    console.log(middleNameCheck);
     if (this._isComplete() && middleNameCheck) {
       this.loading = true;
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
