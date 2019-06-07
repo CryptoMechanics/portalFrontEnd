@@ -218,7 +218,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             });
             localStorage.setItem('status', response.status);
             if (response && response.data === false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             } else if (response && response.data === true) {
               localStorage.setItem('jwt', response.jwt);
               this.set('route.path', '/');

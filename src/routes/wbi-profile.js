@@ -136,7 +136,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
       this.$.api.getEmail()
           .then((response) => {
             if (response.data === false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             } else {
               localStorage.setItem('email', response.email);
               this.dispatchAction({
@@ -203,7 +203,7 @@ class WbiProfile extends ReduxMixin(PolymerElement) {
           .then((response) => {
             this.loading = false;
             if (response.data === false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             } else {
               this.set('route.path', '/');
             }

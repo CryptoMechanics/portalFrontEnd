@@ -370,7 +370,7 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
               this.text = `${linkUrl}id/${response.shortcode}`;
               this.closeNow = true;
             } else if (response.data = false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             }
           })
           .catch((error) => {
