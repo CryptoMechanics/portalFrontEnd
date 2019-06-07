@@ -192,7 +192,7 @@ class WbiSet extends ReduxMixin(PolymerElement) {
       this.$.api.setPassword(this.password, this.token)
           .then((response) => {
             if (response && response.data === false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             } else if (response && response.data === true) {
               localStorage.setItem('jwt', response.jwt);
               this.set('route.path', '/');

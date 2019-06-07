@@ -706,7 +706,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
             if (response.data === false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
               this.loading = false;
             }
             if (response.data === true) {
@@ -764,7 +764,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
     this.$.api.deleteAll()
         .then((response) => {
           if (response && response.data === false && response.error) {
-            this.error = response.error;
+            this.error = response.error.replace(/['"]+/g, '');
           }
         });
   }
