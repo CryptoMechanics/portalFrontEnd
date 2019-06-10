@@ -497,10 +497,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             </template>
             <div class="uploadContainer">
               <template is='dom-repeat' items='[[fileArray]]'>
-                <wbi-uploader id="[[item.value]]" file-name="[[item.value]]" label="[[item.label]]" country="[[country]]"></wbi-uploader>
+                <wbi-uploader id="[[item.value]]" file-name="[[item.value]]" label="[[item.label]]" country="[[country]]" reset="[[reset]]"></wbi-uploader>
               </template>
             </div>
-            <wbi-uploader file-name="selfie" label="selfie" country="[[country]]"></wbi-uploader>
+            <wbi-uploader file-name="selfie" label="selfie" country="[[country]]" reset="[[reset]]"></wbi-uploader>
           </template>
           <template is="dom-if" if="{{!loading}}">
             <button type='submit' name='submit' value='Submit' on-click="_submit" class="green-bg"/>Submit</button>
@@ -575,6 +575,9 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       missing: {
         type: Array,
         readOnly: true,
+      },
+      reset: {
+        type: Number,
       },
     };
   }
@@ -750,6 +753,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
   }
 
   _makeFileUpload(e) {
+    this.reset = Date.now() / 1000 | 0;
     this._deleteAll();
     this.fileArray = [];
     this.selectedDoc = e.model.__data.item.value;

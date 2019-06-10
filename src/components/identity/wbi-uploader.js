@@ -117,6 +117,10 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
         type: Object,
         observer: '_imagestatus',
       },
+      reset: {
+        type: Number,
+        observer: '_reset',
+      },
       ismobile: {
         type: Boolean,
         readOnly: true,
@@ -129,6 +133,10 @@ class WbiUploader extends ReduxMixin(PolymerElement) {
       imagestatus: state.imagestatus,
       ismobile: state.ismobile,
     };
+  }
+
+  _reset() {
+    this.shadowRoot.querySelector(`#form`).reset();
   }
 
   _imagestatus() {
