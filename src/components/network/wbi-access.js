@@ -148,7 +148,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
           .then((response) => {
             this.loading = false;
             if (response.data === false) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             } else if (response.data === true) {
               this.dispatchAction({
                 type: 'CHANGE_NETWORK',
@@ -177,10 +177,13 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
   }
   _checkAccountName() {
     if (this._validateAccountName(this.accountName)) {
+      this.error = '';
       this.$.api.checkAccountName(this.accountName)
           .then((response) => {
             if (response.error) {
-              this.error = JSON.stringify(response.error);
+              this.error = response.error.replace(/['"]+/g, '');
+            } else {
+              this.error = '';
             }
             if (response.data === false) {
               this.checkedAccountName = true;

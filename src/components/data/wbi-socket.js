@@ -36,7 +36,11 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
   _connect() {
     const key = window.location.hostname.split('.')[0];
     let socketUrl = 'http://portal-api.localhost:9000/';
-    if (key === 'dev' || key === '127') {
+    if (window.location.hostname == 'portal.stage.worbli.io') {
+      socketUrl = 'https://portal-api.stage.worbli.io/';
+    } else if (window.location.hostname == 'portal.dev.worbli.io') {
+      socketUrl = 'https://portal-api.dev.worbli.io/';
+    } else if (key === 'dev' || key === '127') {
       socketUrl = 'https://dev-api.worbli.io/';
     } else if (key === 'uat') {
       socketUrl = 'https://uat-api.worbli.io/';
@@ -74,8 +78,6 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
         }
       });
       this.socket.on('imageStatus', (response) => {
-        console.log(`Socket response...`);
-        console.log(response);
         this.dispatchAction({
           type: 'CHANGE_IMAGESTATUS',
           imagestatus: response,

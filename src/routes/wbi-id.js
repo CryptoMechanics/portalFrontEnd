@@ -163,14 +163,24 @@ class WbiId extends ReduxMixin(PolymerElement) {
             
             <template is="dom-if" if="{{!item.uploaded}}">
               <label for="[[item.value]]" class="blue">[[item.label]]
-                <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+                <template is="dom-if" if="{{item.frontCamera}}">
+                  <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="user">
+                </template>
+                <template is="dom-if" if="{{!item.frontCamera}}">
+                  <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+                </template>
                 <img src="./images/upload.svg" class="icon">
               </label>
             </template>
 
             <template is="dom-if" if="{{item.uploaded}}">
               <label for="[[item.value]]" class="green">[[item.label]]
-                <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+                <template is="dom-if" if="{{item.frontCamera}}">
+                  <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="user">
+                </template>
+                <template is="dom-if" if="{{!item.frontCamera}}">
+                  <input type="file" accept="image/*" id="[[item.value]]" on-change="_upload" capture="environment">
+                </template>
                 <img src="./images/done.svg" class="icon">
               </label>
             </template>
@@ -276,6 +286,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
   }
   _imagestatus() {
     if (this.imagestatus.files) {
+      this.completed = this.imagestatus.completed;
       this.files = JSON.parse(this.imagestatus.files);
       if (this.files) {
         this.init = false;

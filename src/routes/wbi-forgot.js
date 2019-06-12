@@ -140,7 +140,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
       this.$.api.forgotPassword(this.email)
           .then((response) => {
             if (response && response.data === false && response.error) {
-              this.error = response.error;
+              this.error = response.error.replace(/['"]+/g, '');
             } else {
               this.dispatchAction({
                 type: 'CHANGE_EMAIL',
