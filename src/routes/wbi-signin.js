@@ -253,9 +253,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         .then((response) => {
           if (response && response.data === false && response.error) {
             this.error = response.error.replace(/['"]+/g, '');
-          } else if (response && response.data === true) {
-            this.set('route.path', '/');
-          }
+          };
         });
   }
 } window.customElements.define('wbi-signin', WbiSignin);
