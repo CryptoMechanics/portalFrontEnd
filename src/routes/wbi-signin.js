@@ -94,11 +94,15 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
           <a on-click="_forgot" class="forgot">[[txt.forgotPassword]]</a>
           <button type="button" class="green-bg" on-click="_signIn">[[txt.signIn]]</button>
           <button type="button" class="white-bg" on-click="_join">[[txt.joinWorbli]]</button>
+          
           <template is="dom-if" if="[[error]]">
             <div class="error">
               <p>[[error]]</p>
             </div>
+            <br/><br/>
+            <button type="button" class="green-bg" on-click="_resend">[[txt.resendVerificationEmail]]</button>
           </template>
+
           <div class="bottom">
             <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="[[txt.changeLanguage]]">[[txt.language]]</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
@@ -242,5 +246,16 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
       email: this.email,
     });
     this.set('route.path', '/forgot');
+  }
+  _resend() {
+    this.error = '';
+    this.$.api.resend(this.email)
+        .then((response) => {
+          if (response && response.data === false && response.error) {
+            this.error = response.error.replace(/['"]+/g, '');
+          } else if (response && response.data === true) {
+            this.set('route.path', '/');
+          }
+        });
   }
 } window.customElements.define('wbi-signin', WbiSignin);

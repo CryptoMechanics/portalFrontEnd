@@ -213,8 +213,8 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
       this.error = '';
       this.$.api.join(this.email, this.password, this.termsValue, this.optInValue)
           .then((response) => {
-            if (response.data === false && response.error) {
-              this.error = response.error.replace(/['"]+/g, '');
+            if (response && response.data === false && response.error) {
+              this.error = response.error;
             } else {
               localStorage.setItem('email', this.email);
               this.dispatchAction({

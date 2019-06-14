@@ -22,7 +22,8 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
 
       </style>
       <wbi-api id='api'></wbi-api>
-      <div>Your WORBLI blockchain account has been created</div>
+      <div>Your WORBLI blockchain account has been created</div><br/>
+      <div>Account name: [[accountName]]</div>
       <p>Check it out at <a href="http://worbli.bloks.io/account/[[accountName]]" target="_blank">worbli.bloks.io</a></p>
     `;
   }
@@ -67,6 +68,7 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
     } else {
       this.$.api.getStatus()
           .then((response) => {
+            console.log(response);
             this.accountName = response.worbliAccountName;
             localStorage.setItem('accountName', this.accountName);
           });
