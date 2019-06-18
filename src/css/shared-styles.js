@@ -109,6 +109,15 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         margin-top: 24px;
         text-align: center;
       }
+      .noerror {
+        color: #356326;
+        border: 1px solid #356326;
+        padding: 2px 12px;
+        border-radius: 4px;
+        background-color: #D7E0D4;
+        margin-top: 24px;
+        text-align: center;
+      }
     </style>
   </template>
 </dom-module>`;

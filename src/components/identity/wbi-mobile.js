@@ -4,6 +4,7 @@ import store from '../../global/store.js';
 import '@polymer/app-route/app-location.js';
 import '../../css/shared-styles.js';
 import '../data/wbi-api.js';
+import '../../components/loading/ball-spin.js';
 
 const ReduxMixin = createMixin(store);
 class WbiMobile extends ReduxMixin(PolymerElement) {
@@ -18,6 +19,15 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         }
         .error {
           padding: 12px 12px;
+        }
+        .noerror {
+          padding: 12px 12px;
+        }
+        ball-spin{
+          display: inline-block;
+          margin-right: 6px;
+          position: relative;
+          top: 2px;
         }
       </style>
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
@@ -260,7 +270,19 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         </select>
         <label for="male">Mobile number</label>
         <input type="text" name="number" id="number" value='{{number::input}}' on-keyup="_number">
-        <button class="green-bg" on-click="_sendLink">Send Link</button>
+        
+        <template is="dom-if" if="{{status}}">
+          <p class="noerror">[[status]]</p>
+        </template>
+
+        <template is="dom-if" if="{{!loading}}">
+          <button class="green-bg" on-click="_sendLink">Send Link</button>
+        </template>
+        <template is="dom-if" if="{{loading}}">
+          <button type="button" class="green-bg"><ball-spin></ball-spin>Sending...</button><br>
+        </template>
+
+
         <template is="dom-if" if="[[error]]">
           <p class="error">[[error]]</p>
         </template>
@@ -294,6 +316,10 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
+      loading: {
+        type: Boolean,
+        value: false,
+      },
       fileArray: {
         type: Array,
       },
@@ -301,6 +327,9 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
         type: Boolean,
         notify: true,
         reflectToAttribue: true,
+      },
+      status: {
+        type: Text,
       },
     };
   }
@@ -347,13 +376,17 @@ class WbiMobile extends ReduxMixin(PolymerElement) {
     }
   }
   _sendLink() {
+    this.status = '';
+    this.loading = true;
     const number = `+${this.code}${this.number}`;
     const cleanNumber = number.replace(/[\s-\[\]\(\)]/g, '');
     if (this._isComplete()) {
       this.error = '';
       this.$.api.sendShortcode(cleanNumber)
           .then((response) => {
+            this.loading = false;
             if (response.data === true) {
+              this.status = 'SMS Sent';
               const key = window.location.hostname.split('.')[0];
               let linkUrl = '';
               if (key === '127') {
