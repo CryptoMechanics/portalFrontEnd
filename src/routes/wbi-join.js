@@ -102,6 +102,8 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
           <template is="dom-if" if="{{error}}">
             <p class="error">[[error]]</p>
+            <br/><br/>
+            <button type="button" class="green-bg" on-click="_resend">[[txt.resendVerificationEmail]]</button>
           </template>
           <div class="bottom">
             <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="[[Change Language]]">[[txt.language]]</li></ul>
@@ -239,5 +241,14 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         this.error = this.txt.mustAgreeToTerms;
       }
     }
+  }
+  _resend() {
+    this.error = '';
+    this.$.api.resend(this.email)
+        .then((response) => {
+          if (response && response.data === false && response.error) {
+            this.error = response.error.replace(/['"]+/g, '');
+          };
+        });
   }
 } window.customElements.define('wbi-join', WbiJoin);
