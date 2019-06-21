@@ -99,7 +99,6 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             <div class="error">
               <p>[[error]]</p>
             </div>
-
           </template>
 
           <template is="dom-if" if="[[resend]]">
@@ -232,7 +231,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             localStorage.setItem('status', response.status);
             if (response && response.data === false && response.error) {
               this.error = response.error.replace(/['"]+/g, '');
-              if (this.error != 'Invalid email address or password. Please try again.') {
+              if (response.reseend) {
                 this.resend = true;
               }
             } else if (response && response.data === true) {
