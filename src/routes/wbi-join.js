@@ -226,7 +226,7 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           .then((response) => {
             if (response && response.data === false && response.error) {
               this.error = response.error;
-              if (response.reseend) {
+              if (response.resend) {
                 this.resend = true;
               }
             } else {
