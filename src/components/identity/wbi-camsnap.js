@@ -189,6 +189,7 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
   _upload() {
     this.selfieError = '';
     localStorage.setItem(this.fileName, this.base64);
+    // flip base 64
     this.$.api.uploadImage(this.blob, this.fileName)
         .then((response) => {
           if (response.rejectedDocuments.length === 0) {
@@ -212,8 +213,8 @@ class WbiCamsnap extends ReduxMixin(PolymerElement) {
     const canvas = this.shadowRoot.querySelector('#canvas');
     const context = canvas.getContext('2d');
     context.save();
-    context.scale(-1, 1);
-    context.drawImage(player, 0, 0, canvas.width*-1, canvas.height);
+    context.scale(1, 1);
+    context.drawImage(player, 0, 0, canvas.width*1, canvas.height);
     context.restore();
     this.base64 = canvas.toDataURL('image/jpeg');
     this.blob = this._dataURLToBlob(this.base64);

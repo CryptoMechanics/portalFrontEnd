@@ -150,7 +150,7 @@ class WbiForgot extends ReduxMixin(PolymerElement) {
             }
           });
     } else {
-      this.error = this.txt.invalidPassword;
+      this.error = this.txt.invalidEmailAddress;
     }
   }
 } window.customElements.define('wbi-forgot', WbiForgot);
