@@ -99,6 +99,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             <div class="error">
               <p>[[error]]</p>
             </div>
+
+          </template>
+
+          <template is="dom-if" if="[[resend]]">
             <br/><br/>
             <button type="button" class="green-bg" on-click="_resend">[[txt.resendVerificationEmail]]</button>
           </template>
@@ -137,6 +141,10 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
         observer: '_focusEmail',
       },
       error: {
+        type: Boolean,
+        value: false,
+      },
+      resend: {
         type: Boolean,
         value: false,
       },
@@ -200,6 +208,7 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
   _signIn() {
     if (this._isComplete()) {
       this.error = '';
+      this.resend = false;
       this.$.api.signIn(this.email, this.password)
           .then((response) => {
             if (!response.worbliAccountName) {
@@ -223,6 +232,9 @@ class WbiSignin extends ReduxMixin(PolymerElement) {
             localStorage.setItem('status', response.status);
             if (response && response.data === false && response.error) {
               this.error = response.error.replace(/['"]+/g, '');
+              if (this.error != 'Invalid email address or password. Please try again.') {
+                this.resend = true;
+              }
             } else if (response && response.data === true) {
               localStorage.setItem('jwt', response.jwt);
               this.set('route.path', '/');
