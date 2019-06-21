@@ -102,9 +102,13 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
           <p class="already">[[txt.alreadyOnWorbli]] <a on-click="_signIn"> [[txt.signIn]]</a></p>
           <template is="dom-if" if="{{error}}">
             <p class="error">[[error]]</p>
+          </template>
+
+          <template is="dom-if" if="[[resend]]">
             <br/><br/>
             <button type="button" class="green-bg" on-click="_resend">[[txt.resendVerificationEmail]]</button>
           </template>
+
           <div class="bottom">
             <ul><li><img src="./images/language-icon.svg" class="language-icon" alt="[[Change Language]]">[[txt.language]]</li></ul>
             <span><a href="http://www.worbli.io">[[txt.backToWorbli]]</a></span>
@@ -137,6 +141,10 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: true,
         observer: '_focusEmail',
+      },
+      resend: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -213,10 +221,14 @@ class WbiJoin extends ReduxMixin(PolymerElement) {
   _join() {
     if (this._isComplete()) {
       this.error = '';
+      this.resend = false;
       this.$.api.join(this.email, this.password, this.termsValue, this.optInValue)
           .then((response) => {
             if (response && response.data === false && response.error) {
               this.error = response.error;
+              if (response.resend) {
+                this.resend = true;
+              }
             } else {
               localStorage.setItem('email', this.email);
               this.dispatchAction({
