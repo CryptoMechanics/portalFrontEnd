@@ -32,7 +32,7 @@ class WbiApi extends ReduxMixin(PolymerElement) {
     } else if (window.location.hostname == 'portal.dev.worbli.io') {
       this.apiUrl = 'https://portal-api.dev.worbli.io/api/v3';
     } else if (key === 'dev' || key === '127') {
-      this.apiUrl = 'https://dev-api.worbli.io/api/v3';
+      this.apiUrl = 'https://portal-api.dev.worbli.io/api/v3';
     } else if (key === 'uat') {
       this.apiUrl = 'https://uat-api.worbli.io/api/v3';
     } else if (key === 'portal') {
