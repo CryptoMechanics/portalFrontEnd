@@ -1,6 +1,5 @@
 import {createMixin} from 'polymer-redux';
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import {translations} from '../translations/languages.js';
 import '@polymer/app-route/app-location.js';
 
 import store from '../global/store.js';
