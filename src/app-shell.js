@@ -84,7 +84,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
 
   ready() {
     super.ready();
-    console.log('--- Version 0.003 ---');
+    console.log('--- Version 0.004 ---');
   }
 
   _routePageChanged(page) {
