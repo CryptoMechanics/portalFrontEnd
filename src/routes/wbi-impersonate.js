@@ -26,6 +26,6 @@ class WbiImpersonate extends PolymerElement {
 
   _route() {
     localStorage.setItem('jwt', this.route.__queryParams.jwt);
-    this.set('route.path', '/');
+    this.set('route.path', '/profile/');
   }
 } window.customElements.define('wbi-impersonate', WbiImpersonate);
