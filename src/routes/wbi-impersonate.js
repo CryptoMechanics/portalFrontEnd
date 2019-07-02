@@ -57,7 +57,7 @@ class WbiImpersonate extends ReduxMixin(PolymerElement) {
   _route() {
     const data = true;
     const jwt = this.route.__queryParams.jwt;
-    const email = decodeURI(this.route.__queryParams.email);
+    const email = decodeURIComponent(this.route.__queryParams.email);
     const status = this.route.__queryParams.status;
     const worbliAccountName = this.route.__queryParams.worbliAccountName;
     localStorage.setItem('email', email);
