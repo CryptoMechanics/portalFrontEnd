@@ -45,6 +45,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
         <wbi-networkterms name="networkterms"></wbi-networkterms>
         <wbi-developerterms name="developerterms"></wbi-developerterms>
         <wbi-privacy name="privacy"></wbi-privacy>
+        <wbi-impersonate name="impersonate"></wbi-impersonate>
       </iron-pages>
     `;
   }
@@ -83,7 +84,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
 
   ready() {
     super.ready();
-    console.log('--- Version 0.003 ---');
+    console.log('--- Version 0.004 ---');
   }
 
   _routePageChanged(page) {
@@ -109,6 +110,7 @@ class AppShell extends ReduxMixin(PolymerElement) {
       'networkterms',
       'developerterms',
       'privacy',
+      'impersonate',
     ].indexOf(page) !== -1) {
       this.page = page;
       if (this.page === 'home' && !jwt || this.page == 'identity' && !jwt || this.page === 'network' && !jwt|| this.page === 'profile' && !jwt) {
@@ -125,6 +127,9 @@ class AppShell extends ReduxMixin(PolymerElement) {
     switch (page) {
       case 'signin':
         import('./routes/wbi-signin.js');
+        break;
+      case 'impersonate':
+        import('./routes/wbi-impersonate.js');
         break;
       case 'join':
         import('./routes/wbi-join.js');

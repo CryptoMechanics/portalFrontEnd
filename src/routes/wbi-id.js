@@ -329,6 +329,7 @@ class WbiId extends ReduxMixin(PolymerElement) {
             this.$.api.uploadImage(resizedImage, `${this.country}_${target}`)
                 .then((response) => {
                   this.loading = false;
+                  this.shadowRoot.querySelector(`#form`).reset();
                 });
           };
           image.src = readerEvent.target.result;

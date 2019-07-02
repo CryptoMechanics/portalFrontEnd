@@ -4,7 +4,7 @@ import store from '../../global/store.js';
 import '../../css/shared-styles.js';
 
 const ReduxMixin = createMixin(store);
-class WbiStatus extends ReduxMixin(PolymerElement) {
+class WbiManualreview extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -34,8 +34,8 @@ class WbiStatus extends ReduxMixin(PolymerElement) {
           margin-left: 12px;
         }
       </style>
-      <p class="green-alert">We are manually reviewing your details, please check back in 48hrs.</p>
-      <div class="status">Status: <span>Pending manual review</span></div>
+      <p class="green-alert">Thank you for your submission! We are reviewing your details, please check back in 48hrs.</p>
+      <div class="status">Status: <span>Pending</span></div>
     `;
   }
 
@@ -68,4 +68,4 @@ class WbiStatus extends ReduxMixin(PolymerElement) {
       env: state.env,
     };
   }
-} window.customElements.define('wbi-status', WbiStatus);
+} window.customElements.define('wbi-manualreview', WbiManualreview);

@@ -54,7 +54,7 @@ class WbiIdentity extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="{{pending}}">   
           <wbi-pending></wbi-pending>
         </template>
-        <template is="dom-if" if="{{manualreview}}">   
+        <template is="dom-if" if="{{manualreview}}">  
           <wbi-manualreview></wbi-manualreview>
         </template>
         <template is="dom-if" if="{{approved}}">   
