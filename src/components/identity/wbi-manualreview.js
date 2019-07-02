@@ -34,8 +34,8 @@ class WbiManualreview extends ReduxMixin(PolymerElement) {
           margin-left: 12px;
         }
       </style>
-      <p class="green-alert">We are manually reviewing your details, please check back in 48hrs.</p>
-      <div class="status">Status: <span>Pending manual review</span></div>
+      <p class="green-alert">Thank you for your submission! We are reviewing your details, please check back in 48hrs.</p>
+      <div class="status">Status: <span>Pending</span></div>
     `;
   }
 
