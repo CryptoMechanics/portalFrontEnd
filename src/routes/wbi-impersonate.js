@@ -62,6 +62,8 @@ class WbiImpersonate extends ReduxMixin(PolymerElement) {
     const worbliAccountName = this.route.__queryParams.worbliAccountName;
     localStorage.setItem('email', email);
 
+    console.log(email);
+
     if (!worbliAccountName) {
       this.dispatchAction({
         type: 'CHANGE_NETWORK',
