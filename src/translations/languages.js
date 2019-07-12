@@ -48,7 +48,7 @@ export const translations = {
     identityHasBeenVerified: 'Your identity has been verified.',
     approved: 'Approved',
     enableCameraTakePicture: 'Enable camera and take a picture',
-    selectCountry: 'Select the issuing country of your identity document',
+    selectCountry: 'Select the issuing country of your identity document to proceed',
     select: 'Select...',
     firstName: 'First Name (as written on your identity document)',
     middleName: 'Middle Name (as written on your identity document)',

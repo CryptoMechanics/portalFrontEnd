@@ -42,7 +42,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       <h2>[[txt.name]]</h2>
         <label>[[txt.worbliNetworkAccount]]</label>
         <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName" on-paste="_accountName">
-        <small class="small">[[txt.chooseWorbliAccountName]]</br>[[txt.acountCriterea]]
+        <small class="small">[[txt.chooseWorbliAccountName]]</br>[[txt.acountCriterea]]</br>Note: <i>Account names cannot contain the word "worbli"</i>
         </small>
       <hr>
       <h2>[[txt.keys]]</h2>
