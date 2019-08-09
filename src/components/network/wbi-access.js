@@ -114,7 +114,7 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
         observer: '_checkMultipleAccounts',
-      }
+      },
     };
   }
 
@@ -155,7 +155,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
     }
   }
   _checkMultipleAccounts() {
-    const multipleAccounts = false;
     const accountName = JSON.parse(localStorage.getItem('accountName'));
     if (accountName) {
       this.accountName = JSON.parse(localStorage.getItem('accountName'))[0];
@@ -173,7 +172,6 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         return el != null;
       });
     }
-    
   }
   _submit() {
     this.error = '';

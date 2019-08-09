@@ -26,12 +26,12 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       <div>Account name: [[accountName]]</div>
       <p>Check it out at <a href="http://worbli.bloks.io/account/[[accountName]]" target="_blank">http://worbli.bloks.io/account/[[accountName]]</a></p>
       <template is="dom-if" if="[[multipleAccounts]]">
-      <i>Note: You have created additional accounts.</i>
-      <dom-repeat id="accountList" items="{{moreAccounts}}">
-        <template>
-          <div>- {{item}}:  <a href="https://worbli.bloks.io/account/{{item}}">https://worbli.bloks.io/account/{{item}}</a></div>
-        </template>
-      </dom-repeat>
+        <i>Note: You have created additional accounts.</i>
+        <dom-repeat id="accountList" items="{{moreAccounts}}">
+          <template>
+            <div>- {{item}}:  <a href="https://worbli.bloks.io/account/{{item}}">https://worbli.bloks.io/account/{{item}}</a></div>
+          </template>
+        </dom-repeat>
       </template>
     `;
   }
@@ -70,7 +70,6 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
   }
   ready() {
     super.ready();
-    const multipleAccounts = false;
     const accountName = JSON.parse(localStorage.getItem('accountName'));
     if (accountName) {
       this.accountName = JSON.parse(localStorage.getItem('accountName'))[0];
@@ -84,7 +83,7 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
     }
     if (accountName.length > 1) {
       this.multipleAccounts = true;
-      accountName.splice(0,1);
+      accountName.splice(0, 1);
       this.moreAccounts = accountName;
     }
   }
