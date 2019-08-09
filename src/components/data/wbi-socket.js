@@ -63,7 +63,8 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
           status: response.status.status,
         });
         localStorage.setItem('status', response.status.status);
-        if (!response.status.worbliAccountName) {
+        localStorage.setItem('accountName', JSON.stringify(response.status.worbliAccountNames));
+        if (response.status.worbliAccountNames.indexOf(null) != -1) {
           this.dispatchAction({
             type: 'CHANGE_NETWORK',
             network: 'available',

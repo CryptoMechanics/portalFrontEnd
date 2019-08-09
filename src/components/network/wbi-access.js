@@ -39,6 +39,15 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         }
       </style>
       <wbi-api id='api'></wbi-api>
+      <template is="dom-if" if="[[multipleAccounts]]">
+        <i>You have already created the following accounts.</i>
+        <dom-repeat id="accountList" items="{{moreAccounts}}">
+          <template>
+            <div>- {{item}}:  <a href="https://worbli.bloks.io/account/{{item}}">https://worbli.bloks.io/account/{{item}}</a></div>
+          </template>
+        </dom-repeat>
+        <hr>
+      </template>
       <h2>[[txt.name]]</h2>
         <label>[[txt.worbliNetworkAccount]]</label>
         <input type="text" name="accountName" id="accountName" value="{{accountName::input}}" on-keyup="_accountName" on-paste="_accountName">
@@ -101,6 +110,11 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
         type: Boolean,
         value: false,
       },
+      multipleAccounts: {
+        type: Boolean,
+        value: false,
+        observer: '_checkMultipleAccounts',
+      }
     };
   }
 
@@ -139,6 +153,27 @@ class WbiAccess extends ReduxMixin(PolymerElement) {
       this.updateStyles({'--active-color': '#50595E'});
       return false;
     }
+  }
+  _checkMultipleAccounts() {
+    const multipleAccounts = false;
+    const accountName = JSON.parse(localStorage.getItem('accountName'));
+    if (accountName) {
+      this.accountName = JSON.parse(localStorage.getItem('accountName'))[0];
+    } else {
+      this.$.api.getStatus()
+          .then((response) => {
+            console.log(response);
+            this.accountName = response.worbliAccountNames[0];
+            localStorage.setItem('accountName', this.accountName);
+          });
+    }
+    if (accountName.length > 1) {
+      this.multipleAccounts = true;
+      this.moreAccounts = accountName.filter(function(el) {
+        return el != null;
+      });
+    }
+    
   }
   _submit() {
     this.error = '';
