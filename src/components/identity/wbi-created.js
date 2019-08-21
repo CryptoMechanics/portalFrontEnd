@@ -98,6 +98,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       </style>
       <wbi-api id='api'></wbi-api>
       <div>
+      <p>We need to collect your personal information as well as obtain copies of your identification documents in order to verify your identity.</p><br/>
         <label for='Country'>[[txt.selectCountry]]</label>
         <select value='{{country::input}}' on-change="_country" class="country">
           <option value="" id="">[[txt.select]]</option>
@@ -482,13 +483,14 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       
           <h1 class="upload-docs">[[txt.uploadDocuments]]</h1>
           <p>[[txt.selectIdentityDocumentToUpload]]</p>
-            <p class='radio_group'>            
-            <template is='dom-repeat' items='[[radioArray]]'>         
-              <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
-              <label for='sizeSmall' class="bullets">[[item.label]]</label>
-            </template>
-              {{radio}}
-            </p> 
+          <p class='radio_group'>            
+          <template is='dom-repeat' items='[[radioArray]]'>         
+            <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
+            <label for='sizeSmall' class="bullets">[[item.label]]</label>
+          </template>
+            {{radio}}
+          </p> 
+          <p>Note: <i>we cannot process scanned documents. Please provide photos of your documents taken with a mobile phone, web camera, or a digital camera.</i></p>
             
           <template is="dom-if" if="{{fileArray}}">
             <template is="dom-if" if="{{!ismobile}}">  

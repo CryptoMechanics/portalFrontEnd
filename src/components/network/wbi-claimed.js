@@ -24,7 +24,15 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
       <wbi-api id='api'></wbi-api>
       <div>Your WORBLI blockchain account has been created</div><br/>
       <div>Account name: [[accountName]]</div>
-      <p>Check it out at <a href="http://worbli.bloks.io/account/[[accountName]]" target="_blank">worbli.bloks.io</a></p>
+      <p>Check it out at <a href="http://worbli.bloks.io/account/[[accountName]]" target="_blank">http://worbli.bloks.io/account/[[accountName]]</a></p>
+      <template is="dom-if" if="[[multipleAccounts]]">
+        <i>Note: You have created additional accounts.</i>
+        <dom-repeat id="accountList" items="{{moreAccounts}}">
+          <template>
+            <div>- {{item}}:  <a href="https://worbli.bloks.io/account/{{item}}">https://worbli.bloks.io/account/{{item}}</a></div>
+          </template>
+        </dom-repeat>
+      </template>
     `;
   }
 
@@ -62,16 +70,21 @@ class WbiClaimed extends ReduxMixin(PolymerElement) {
   }
   ready() {
     super.ready();
-    const accountName = localStorage.getItem('accountName');
+    const accountName = JSON.parse(localStorage.getItem('accountName'));
     if (accountName) {
-      this.accountName = localStorage.getItem('accountName');
+      this.accountName = JSON.parse(localStorage.getItem('accountName'))[0];
     } else {
       this.$.api.getStatus()
           .then((response) => {
             console.log(response);
-            this.accountName = response.worbliAccountName;
+            this.accountName = response.worbliAccountNames[0];
             localStorage.setItem('accountName', this.accountName);
           });
+    }
+    if (accountName.length > 1) {
+      this.multipleAccounts = true;
+      accountName.splice(0, 1);
+      this.moreAccounts = accountName;
     }
   }
 } window.customElements.define('wbi-claimed', WbiClaimed);
