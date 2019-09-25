@@ -985,7 +985,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
               </select>
 
         <input type='text' name='telephoneNumber' id='telephoneNumber' value='{{telephoneNumber::input}}' on-keyup="_telephoneNumber"><br>
-      
+        <hr/>
           <h1 class="upload-docs">[[txt.uploadDocuments]]</h1>
           <p>[[txt.selectIdentityDocumentToUpload]]</p>
           <p class='radio_group'>            
