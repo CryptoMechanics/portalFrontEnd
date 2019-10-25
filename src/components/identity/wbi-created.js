@@ -54,7 +54,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         #day, #month, #year {
           max-width: 150px;
-        } 
+        }
         small {
           display: block;
           text-align: right;
@@ -81,7 +81,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         }
         .error {
           padding: 12px 12px;
-        } 
+        }
         ball-spin{
           display: inline-block;
           margin-right: 6px;
@@ -318,7 +318,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           <option id="ZWE" value="ZWE">Zimbabwe</option>
         </select>
 
-        <template is="dom-if" if="{{radioArray}}">       
+        <template is="dom-if" if="{{radioArray}}">
         <hr/>
 
         <label for='firstName'>[[txt.firstName]]</label>
@@ -326,10 +326,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
         <label for='middleName' class="middle-name">[[txt.middleName]]</label>
         <input type='text' name='middleName' id='middleName' value='{{middleName::input}}' on-keyup="_middleName" class="middle-name">
-      
-        
+
+
         <label for='noMiddleName' class="noMiddleName"><input type="checkbox" on-change="_noMiddleName" name="test" id='noMiddleName'/>I don't have a middle name</label><br>
-        
+
 
         <label for='lastName' class="lastNameLabel">[[txt.lastName]]</label>
         <input type='text' name='lastName' id='lastName' value='{{lastName::input}}' on-keyup="_lastName"><br>
@@ -486,11 +486,11 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
           <option value='Female'>Female</option>
         </select>
         <hr/>
-        
-        
-        
+<!--
+
+
         <h1 class="upload-docs">Contact & Address</h1>
-        
+
         <label for='addressOne'>Address Line 1</label>
         <input type='text' name='addressOne' id='addressOne' value='{{addressOne::input}}' on-keyup="_addressOne"><br>
 
@@ -986,19 +986,20 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
         <input type='text' name='telephoneNumber' id='telephoneNumber' value='{{telephoneNumber::input}}' on-keyup="_telephoneNumber"><br>
         <hr/>
-          <h1 class="upload-docs">[[txt.uploadDocuments]]</h1>
+--!>
+        <h1 class="upload-docs">[[txt.uploadDocuments]]</h1>
           <p>[[txt.selectIdentityDocumentToUpload]]</p>
-          <p class='radio_group'>            
-          <template is='dom-repeat' items='[[radioArray]]'>         
+          <p class='radio_group'>
+          <template is='dom-repeat' items='[[radioArray]]'>
             <input type='radio' name='document' id='[[item.value]]' on-click='_makeFileUpload'/>
             <label for='sizeSmall' class="bullets">[[item.label]]</label>
           </template>
             {{radio}}
-          </p> 
+          </p>
           <p>Note: <i>we cannot process scanned documents. Please provide photos of your documents taken with a mobile phone, web camera, or a digital camera.</i></p>
-            
+
           <template is="dom-if" if="{{fileArray}}">
-            <template is="dom-if" if="{{!ismobile}}">  
+            <template is="dom-if" if="{{!ismobile}}">
               <button type='submit' name='submit' value='Submit' on-click="_mobile" class="outline_btn"/>Upload pictures from mobile</button>
               <small>[[txt.optional]]</small>
             </template>
@@ -1019,7 +1020,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
         <template is="dom-if" if="{{error}}">
           <p class="error">[[error]]</p>
         </template>
-        
+
       </div>
     `;
   }
@@ -1181,57 +1182,57 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       this.shadowRoot.querySelector('#firstName').focus();
     }, 10);
   }
-  _addressOne(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#addressTwo').focus();
-    }
-  }
-  _addressTwo(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#addressThree').focus();
-    }
-  }
-  _addressThree(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#locationCountry').focus();
-    }
-  }
-  _locationCountry(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#zipPostal').focus();
-    }
-  }
-  _zipPostal(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#city').focus();
-    }
-  }
-  _city(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#state').focus();
-    }
-  }
-  _state(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#dialingCode').focus();
-    }
-  }
-  _dialingCode(e) {
-    this._isComplete();
-    if (e.keyCode === 13) {
-      this.shadowRoot.querySelector('#telephoneNumber').focus();
-    }
-  }
-  _telephoneNumber(e) {
-    this._isComplete();
-  }
+  // _addressOne(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#addressTwo').focus();
+  //   }
+  // }
+  // _addressTwo(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#addressThree').focus();
+  //   }
+  // }
+  // _addressThree(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#locationCountry').focus();
+  //   }
+  // }
+  // _locationCountry(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#zipPostal').focus();
+  //   }
+  // }
+  // _zipPostal(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#city').focus();
+  //   }
+  // }
+  // _city(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#state').focus();
+  //   }
+  // }
+  // _state(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#dialingCode').focus();
+  //   }
+  // }
+  // _dialingCode(e) {
+  //   this._isComplete();
+  //   if (e.keyCode === 13) {
+  //     this.shadowRoot.querySelector('#telephoneNumber').focus();
+  //   }
+  // }
+  // _telephoneNumber(e) {
+  //   this._isComplete();
+  // }
 
   _isComplete() {
     let middleNameCheck = '';
@@ -1242,7 +1243,8 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
       middleNameCheck = false;
     }
 
-    if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed && this.addressOne && this.locationCountry && this.zipPostal && this.city && this.state && this.dialingCode && this.telephoneNumber) {
+    // if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed && this.addressOne && this.locationCountry && this.zipPostal && this.city && this.state && this.dialingCode && this.telephoneNumber) {
+    if (middleNameCheck && this.country && this.firstName && this.lastName && this.day && this.month && this.year && this.gender && this.completed) {
       this.updateStyles({'--active-color': '#356327'});
       return true;
     } else {
@@ -1266,9 +1268,10 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
 
     if (this._isComplete() && middleNameCheck) {
       this.loading = true;
-      this.addressTwo = this.addressTwo || '';
-      this.addressThree = this.addressThree || '';
-      this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender, this.addressOne, this.addressTwo, this.addressThree, this.locationCountry, this.zipPostal, this.city, this.state, this.dialingCode, this.telephoneNumbe)
+      // this.addressTwo = this.addressTwo || '';
+      // this.addressThree = this.addressThree || '';
+      // this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender, this.addressOne, this.addressTwo, this.addressThree, this.locationCountry, this.zipPostal, this.city, this.state, this.dialingCode, this.telephoneNumbe)
+      this.$.api.application(this.country, this.firstName, this.middleName, this.lastName, this.day, this.month, this.year, this.gender)
           .then((response) => {
             if (response.data === false && response.error) {
               this.error = response.error.replace(/['"]+/g, '');
