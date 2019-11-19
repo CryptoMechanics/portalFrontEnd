@@ -997,6 +997,7 @@ class WbiCreated extends ReduxMixin(PolymerElement) {
             {{radio}}
           </p>
           <p>Note: <i>we cannot process scanned documents. Please provide photos of your documents taken with a mobile phone, web camera, or a digital camera.</i></p>
+          <p><b>IMPORTANT: to increase the chance of successfully verifying your identity documents, please make sure to take a clear, sharp photo without glares. Put the document on a flat surface with good contrast, make sure you have good lighting and do not use a flash.</b></p>
 
           <template is="dom-if" if="{{fileArray}}">
             <template is="dom-if" if="{{!ismobile}}">
