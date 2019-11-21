@@ -414,12 +414,25 @@ class WbiApi extends ReduxMixin(PolymerElement) {
  * @param {String} month - String blob
  * @param {String} year - String blob
  * @param {String} gender - String blob
+ * @param {String} addressOne - String
+ * @param {String} addressTwo - String
+ * @param {String} addressThree - String
+ * @param {String} locationCountry - String
+ * @param {String} zipPostal - String
+ * @param {String} city - String
+ * @param {String} state - String
+ * @param {String} dialingCode - String
+ * @param {String} telephoneNumber - String
  * @return {object} arrays showsg what uploaded and whats missing
  */
+  // application(country, firstName, middleName, lastName, day, month, year, gender, addressOne, addressTwo, addressThree, locationCountry, zipPostal, city, state, dialingCode, telephoneNumber) {
   application(country, firstName, middleName, lastName, day, month, year, gender) {
     return new Promise((resolve, reject) => {
+      const deviceFingerPrint = localStorage.getItem('dfp');
+      const deviceFingerPrintType = localStorage.getItem('dft');
       const token = localStorage.getItem('jwt');
-      const data = {country, firstName, middleName, lastName, day, month, year, gender};
+      // const data = {country, firstName, middleName, lastName, day, month, year, gender, addressOne, addressTwo, addressThree, locationCountry, zipPostal, city, state, dialingCode, telephoneNumber};
+      const data = {country, firstName, middleName, lastName, day, month, year, gender, deviceFingerPrint, deviceFingerPrintType};
       const url = `${this.apiUrl}/identity/application/`;
       fetch(url, {
         method: 'POST',

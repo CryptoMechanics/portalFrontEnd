@@ -26,6 +26,16 @@
     <meta property="og:url" content="https://www.worbli.io/">
     <meta property="og:image" content="https://www.worbli.io/images/referrer.png">
     <meta property="og:description" content="Blockchain’s Financial District"/>
+    <script> 
+      function dfpCallback(error, json) {
+         if (error == null) localStorage.setItem('dfp', JSON.stringify(json));
+         else localStorage.setItem('dfp', JSON.stringify(error));
+      }
+      function dfpTechnologyIndicator(dfptValue) {
+        localStorage.setItem('dft', dfptValue);
+      }
+    </script>
+    <script type="text/javascript" src="//cdn1.identitymind.com/dfp-wrapper/d.js"></script>
     <script>
       window.MyAppGlobals = { rootPath: '/' };
       if ('serviceWorker' in navigator) {
