@@ -48,6 +48,8 @@ class WbiSocket extends ReduxMixin(PolymerElement) {
       socketUrl = 'https://portal-api.worbli.io/';
     } else if (key === 'portal-stage') {
       socketUrl = 'https://portal-api-stage.worbli.io/';
+    } else if (key === 'portal-pg') {
+      socketUrl = 'https://portal-pg-dev-api.dev.worbli.io/';
     };
     this.jwt = localStorage.getItem('jwt');
     this.socket = io(socketUrl, {

@@ -39,7 +39,9 @@ class WbiApi extends ReduxMixin(PolymerElement) {
       this.apiUrl = 'https://portal-api.worbli.io/api/v3';
     } else if (key === 'portal-stage') {
       this.apiUrl = 'https://portal-api-stage.worbli.io/api/v3';
-    };
+    } else if (key === 'portal-pg') {
+      this.apiUrl = 'https://portal-pg-dev-api.dev.worbli.io/api/v3';
+    }
   }
 
   /**
